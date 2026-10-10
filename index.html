@@ -1,0 +1,2129 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Chá Revelação | Quem será que está no forninho?</title>
+<meta name="description" content="Chá Revelação em 07 de novembro de 2026, às 16h, em Brasília. Confirme sua presença, deixe seu palpite e uma mensagem para a nossa família.">
+<meta name="theme-color" content="#f3ebdf">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Chá Revelação | Quem será que está no forninho?">
+<meta property="og:description" content="07 de novembro de 2026, às 16h. Confirme sua presença e deixe seu palpite.">
+<meta property="og:locale" content="pt_BR">
+<!-- Quando o site estiver no ar, aponte para uma imagem 1200x630 hospedada junto: -->
+<!-- <meta property="og:image" content="https://SEU-USUARIO.github.io/cha-revelacao/og.jpg"> -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23ab8a6e' d='M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=EB+Garamond:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* =========================================================
+   1. TOKENS
+   ========================================================= */
+:root{
+  --off:#f3ebdf;
+  --paper:#fbf7f1;
+  --beige:#e9dccb;
+  --beige-2:#dccbb5;
+  --line:#e6d9c7;
+  --brown:#6b5647;
+  --brown-2:#8a7464;
+  --brown-3:#a8978a;
+  --sage:#ab8a6e;
+  --sage-dark:#967458;
+  --sage-light:#ece2d4;
+  --band:#e8dccb;
+  --tan:#ab8a6e;
+  --tan-dark:#967458;
+  --sage-soft:#d9c6b0;
+  --lilac:#d9c6b0;
+  --lilac-deep:#ab8a6e;
+  --pink:#e8b4a6;
+  --danger:#b05a4f;
+  --ok:#8a6d4f;
+  --card-bg:rgba(251,247,241,.92);
+  --glass:rgba(251,247,241,.85);
+  --veil:rgba(243,235,223,.97);
+  --shadow-c:107,86,71;
+
+  --serif:"Cormorant Garamond","EB Garamond",Georgia,serif;
+  --body:"EB Garamond",Georgia,serif;
+  --script:"Allura","Brush Script MT",cursive;
+
+  --r-sm:10px;
+  --r:18px;
+  --r-lg:26px;
+  --shadow:0 1px 2px rgba(var(--shadow-c),.06),0 8px 24px rgba(var(--shadow-c),.07);
+  --ease:cubic-bezier(.22,.7,.3,1);
+  --max:680px;
+}
+
+/* Temas do palpite: o site muda de cor quando a pessoa escolhe */
+:root[data-team="menina"]{
+  --off:#f3eef7;--paper:#fcfaff;--beige:#e6dcef;--beige-2:#d3c4e2;--line:#e4daee;--band:#e7ddf0;
+  --brown:#584a68;--brown-2:#7d6f8f;--brown-3:#a598b5;
+  --sage:#9f86b5;--sage-dark:#8a70a1;--tan:#9f86b5;--tan-dark:#8a70a1;
+  --lilac:#d6c8e4;--lilac-deep:#9f86b5;--sage-soft:#ddd2e9;--sage-light:#eee8f4;--ok:#7a5f93;
+  --card-bg:rgba(252,250,255,.93);--glass:rgba(252,250,255,.86);--veil:rgba(243,238,247,.97);--shadow-c:95,75,120;
+}
+:root[data-team="menino"]{
+  --off:#eef1e8;--paper:#fafbf6;--beige:#dfe5d4;--beige-2:#c9d3bb;--line:#dde3d2;--band:#e0e6d5;
+  --brown:#46503a;--brown-2:#6d775f;--brown-3:#9aa38d;
+  --sage:#7f8f6a;--sage-dark:#6a7a56;--tan:#7f8f6a;--tan-dark:#6a7a56;
+  --lilac:#cfd8c3;--lilac-deep:#7f8f6a;--sage-soft:#d5ddca;--sage-light:#e8ecdf;--ok:#5f7a4e;
+  --card-bg:rgba(250,251,246,.93);--glass:rgba(250,251,246,.86);--veil:rgba(238,241,232,.97);--shadow-c:80,95,60;
+}
+body,.card,.band,.band::before,.band::after,.gift,.note,.cd-box,.drawer,.menu-btn,.btn,.input,.select,.textarea,.choice span,.comp-x,.dup,.vignette,.empty,.gift-img{transition:background-color .7s var(--ease),border-color .7s var(--ease),color .7s var(--ease),box-shadow .7s var(--ease)}
+
+/* =========================================================
+   2. BASE
+   ========================================================= */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  margin:0;color:var(--brown);font-family:var(--body);font-size:18px;line-height:1.55;
+  background-color:var(--off);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .34 0 0 0 0 .28 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    repeating-linear-gradient(90deg,rgba(150,125,100,.025) 0 1px,transparent 1px 38px,rgba(150,125,100,.018) 38px 39px,transparent 39px 91px);
+  overflow-x:hidden;
+}
+img{max-width:100%;display:block}
+a{color:var(--sage-dark)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--lilac-deep);outline-offset:3px;border-radius:6px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+[hidden]{display:none!important}
+
+.wrap{max-width:var(--max);margin:0 auto;padding:0 18px}
+.section{padding:44px 0 8px;position:relative}
+
+.eyebrow{font-family:var(--serif);font-weight:500;letter-spacing:.32em;text-transform:uppercase;font-size:.95rem;color:var(--brown);margin:0}
+.script{font-family:var(--script);font-weight:400;line-height:.95;color:var(--brown)}
+.muted{color:var(--brown-2)}
+.small{font-size:.9rem}
+.center{text-align:center}
+
+.sec-head{text-align:center;margin-bottom:22px}
+.sec-head .orn{display:flex;align-items:center;justify-content:center;gap:12px;color:var(--lilac-deep);margin-bottom:6px}
+.sec-head .orn::before,.sec-head .orn::after{content:"";width:64px;height:8px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 8'%3E%3Cpath d='M1 4c8-4 12 4 20 0s12-4 20 0 12 4 22 0' fill='none' stroke='%23c9b39c' stroke-width='1'/%3E%3C/svg%3E") no-repeat center/contain}
+.sec-head h2{margin:0;font-family:var(--serif);font-weight:500;letter-spacing:.24em;text-transform:uppercase;font-size:1.25rem}
+.sec-head .script{font-size:2.1rem;margin-top:2px}
+.sec-head p{margin:8px auto 0;max-width:30em;color:var(--brown-2);font-size:1rem}
+
+.card{background:var(--card-bg);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow);padding:22px 20px;position:relative}
+.card + .card{margin-top:16px}
+
+/* Botões */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:0;border-radius:999px;padding:13px 30px;background:var(--sage);color:#fff;font-family:var(--serif);font-size:1.15rem;font-weight:500;letter-spacing:.02em;cursor:pointer;text-decoration:none;box-shadow:0 6px 18px rgba(150,116,88,.25);transition:transform .2s var(--ease),background .2s,box-shadow .2s;min-height:48px}
+.btn:hover{background:var(--sage-dark);transform:translateY(-1px)}
+.btn:active{transform:translateY(0)}
+.btn[disabled]{opacity:.55;cursor:not-allowed;transform:none}
+.btn svg{width:18px;height:18px}
+.btn-sm{padding:8px 20px;font-size:1rem;min-height:40px;box-shadow:none}
+.btn-ghost{background:transparent;color:var(--brown);border:1px solid var(--beige-2);box-shadow:none}
+.btn-ghost:hover{background:var(--beige);color:var(--brown)}
+.btn-lilac{background:var(--lilac-deep);box-shadow:0 6px 18px rgba(171,138,110,.25)}
+.btn-lilac:hover{background:#967458}
+.btn-danger{background:transparent;color:var(--danger);border:1px solid #e3c3bd;box-shadow:none}
+.btn-danger:hover{background:#f6e7e4;color:var(--danger)}
+.btn-block{width:100%}
+.btn.is-loading{pointer-events:none;opacity:.8}
+.btn.is-loading::after{content:"";width:16px;height:16px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Ícones */
+.ico{width:20px;height:20px;flex:none;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+
+/* =========================================================
+   3. MENU
+   ========================================================= */
+.menu-btn{position:fixed;top:max(14px,env(safe-area-inset-top));right:14px;z-index:60;width:48px;height:48px;border-radius:50%;border:0;background:var(--glass);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:grid;place-items:center;cursor:pointer;box-shadow:0 2px 10px rgba(107,86,71,.08)}
+.menu-btn span,.menu-btn span::before,.menu-btn span::after{display:block;width:22px;height:1.6px;background:var(--brown);border-radius:2px;position:relative;transition:transform .3s var(--ease),opacity .2s}
+.menu-btn span::before,.menu-btn span::after{content:"";position:absolute;left:0}
+.menu-btn span::before{top:-7px}.menu-btn span::after{top:7px}
+.menu-open .menu-btn span{background:transparent}
+.menu-open .menu-btn span::before{transform:translateY(7px) rotate(45deg)}
+.menu-open .menu-btn span::after{transform:translateY(-7px) rotate(-45deg)}
+.drawer{position:fixed;inset:0;z-index:55;background:var(--veil);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;opacity:0;visibility:hidden;transition:opacity .3s var(--ease),visibility .3s}
+.menu-open .drawer{opacity:1;visibility:visible}
+.drawer a{font-family:var(--serif);font-size:1.5rem;color:var(--brown);text-decoration:none;padding:8px 18px;border-radius:999px}
+.drawer a:hover{background:var(--beige)}
+.drawer .script{font-size:2.4rem;margin-bottom:12px;color:var(--lilac-deep)}
+
+/* =========================================================
+   4. HERO
+   ========================================================= */
+.hero{text-align:center;padding-top:64px;padding-bottom:34px;position:relative}
+.hero h1{margin:0}
+.hero .eyebrow{display:block;margin-bottom:6px}
+.hero .script{display:block;font-size:clamp(3.3rem,14vw,4.6rem)}
+.bears{position:relative;display:flex;justify-content:center;align-items:flex-end;margin:10px auto 6px;max-width:400px;height:clamp(220px,62vw,290px)}
+.bears .bear{width:52%;height:auto;flex:none}
+.bears .bear-girl{margin-right:-17%;transform:rotate(-4deg);z-index:1;animation:sway 7s ease-in-out infinite}
+.bears .bear-boy{transform:rotate(4deg);animation:sway 7s ease-in-out infinite reverse}
+@keyframes sway{0%,100%{translate:0 0}50%{translate:0 -4px}}
+.bears::after{content:"";position:absolute;bottom:2px;left:18%;right:18%;height:16px;border-radius:50%;background:radial-gradient(closest-side,rgba(130,100,75,.18),transparent);z-index:-1}
+.welcome{max-width:24em;margin:6px auto 22px;font-size:1.12rem;color:var(--brown)}
+.reveal-banner{margin:0 auto 18px;max-width:420px;padding:14px 18px;border-radius:var(--r);background:var(--paper);border:1px solid var(--line);box-shadow:var(--shadow)}
+.reveal-banner .script{font-size:2.8rem!important}
+
+/* Decoração */
+.deco{position:absolute;pointer-events:none;z-index:0}
+.deco-cloud{width:110px;opacity:.95}
+.deco-heart{width:16px;color:var(--lilac)}
+.deco-heart.sage{color:var(--sage-soft)}
+.deco-star{width:18px;color:#ecd9b4}
+.hero > *:not(.deco){position:relative;z-index:1}
+
+/* =========================================================
+   5. CONTAGEM
+   ========================================================= */
+.band{position:relative;background:var(--band);padding:22px 0 26px;margin-top:20px}
+.band::before,.band::after{content:"";position:absolute;left:0;right:0;height:34px;background:var(--band);-webkit-mask:no-repeat center/100% 100%;mask:no-repeat center/100% 100%}
+.band::before{top:-33px;-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 34' preserveAspectRatio='none'%3E%3Cpath d='M0 20C60 2 120 2 190 14s140 20 210 0v20H0z' fill='%23e8dccb'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 34' preserveAspectRatio='none'%3E%3Cpath d='M0 20C60 2 120 2 190 14s140 20 210 0v20H0z' fill='%23e8dccb'/%3E%3C/svg%3E")}
+.band::after{bottom:-33px;-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 34' preserveAspectRatio='none'%3E%3Cpath d='M0 0h400v10c-60 18-130 22-200 10S60 4 0 20z' fill='%23e8dccb'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 34' preserveAspectRatio='none'%3E%3Cpath d='M0 0h400v10c-60 18-130 22-200 10S60 4 0 20z' fill='%23e8dccb'/%3E%3C/svg%3E")}
+.band .sec-head{margin-bottom:16px}
+.countdown{display:flex;justify-content:center;gap:10px}
+.cd-box{background:var(--paper);border-radius:14px;width:clamp(66px,20vw,92px);padding:12px 4px 8px;text-align:center;box-shadow:0 2px 8px rgba(107,86,71,.06)}
+.cd-num{display:block;font-family:var(--serif);font-weight:500;font-size:clamp(1.9rem,8vw,2.4rem);line-height:1;font-variant-numeric:lining-nums tabular-nums}
+.cd-lbl{display:block;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--brown-2);margin-top:6px}
+.cd-today{font-family:var(--script);font-size:3.6rem;text-align:center;line-height:1;color:var(--sage-dark);margin:4px 0}
+.cd-date{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:16px;font-size:1.12rem}
+
+/* =========================================================
+   6. INFO
+   ========================================================= */
+#local{padding-top:64px}
+.info-grid{display:grid;grid-template-columns:1fr;gap:16px;align-items:center}
+.vignette{width:150px;margin:0 auto;aspect-ratio:3/4;border-radius:50%/42%;background:radial-gradient(ellipse at 50% 45%,#fff 0%,#f6f1ea 60%,#efe7dc 100%);display:grid;place-items:center;overflow:hidden;position:relative}
+.vignette .bear{width:82%}
+.vignette .leaf{position:absolute;bottom:10px;width:46px;color:#c4ab8f}
+.vignette .leaf.l{left:4px}.vignette .leaf.r{right:4px;transform:scaleX(-1)}
+.card-title{display:flex;align-items:center;gap:10px;margin:0 0 12px;font-family:var(--serif);font-weight:500;letter-spacing:.2em;text-transform:uppercase;font-size:1.02rem}
+.card-title .ico{color:var(--sage-dark)}
+.info-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.info-list li{display:flex;gap:12px;align-items:flex-start;font-size:1.04rem;line-height:1.4}
+.info-list .ico{margin-top:2px;color:var(--brown-2)}
+@media (min-width:560px){.info-grid{grid-template-columns:170px 1fr}}
+
+/* =========================================================
+   7. FORMULÁRIOS
+   ========================================================= */
+.field{display:grid;gap:6px;margin-bottom:14px}
+.field > label,.fieldset legend{font-family:var(--serif);font-weight:600;font-size:1.02rem}
+.hint{font-size:.88rem;color:var(--brown-2);line-height:1.4}
+.field .hint{margin-top:-2px}
+.input,.select,.textarea{width:100%;background:#fff;border:1px solid var(--beige-2);border-radius:14px;padding:12px 14px;font-size:1.05rem;min-height:48px;transition:border-color .2s,box-shadow .2s;font-family:var(--body)}
+.textarea{min-height:110px;resize:vertical}
+.input:focus,.select:focus,.textarea:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px rgba(171,138,110,.18)}
+[aria-invalid="true"]{border-color:var(--danger)!important}
+.err{color:var(--danger);font-size:.9rem;min-height:0}
+.err:empty{display:none}
+.fieldset{border:0;padding:0;margin:0 0 14px}
+.fieldset legend{margin-bottom:8px;padding:0}
+.choice-row{display:grid;gap:10px}
+.choice{position:relative}
+.choice input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.choice span{display:flex;align-items:center;gap:10px;padding:13px 16px;border:1px solid var(--beige-2);border-radius:14px;background:#fff;transition:all .2s;min-height:50px}
+.choice span::before{content:"";width:18px;height:18px;border-radius:50%;border:1.5px solid var(--brown-3);flex:none;transition:all .2s}
+.choice input:checked + span{border-color:var(--sage);background:var(--paper)}
+.choice input:checked + span::before{border-color:var(--sage);box-shadow:inset 0 0 0 4px #fff;background:var(--sage)}
+.choice input:focus-visible + span{outline:2px solid var(--lilac-deep);outline-offset:2px}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:.98rem;cursor:pointer}
+.check input{width:20px;height:20px;margin-top:3px;accent-color:var(--sage);flex:none}
+/* Formulário de confirmação em marrom claro */
+#rsvpForm .btn:not(.btn-ghost){background:var(--tan);box-shadow:0 6px 18px rgba(150,116,88,.25)}
+#rsvpForm .btn:not(.btn-ghost):hover{background:var(--tan-dark)}
+#rsvpForm .choice input:checked + span{border-color:var(--tan)}
+#rsvpForm .choice input:checked + span::before{border-color:var(--tan);background:var(--tan)}
+#rsvpForm .check input{accent-color:var(--tan)}
+#rsvpForm .input:focus{border-color:var(--tan);box-shadow:0 0 0 3px rgba(171,138,110,.2)}
+#rsvpForm .form-note button{color:var(--tan-dark)!important}
+.comp-list{display:grid;gap:10px;margin-bottom:10px}
+.comp-list:empty{display:none}
+.comp-row{display:grid;grid-template-columns:1fr 44px;gap:8px;align-items:start}
+.comp-row .err{grid-column:1/-1}
+.comp-x{width:44px;height:48px;border-radius:14px;border:1px solid var(--beige-2);background:#fff;color:var(--brown-2);cursor:pointer;display:grid;place-items:center}
+.comp-x:hover{background:var(--beige);color:var(--danger)}
+.dup{background:var(--paper);border:1px solid #e3d5c1;border-radius:14px;padding:14px 16px;margin-bottom:16px;font-size:1rem}
+.dup p{margin:0 0 12px}
+.dup .acts{display:flex;gap:8px;flex-wrap:wrap}
+.form-note{font-size:.88rem;color:var(--brown-2);margin:10px 0 0}
+.success{text-align:center;padding:10px 4px}
+.success .script{font-size:2.6rem}
+.success .heart-pop{width:44px;margin:0 auto 6px;color:var(--lilac-deep);animation:pop .6s var(--ease)}
+@keyframes pop{0%{transform:scale(.3);opacity:0}70%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+.input-ico{position:relative}
+.input-ico .ico{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--brown-3);pointer-events:none}
+.input-ico .input{padding-left:42px}
+
+/* =========================================================
+   8. PALPITE
+   ========================================================= */
+.guess-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.guess-opt{position:relative}
+.guess-opt input{position:absolute;opacity:0;inset:0;cursor:pointer;z-index:2}
+.guess-card{display:flex;flex-direction:column;align-items:center;padding:14px 8px 12px;border-radius:var(--r);border:1.5px solid var(--line);background:#fff;transition:all .25s var(--ease);height:100%}
+.guess-card .bear{width:78%;max-width:140px;transition:transform .3s var(--ease)}
+.guess-card strong{font-family:var(--script);font-weight:400;font-size:2.2rem;line-height:1;margin-top:4px}
+.guess-card small{font-size:.82rem;color:var(--brown-2);letter-spacing:.12em;text-transform:uppercase}
+.guess-opt.girl input:checked + .guess-card{border-color:#9f86b5;background:#f6f1fa;box-shadow:0 6px 20px rgba(159,134,181,.22)}
+.guess-opt.boy input:checked + .guess-card{border-color:#7f8f6a;background:#f1f4ec;box-shadow:0 6px 20px rgba(127,143,106,.22)}
+.guess-opt input:checked + .guess-card .bear{transform:scale(1.05) rotate(-2deg)}
+.guess-opt input:focus-visible + .guess-card{outline:2px solid var(--lilac-deep);outline-offset:3px}
+.guess-opt input:disabled + .guess-card{opacity:.6}
+.results{margin-top:16px;display:grid;gap:10px}
+.bar{display:grid;grid-template-columns:72px 1fr 44px;align-items:center;gap:10px;font-size:.98rem}
+.bar-track{height:12px;border-radius:99px;background:var(--beige);overflow:hidden}
+.bar-fill{height:100%;border-radius:99px;transition:width .8s var(--ease)}
+.bar-fill.girl{background:var(--lilac)}.bar-fill.boy{background:var(--sage-soft)}
+.secret{display:flex;gap:10px;align-items:center;justify-content:center;font-size:.95rem;color:var(--brown-2);margin-top:12px}
+
+/* =========================================================
+   9. PRESENTES / PIX
+   ========================================================= */
+.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;padding:2px;margin:0 0 16px}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--beige-2);background:var(--paper);color:var(--brown);border-radius:999px;padding:8px 14px;font-family:var(--body);font-size:.95rem;cursor:pointer;white-space:nowrap;min-height:40px;transition:background-color .2s,border-color .2s,color .2s}
+.chip b{font-weight:500;color:var(--brown-3);margin-left:4px;font-variant-numeric:tabular-nums}
+.chip:hover{border-color:var(--tan)}
+.chip[aria-selected="true"]{background:var(--tan);border-color:var(--tan);color:#fff}
+.chip[aria-selected="true"] b{color:rgba(255,255,255,.75)}
+.gift-group + .gift-group{margin-top:18px}
+.gift-cat{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-weight:500;letter-spacing:.16em;text-transform:uppercase;font-size:.92rem;margin:0 0 8px;color:var(--brown)}
+.gift-cat .ico{color:var(--brown-2);width:18px;height:18px}
+.gift-cat::after{content:"";flex:1;height:1px;background:var(--line)}
+.gift-list{list-style:none;margin:0;padding:0;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.gift-list li + li{border-top:1px solid var(--line)}
+.gift-row{display:grid;grid-template-columns:48px 1fr auto;align-items:center;gap:14px;padding:12px 14px;color:var(--brown);text-decoration:none;transition:background-color .2s}
+a.gift-row:hover{background:var(--off)}
+a.gift-row:hover .gr-go{background:var(--tan);color:#fff;border-color:var(--tan)}
+.gr-thumb{width:48px;height:48px;border-radius:12px;background:var(--beige);display:grid;place-items:center;overflow:hidden;color:var(--brown-2)}
+.gr-thumb img{width:100%;height:100%;object-fit:cover}
+.gr-thumb .ico{width:24px;height:24px}
+.gr-text{min-width:0;display:grid;gap:2px}
+.gr-name{font-family:var(--serif);font-weight:600;font-size:1.06rem;line-height:1.25}
+.gr-meta{font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--brown-3)}
+.gr-go{display:inline-flex;align-items:center;gap:2px;padding:6px 10px 6px 14px;border:1px solid var(--beige-2);border-radius:999px;font-size:.92rem;color:var(--brown);white-space:nowrap;transition:all .2s}
+.gr-go .ico{width:16px;height:16px}
+.pix-feature{margin-top:18px;display:grid;grid-template-columns:110px 1fr;gap:16px;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;box-shadow:var(--shadow)}
+.pix-feature-art{background:linear-gradient(160deg,var(--off),var(--beige));border-radius:14px;aspect-ratio:1;display:grid;place-items:center}
+.pix-feature-body h3{margin:0 0 4px;font-family:var(--serif);font-weight:600;font-size:1.2rem}
+.pix-feature-body p{margin:0 0 10px;font-size:.95rem;color:var(--brown-2);line-height:1.4}
+.pix-illus{width:88%;height:auto}
+.pix{display:grid;gap:16px;align-items:center;text-align:center}
+.pix-acts{display:grid;gap:8px}
+@media (min-width:600px){.pix-acts{display:flex;flex-wrap:wrap}}
+.pix-qr{width:190px;height:190px;margin:0 auto;background:#fff;border-radius:16px;border:1px solid var(--line);display:grid;place-items:center;padding:10px}
+.pix-qr svg,.pix-qr img{width:100%;height:100%}
+.pix-key{font-family:var(--serif);font-size:1.15rem;word-break:break-all;background:var(--off);border:1px dashed var(--beige-2);border-radius:12px;padding:10px 14px}
+.copied{color:var(--ok)!important}
+@media (min-width:600px){.pix{grid-template-columns:200px 1fr;text-align:left}}
+
+/* =========================================================
+   10. MENSAGENS / GALERIA
+   ========================================================= */
+.wall{display:grid;gap:12px;margin-top:20px}
+.note{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;position:relative}
+.note p{margin:0 0 8px;white-space:pre-wrap;overflow-wrap:anywhere}
+.note footer{display:flex;justify-content:space-between;gap:10px;font-size:.88rem;color:var(--brown-2)}
+.note footer strong{font-family:var(--script);font-weight:400;font-size:1.6rem;color:var(--brown);line-height:1}
+.note::before{content:"";position:absolute;top:-6px;left:22px;width:32px;height:12px;border-radius:3px;background:rgba(217,198,176,.45);transform:rotate(-4deg)}
+.note:nth-child(even)::before{background:rgba(217,198,176,.6);transform:rotate(3deg);left:auto;right:26px}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
+.gallery button{padding:0;border:0;border-radius:14px;overflow:hidden;aspect-ratio:1;cursor:zoom-in;background:var(--beige)}
+.gallery img{width:100%;height:100%;object-fit:cover;transition:transform .4s var(--ease)}
+.gallery button:hover img{transform:scale(1.04)}
+.empty{text-align:center;padding:26px 16px;color:var(--brown-2);border:1px dashed var(--beige-2);border-radius:var(--r);background:rgba(255,255,255,.5)}
+.empty .ico{width:36px;height:36px;margin:0 auto 8px;color:var(--brown-3)}
+
+.lightbox{position:fixed;inset:0;z-index:80;background:rgba(43,33,26,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px}
+.lightbox figure{margin:0;max-width:min(960px,100%);max-height:80vh;display:flex;flex-direction:column;align-items:center}
+.lightbox img{max-height:74vh;width:auto;border-radius:10px;object-fit:contain}
+.lightbox figcaption{color:#f3ece3;margin-top:10px;text-align:center;font-size:1.05rem}
+.lb-btn{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;cursor:pointer}
+.lb-btn:hover{background:rgba(255,255,255,.22)}
+.lb-close{top:14px;right:14px}.lb-prev{left:10px;top:50%}.lb-next{right:10px;top:50%}
+.lb-count{color:#cbbfb2;font-size:.9rem;margin-top:6px}
+
+/* =========================================================
+   11. RODAPÉ / TOAST / MODAL
+   ========================================================= */
+.footer{text-align:center;padding:50px 0 calc(40px + env(safe-area-inset-bottom));color:var(--brown-2);font-size:.95rem}
+.footer .script{font-size:2.4rem;color:var(--brown);display:block}
+.footer nav{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+.footer button{background:none;border:0;color:var(--brown-2);text-decoration:underline;cursor:pointer;font-size:.92rem;padding:6px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translate(-50%,30px);background:var(--brown);color:#fff;padding:12px 20px;border-radius:999px;font-size:1rem;opacity:0;transition:all .35s var(--ease);z-index:100;max-width:calc(100% - 32px);text-align:center;pointer-events:none}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.toast.err{background:var(--danger)}
+.modal{position:fixed;inset:0;z-index:90;background:rgba(43,33,26,.45);display:grid;place-items:center;padding:16px}
+.modal .card{background:var(--paper);max-width:560px;width:100%;max-height:86vh;overflow:auto}
+.modal h2{font-family:var(--serif);font-weight:600;margin:0 0 10px;padding-right:40px}
+.modal-x{position:absolute;top:12px;right:12px;width:40px;height:40px;border-radius:50%;border:0;background:var(--beige);cursor:pointer;display:grid;place-items:center}
+
+/* Animação de entrada */
+.anim .fade{opacity:0;transform:translateY(14px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.anim .fade.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .fade{opacity:1;transform:none}
+}
+
+/* =========================================================
+   12. PAINEL ADMINISTRATIVO
+   ========================================================= */
+.admin{position:fixed;inset:0;z-index:70;background:var(--off);overflow:auto;font-size:16px}
+.admin-top{position:sticky;top:0;z-index:2;background:var(--veil);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.admin-top .in{max-width:1080px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:12px}
+.admin-top h1{font-family:var(--serif);font-weight:600;font-size:1.25rem;margin:0;flex:1}
+.tabs{max-width:1080px;margin:0 auto;padding:0 12px 10px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 14px;white-space:nowrap;cursor:pointer;font-size:.95rem}
+.tab[aria-selected="true"]{background:var(--brown);color:#fff;border-color:var(--brown)}
+.admin-main{max-width:1080px;margin:0 auto;padding:18px 16px 60px}
+.admin .card{border-radius:var(--r);padding:18px}
+.admin h2{font-family:var(--serif);font-weight:600;font-size:1.35rem;margin:0 0 12px}
+.admin h3{font-family:var(--serif);font-weight:600;font-size:1.1rem;margin:18px 0 8px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:16px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.stat b{display:block;font-family:var(--serif);font-size:2rem;font-weight:600;line-height:1.1}
+.stat span{font-size:.85rem;color:var(--brown-2)}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.toolbar .input,.toolbar .select{min-height:40px;padding:8px 12px;width:auto;flex:1 1 160px;font-size:.98rem}
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:#fff}
+table{width:100%;border-collapse:collapse;font-size:.95rem}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;background:#faf7f2;white-space:nowrap;font-size:.85rem;letter-spacing:.04em;text-transform:uppercase;color:var(--brown-2)}
+tr:last-child td{border-bottom:0}
+td .acts{display:flex;gap:6px;flex-wrap:wrap}
+.pill{display:inline-block;padding:2px 10px;border-radius:999px;font-size:.82rem;white-space:nowrap}
+.pill.pendente{background:#f3ead9;color:#8a6a35}
+.pill.confirmado{background:#efe4d6;color:#7a5c41}
+.pill.nao{background:#f1e2df;color:#9a4e44}
+.pill.menina{background:#f3e9de;color:#8a6a50}
+.pill.menino{background:#efe4d6;color:#7a5c41}
+.pill.oculta{background:#eee;color:#777}
+.mini{padding:5px 12px;font-size:.88rem;min-height:32px;border-radius:999px;border:1px solid var(--beige-2);background:#fff;cursor:pointer;color:var(--brown);text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.mini:hover{background:var(--beige)}
+.mini.danger{color:var(--danger);border-color:#e3c3bd}
+.grid2{display:grid;gap:0 14px}
+@media (min-width:720px){.grid2{grid-template-columns:1fr 1fr}}
+.alert{padding:12px 14px;border-radius:12px;background:#f6efe2;border:1px solid #eadbbd;font-size:.95rem;margin-bottom:14px}
+.alert.info{background:#f6efe5;border-color:#e3d5c1}
+.admin-list{display:grid;gap:10px}
+.admin-item{display:grid;grid-template-columns:64px 1fr auto;gap:12px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px}
+.admin-item img,.admin-item .ph{width:64px;height:64px;border-radius:10px;object-fit:cover;background:var(--beige);display:grid;place-items:center}
+.admin-item .meta{min-width:0}
+.admin-item .meta b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.admin-item .meta span{font-size:.88rem;color:var(--brown-2);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.login{max-width:380px;margin:12vh auto 0;padding:0 16px}
+</style>
+</head>
+<body>
+
+<noscript><p style="padding:20px;text-align:center">Para ver o convite completo, ative o JavaScript do seu navegador.</p></noscript>
+
+<!-- Definições compartilhadas das ilustrações (gradientes e textura de aquarela) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <radialGradient id="fur" cx="45%" cy="38%" r="70%">
+      <stop offset="0" stop-color="#e2c09c"/>
+      <stop offset=".55" stop-color="#cfa37b"/>
+      <stop offset="1" stop-color="#b78860"/>
+    </radialGradient>
+    <radialGradient id="furLight" cx="50%" cy="40%" r="60%">
+      <stop offset="0" stop-color="#f6e6d2"/>
+      <stop offset="1" stop-color="#e7cdb0"/>
+    </radialGradient>
+    <radialGradient id="pad" cx="50%" cy="45%" r="60%">
+      <stop offset="0" stop-color="#f3c6b8"/>
+      <stop offset="1" stop-color="#e2a796"/>
+    </radialGradient>
+    <linearGradient id="lilacG" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e3d6ee"/>
+      <stop offset="1" stop-color="#b9a2cd"/>
+    </linearGradient>
+    <linearGradient id="sageG" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#cfdcc6"/>
+      <stop offset="1" stop-color="#9fb196"/>
+    </linearGradient>
+    <linearGradient id="heartG" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f1e2d2"/>
+      <stop offset="1" stop-color="#d8bb9d"/>
+    </linearGradient>
+    <filter id="wc" x="-15%" y="-15%" width="130%" height="130%">
+      <feTurbulence type="fractalNoise" baseFrequency=".03" numOctaves="3" seed="4" result="warp"/>
+      <feDisplacementMap in="SourceGraphic" in2="warp" scale="5" xChannelSelector="R" yChannelSelector="G" result="shape"/>
+      <feTurbulence type="fractalNoise" baseFrequency=".75" numOctaves="2" seed="9" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 .42  0 0 0 0 .28  0 0 0 0 .18  0 0 0 .55 -.12" result="grainC"/>
+      <feComposite in="grainC" in2="shape" operator="in" result="grainIn"/>
+      <feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="2" seed="2" result="blot"/>
+      <feColorMatrix in="blot" type="matrix" values="0 0 0 0 .55  0 0 0 0 .38  0 0 0 0 .25  0 0 0 .9 -.35" result="blotC"/>
+      <feComposite in="blotC" in2="shape" operator="in" result="blotIn"/>
+      <feMerge><feMergeNode in="shape"/><feMergeNode in="blotIn"/><feMergeNode in="grainIn"/></feMerge>
+    </filter>
+    <filter id="soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3"/></filter>
+    <filter id="cloudF" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency=".04" numOctaves="2" seed="7" result="w"/>
+      <feDisplacementMap in="SourceGraphic" in2="w" scale="6"/>
+      <feGaussianBlur stdDeviation="1.2"/>
+    </filter>
+  </defs>
+</svg>
+
+<button class="menu-btn" id="menuBtn" aria-label="Abrir menu" aria-expanded="false" aria-controls="drawer"><span></span></button>
+<nav class="drawer" id="drawer" aria-label="Seções">
+  <span class="script">Chá Revelação</span>
+  <a href="#inicio">Início</a>
+  <a href="#local">Data e local</a>
+  <a href="#rsvp">Confirmar presença</a>
+  <a href="#palpite">Palpite</a>
+  <a href="#presentes">Presentes</a>
+  <a href="#mensagens">Mensagens</a>
+  <a href="#galeria">Fotos</a>
+</nav>
+
+<main id="site">
+
+  <!-- HERO -->
+  <header class="hero wrap" id="inicio">
+    <span class="deco" data-deco="cloud" style="left:-34px;top:170px"></span>
+    <span class="deco" data-deco="cloud" style="right:-40px;top:250px;width:96px"></span>
+    <span class="deco" data-deco="star" style="left:30px;top:236px"></span>
+    <span class="deco" data-deco="star" style="right:26px;top:380px;width:24px"></span>
+    <span class="deco" data-deco="heart" style="left:16%;top:322px"></span>
+    <span class="deco" data-deco="heart" style="right:14%;top:330px"></span>
+    <span class="deco" data-deco="heart" style="left:62%;top:210px;width:13px"></span>
+    <span class="deco" data-deco="heart" style="right:9%;top:186px;width:12px"></span>
+
+    <h1>
+      <span class="eyebrow" data-cfg="eyebrow"></span>
+      <span class="script" data-cfg="title"></span>
+    </h1>
+    <div class="bears" role="img" aria-label="Ilustração de dois ursinhos sentados lado a lado: uma ursinha com laço lilás e um ursinho com gravata verde">
+      <span data-bear="girl"></span>
+      <span data-bear="boy"></span>
+    </div>
+    <div class="reveal-banner" id="revealBanner" hidden></div>
+    <p class="welcome" data-cfg="welcome"></p>
+    <a class="btn" href="#rsvp">Confirmar presença <svg class="ico" viewBox="0 0 24 24"><use href="#i-heart"/></svg></a>
+  </header>
+
+  <!-- CONTAGEM -->
+  <section class="band" id="contagem" aria-labelledby="cdTitle">
+    <span class="deco deco-heart sage" data-deco="heart" style="left:6%;top:22%"></span>
+    <span class="deco deco-heart sage" data-deco="heart" style="right:7%;top:30%"></span>
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="orn"><svg class="ico" viewBox="0 0 24 24" style="width:18px"><use href="#i-heart"/></svg></div>
+        <h2 id="cdTitle">Falta pouco!</h2>
+      </div>
+      <div class="countdown" id="countdown" aria-live="off">
+        <div class="cd-box"><span class="cd-num" data-cd="d">--</span><span class="cd-lbl">dias</span></div>
+        <div class="cd-box"><span class="cd-num" data-cd="h">--</span><span class="cd-lbl">horas</span></div>
+        <div class="cd-box"><span class="cd-num" data-cd="m">--</span><span class="cd-lbl">min</span></div>
+        <div class="cd-box"><span class="cd-num" data-cd="s">--</span><span class="cd-lbl">seg</span></div>
+      </div>
+      <p class="cd-today" id="cdToday" hidden></p>
+      <p class="cd-date"><svg class="ico" viewBox="0 0 24 24"><use href="#i-cal"/></svg> <span id="cdDate"></span></p>
+    </div>
+  </section>
+
+  <!-- DATA E LOCAL -->
+  <section class="section wrap" id="local">
+    <article class="card fade">
+      <div class="info-grid">
+        <div class="vignette" aria-hidden="true">
+          <span data-bear="heart"></span>
+          <svg class="leaf l" viewBox="0 0 40 60"><use href="#i-leaf"/></svg>
+          <svg class="leaf r" viewBox="0 0 40 60"><use href="#i-leaf"/></svg>
+        </div>
+        <div>
+          <h2 class="card-title"><svg class="ico" viewBox="0 0 24 24"><use href="#i-pin"/></svg> Data e local</h2>
+          <ul class="info-list">
+            <li><svg class="ico" viewBox="0 0 24 24"><use href="#i-cal"/></svg><span id="infoDate"></span></li>
+            <li><svg class="ico" viewBox="0 0 24 24"><use href="#i-clock"/></svg><span id="infoTime"></span></li>
+            <li><svg class="ico" viewBox="0 0 24 24"><use href="#i-pin"/></svg><span id="infoAddr"></span></li>
+          </ul>
+          <p style="margin:16px 0 0"><a class="btn btn-sm" id="mapsBtn" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24"><use href="#i-map"/></svg> Como chegar</a></p>
+        </div>
+      </div>
+    </article>
+
+  </section>
+
+  <!-- RSVP -->
+  <section class="section wrap" id="rsvp">
+    <div class="sec-head fade">
+      <div class="orn"><svg class="ico" viewBox="0 0 24 24" style="width:18px"><use href="#i-heart"/></svg></div>
+      <h2>Confirme sua presença</h2>
+      <p id="rsvpLead"></p>
+    </div>
+    <div class="card fade" id="rsvpCard">
+      <form id="rsvpForm" novalidate>
+        <div class="field">
+          <label for="rName">Nome completo</label>
+          <input class="input" id="rName" name="name" autocomplete="name" maxlength="80" aria-describedby="rNameErr">
+          <span class="err" id="rNameErr"></span>
+        </div>
+        <div class="field">
+          <label for="rEmail">E-mail</label>
+          <input class="input" id="rEmail" name="email" type="email" inputmode="email" autocomplete="email" maxlength="120" aria-describedby="rEmailErr">
+          <span class="err" id="rEmailErr"></span>
+        </div>
+        <div class="field">
+          <label for="rPhone">Celular com DDD</label>
+          <input class="input" id="rPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="(61) 90000-0000" maxlength="16" aria-describedby="rPhoneHint rPhoneErr">
+          <span class="hint" id="rPhoneHint">O número que você usa para receber mensagens.</span>
+          <span class="err" id="rPhoneErr"></span>
+        </div>
+        <fieldset class="fieldset" aria-describedby="rAttendErr">
+          <legend>Você vem?</legend>
+          <div class="choice-row">
+            <label class="choice"><input type="radio" name="attend" value="sim"><span>Sim, estarei presente</span></label>
+            <label class="choice"><input type="radio" name="attend" value="nao"><span>Não poderei comparecer</span></label>
+          </div>
+          <span class="err" id="rAttendErr"></span>
+        </fieldset>
+        <fieldset class="fieldset" id="compField" hidden>
+          <legend>Quem vai com você?</legend>
+          <p class="hint" id="compHint" style="margin:-2px 0 10px"></p>
+          <div class="comp-list" id="compList"></div>
+          <button type="button" class="btn btn-sm btn-ghost" id="compAdd">+ Adicionar acompanhante</button>
+        </fieldset>
+        <div class="dup" id="dupNotice" hidden role="alert" tabindex="-1"></div>
+        <label class="check" style="margin-bottom:16px"><input type="checkbox" name="consent" id="rConsent"> <span>Aceito receber um lembrete sobre o chá no meu celular ou e-mail. Posso pedir para parar a qualquer momento.</span></label>
+        <button class="btn btn-block" type="submit">Enviar resposta</button>
+        <p class="form-note">Usamos seus dados apenas para organizar o chá. <button type="button" class="linkish" data-open="privacy" style="background:none;border:0;padding:0;color:var(--sage-dark);text-decoration:underline;cursor:pointer;font-size:inherit">Aviso de privacidade</button>.</p>
+      </form>
+      <div class="success" id="rsvpOk" hidden tabindex="-1"></div>
+    </div>
+  </section>
+
+  <!-- PALPITE -->
+  <section class="section wrap" id="palpite">
+    <div class="sec-head fade">
+      <div class="orn"><svg class="ico" viewBox="0 0 24 24" style="width:18px"><use href="#i-heart"/></svg></div>
+      <h2>Qual é o seu palpite?</h2>
+      <div class="script">Time Menina ou Time Menino?</div>
+    </div>
+    <div class="card fade">
+      <form id="guessForm" novalidate>
+        <fieldset class="fieldset" aria-describedby="gChoiceErr">
+          <legend class="sr-only">Escolha seu palpite</legend>
+          <div class="guess-grid">
+            <label class="guess-opt girl"><input type="radio" name="choice" value="menina"><span class="guess-card"><span data-bear="girl"></span><strong>Menina</strong><small>Time laço</small></span></label>
+            <label class="guess-opt boy"><input type="radio" name="choice" value="menino"><span class="guess-card"><span data-bear="boy"></span><strong>Menino</strong><small>Time gravata</small></span></label>
+          </div>
+          <span class="err" id="gChoiceErr"></span>
+        </fieldset>
+        <div class="field" id="gNameField">
+          <label for="gName">Seu nome</label>
+          <input class="input" id="gName" name="name" autocomplete="name" maxlength="80" aria-describedby="gNameHint gNameErr">
+          <span class="hint" id="gNameHint">Se você já confirmou presença, usamos o nome da sua resposta.</span>
+          <span class="err" id="gNameErr"></span>
+        </div>
+        <button class="btn btn-block btn-lilac" type="submit" id="gSubmit">Registrar meu palpite</button>
+        <p class="form-note center" id="guessNote"></p>
+      </form>
+      <div id="guessResults"></div>
+    </div>
+  </section>
+
+  <!-- PRESENTES -->
+  <section class="section wrap" id="presentes">
+    <div class="sec-head fade">
+      <div class="orn"><svg class="ico" viewBox="0 0 24 24" style="width:18px"><use href="#i-heart"/></svg></div>
+      <h2>Lista de presentes</h2>
+      <p data-cfg="giftsLead"></p>
+    </div>
+    <div class="fade" id="gifts"></div>
+
+  </section>
+
+  <!-- MENSAGENS -->
+  <section class="section wrap" id="mensagens">
+    <div class="sec-head fade">
+      <div class="orn"><svg class="ico" viewBox="0 0 24 24" style="width:18px"><use href="#i-heart"/></svg></div>
+      <h2>Deixe uma mensagem</h2>
+      <div class="script">para a nossa família</div>
+      <p>Deixe um recado, um desejo ou uma palavra especial para o nosso bebê.</p>
+    </div>
+    <div class="card fade">
+      <form id="msgForm" novalidate>
+        <div class="field">
+          <label for="mName" class="sr-only">Seu nome</label>
+          <div class="input-ico"><svg class="ico" viewBox="0 0 24 24"><use href="#i-user"/></svg><input class="input" id="mName" name="name" placeholder="Seu nome" autocomplete="name" maxlength="60" aria-describedby="mNameErr"></div>
+          <span class="err" id="mNameErr"></span>
+        </div>
+        <div class="field">
+          <label for="mText" class="sr-only">Sua mensagem</label>
+          <textarea class="textarea" id="mText" name="text" placeholder="Escreva sua mensagem com carinho..." maxlength="600" aria-describedby="mTextErr mCount"></textarea>
+          <span class="hint" id="mCount" style="text-align:right">0/600</span>
+          <span class="err" id="mTextErr"></span>
+        </div>
+        <button class="btn btn-block" type="submit">Enviar mensagem</button>
+      </form>
+    </div>
+    <div class="wall" id="wall"></div>
+  </section>
+
+  <!-- GALERIA -->
+  <section class="section wrap" id="galeria">
+    <div class="sec-head fade">
+      <div class="orn"><svg class="ico" viewBox="0 0 24 24" style="width:18px"><use href="#i-heart"/></svg></div>
+      <h2>Galeria de fotos</h2>
+    </div>
+    <div class="gallery fade" id="gallery"></div>
+  </section>
+
+  <footer class="footer wrap">
+    <span class="script">Com amor, a família</span>
+    <span data-cfg="footerDate"></span>
+    <nav>
+      <button type="button" data-open="privacy">Aviso de privacidade</button>
+      <button type="button" id="adminLink">Área dos organizadores</button>
+    </nav>
+  </footer>
+</main>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Foto ampliada">
+  <button class="lb-btn lb-close" data-lb="close" aria-label="Fechar"><svg class="ico" viewBox="0 0 24 24"><use href="#i-x"/></svg></button>
+  <button class="lb-btn lb-prev" data-lb="prev" aria-label="Foto anterior"><svg class="ico" viewBox="0 0 24 24"><use href="#i-left"/></svg></button>
+  <figure><img id="lbImg" alt=""><figcaption id="lbCap"></figcaption></figure>
+  <span class="lb-count" id="lbCount"></span>
+  <button class="lb-btn lb-next" data-lb="next" aria-label="Próxima foto"><svg class="ico" viewBox="0 0 24 24"><use href="#i-right"/></svg></button>
+</div>
+
+<!-- Presente via Pix -->
+<div class="modal" id="pixModal" hidden role="dialog" aria-modal="true" aria-labelledby="pixTitle">
+  <div class="card">
+    <button class="modal-x" data-close aria-label="Fechar"><svg class="ico" viewBox="0 0 24 24"><use href="#i-x"/></svg></button>
+    <h2 id="pixTitle"></h2>
+    <div id="pixBody"></div>
+  </div>
+</div>
+
+<!-- Aviso de privacidade -->
+<div class="modal" id="privacy" hidden role="dialog" aria-modal="true" aria-labelledby="privTitle">
+  <div class="card">
+    <button class="modal-x" data-close aria-label="Fechar"><svg class="ico" viewBox="0 0 24 24"><use href="#i-x"/></svg></button>
+    <h2 id="privTitle">Aviso de privacidade</h2>
+    <p>Coletamos apenas o necessário para organizar o chá: nome, e-mail, celular, sua resposta de presença, quantidade de pessoas, observações, palpite e mensagens que você escrever.</p>
+    <p>Esses dados são vistos somente pelos organizadores, não são vendidos nem compartilhados e serão apagados até 60 dias depois do evento.</p>
+    <p>Lembretes só são enviados para quem marcou a opção de aceite, e param assim que você responde ou pede para parar.</p>
+    <p>Para consultar, corrigir ou excluir seus dados, ou parar de receber lembretes, <a id="privContact" target="_blank" rel="noopener">fale com a gente</a>.</p>
+  </div>
+</div>
+
+<!-- Painel administrativo -->
+<div class="admin" id="admin" hidden>
+  <div class="login" id="adminLogin">
+    <div class="card">
+      <h2 style="font-family:var(--serif);font-weight:600;margin:0 0 4px">Área dos organizadores</h2>
+      <p class="muted small" style="margin:0 0 16px">Digite a senha para gerenciar o chá.</p>
+      <form id="loginForm" novalidate>
+        <div class="field">
+          <label for="aPass">Senha</label>
+          <input class="input" id="aPass" type="password" autocomplete="current-password" aria-describedby="aPassErr">
+          <span class="err" id="aPassErr"></span>
+        </div>
+        <button class="btn btn-block" type="submit">Entrar</button>
+        <p class="center" style="margin:12px 0 0"><button type="button" class="mini" data-admin-exit>Voltar ao site</button></p>
+      </form>
+    </div>
+  </div>
+  <div id="adminApp" hidden>
+    <div class="admin-top">
+      <div class="in">
+        <h1>Painel do chá</h1>
+        <button class="mini" data-admin-exit>Ver site</button>
+        <button class="mini" id="logoutBtn">Sair</button>
+      </div>
+      <div class="tabs" role="tablist" id="tabs"></div>
+    </div>
+    <div class="admin-main" id="adminMain"></div>
+  </div>
+</div>
+
+<div class="modal" id="askModal" hidden role="alertdialog" aria-modal="true" aria-labelledby="askMsg" style="z-index:95">
+  <div class="card" style="max-width:420px">
+    <p id="askMsg" style="margin:0 0 14px;font-size:1.05rem"></p>
+    <input class="input" id="askInput" hidden maxlength="100" style="margin-bottom:14px">
+    <div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap">
+      <button class="mini" type="button" id="askNo">Cancelar</button>
+      <button class="btn btn-sm" type="button" id="askYes">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- Ícones (traço) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-9.2-8.6A4.9 4.9 0 0 1 12 6.6a4.9 4.9 0 0 1 9.2 4.8C19 15.6 12 20 12 20z"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 9.5h17M8 3v4M16 3v4M8 13h.01M12 13h.01M16 13h.01M8 16.5h.01M12 16.5h.01"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 4 3.5 6v14L9 18l6 2 5.5-2V4L15 6 9 4zM9 4v14M15 6v14"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5M12 8h.01"/></symbol>
+  <symbol id="i-shirt" viewBox="0 0 24 24"><path d="M8.5 4 4 6.5l1.8 3.7L8 9.3V20h8V9.3l2.2.9L20 6.5 15.5 4a3.5 3.5 0 0 1-7 0z"/></symbol>
+  <symbol id="i-gift" viewBox="0 0 24 24"><rect x="4" y="9" width="16" height="11" rx="1.5"/><path d="M3 9h18M12 9v11M12 9c-1.5-3.5-5.5-4-5.5-1.5S10 9 12 9zm0 0c1.5-3.5 5.5-4 5.5-1.5S14 9 12 9z"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M5 18.5 3.5 21l3.8-1.3A8.5 8.5 0 1 0 5 18.5z"/><path d="M9 12h.01M12 12h.01M15 12h.01"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8.5" y="8.5" width="11" height="11" rx="2"/><path d="M15.5 8.5V6a1.5 1.5 0 0 0-1.5-1.5H6A1.5 1.5 0 0 0 4.5 6v8A1.5 1.5 0 0 0 6 15.5h2.5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+  <symbol id="i-photo" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="14" rx="2"/><circle cx="9" cy="10" r="1.8"/><path d="m4 17 5-4.5 4 3.5 2.5-2 4.5 3.5"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="9.5" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></symbol>
+  <symbol id="i-onesie" viewBox="0 0 24 24"><path d="M9 3.5h6l4.5 3-1.8 3.2L16 8.8V14c0 1-.6 1.6-1.4 2l-.6 4.5h-4l-.6-4.5C8.6 15.6 8 15 8 14V8.8l-1.7.9L4.5 6.5z"/><path d="M10 3.5a2 2 0 0 0 4 0"/></symbol>
+  <symbol id="i-sock" viewBox="0 0 24 24"><path d="M9 3h7v9.5l-4.2 6.3a3.3 3.3 0 0 1-5.5-3.7L9 11z"/><path d="M9 6.5h7"/></symbol>
+  <symbol id="i-towel" viewBox="0 0 24 24"><path d="M6 4h10a2 2 0 0 1 2 2v14H8a2 2 0 0 1-2-2z"/><path d="M6 6a2 2 0 0 1 2-2M18 9h-6M18 13h-6"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 40 60"><path d="M20 58C20 40 18 22 24 4" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M21 44c-8-2-14-8-14-14 7 1 13 6 14 14zM22 32c7-3 11-9 11-15-7 2-11 8-11 15zM22 20c-6-2-9-7-9-12 5 1 9 5 9 12z" fill="currentColor" opacity=".55" stroke="none"/></symbol>
+</svg>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js" defer></script>
+<script>
+(() => {
+"use strict";
+
+/* =========================================================
+   CONFIGURAÇÃO PADRÃO
+   Tudo aqui é editável pelo painel (Área dos organizadores).
+   ========================================================= */
+const DEFAULT_CONFIG = {
+  eyebrow: "Chá Revelação",
+  title: "Quem será que está no forninho?",
+  welcome: "Estamos muito felizes em compartilhar esse momento tão especial com vocês. Em breve, vamos descobrir juntos quem está chegando para completar a nossa família!",
+  date: "2026-11-07",
+  time: "16:00",
+  addressLines: "SMPW Quadra 6, Conjunto 1,\nLote 6, Casa C\nAdvocacia Lorde\nBrasília/DF",
+  mapsLink: "https://maps.app.goo.gl/TnLMasLTWoFprT539",
+  mapsQuery: "SMPW Quadra 6 Conjunto 1 Lote 6 Casa C, Brasília - DF",
+  rsvpDeadline: "2026-10-31",
+  colorsLabel: "Orientação de cores para as fotos:",
+  colors: "branco, marrom, verde, azul, rosa ou lilás.",
+  giftsInfo: "Sugestão de presentes: itens neutros e úteis para o bebê.",
+  giftsLead: "Pensamos em itens neutros, que servem para menina ou menino. Fique à vontade para escolher, ou para presentear do seu jeito.",
+  contactPhone: "",
+  allowCompanions: true,
+  maxPeople: 4,
+  guessLock: "2026-11-07T16:00",
+  showGuessResults: false,
+  revealed: "",
+  pixKey: "",
+  pixName: "",
+  pixCity: "Brasilia",
+  pixCardTitle: "Presente em Pix",
+  pixCardDesc: "Você escolhe o valor e envia pelo app do banco.",
+  pixText: "Aponte a câmera do app do banco para o QR Code ou copie a chave. O valor fica à sua escolha.",
+  remindFreqDays: 3,
+  remindEnd: "2026-10-31",
+  remindTemplate: "Oi, {nome}! Ainda não recebemos sua resposta para o Chá Revelação no dia {data}, às {hora}. Você consegue confirmar até {prazo}? É rapidinho: {link}",
+  siteUrl: "",
+  // senha padrão "revelacao2026" (troque no painel em Evento > Senha)
+  adminHash: "4d3ec0d3c1c2a4a7ba7a5c7f4a3c84f75c0c4b4a3f4c9b3dd0c0cf1f35f8e6f8"
+};
+
+const GIFT_CATS = [
+  ["roupas", "Roupinhas e conjuntos", "i-onesie"],
+  ["acessorios", "Meias, toucas e calçados", "i-sock"],
+  ["higiene", "Higiene e acessórios", "i-towel"]
+];
+const DEFAULT_GIFTS = [
+  { id: "g1", cat: "roupas", name: "Kit Body Bebê 3 Peças Estampado Multicor", desc: "", img: "", url: "https://www.carters.com.br/produto/kit-body-bebe-3-pecas-estampado-multicor-carter-s-16552970_sku_sku" },
+  { id: "g2", cat: "roupas", name: "Conjunto Longo Bebê 3 Peças Canelado e Ursinhos Multicor", desc: "", img: "", url: "https://www.carters.com.br/produto/conjunto-longo-bebe-3-pecas-canelado-e-ursinhos-multicor-carter-s-16493885_sku" },
+  { id: "g3", cat: "roupas", name: "Kit Body Bebê 5 Peças Estampado Multicor", desc: "", img: "", url: "https://www.carters.com.br/produto/kit-body-bebe-5-pecas-estampado-multicor-carter-s-16553276_sku_sku" },
+  { id: "g4", cat: "roupas", name: "Conjunto Longo Bebê 3 Peças Atoalhados Patinho Off-white", desc: "", img: "", url: "https://www.carters.com.br/produto/conjunto-longo-bebe-3-pecas-atoalhados-patinho-off-white-carter-s-16163516_sku_sku" },
+  { id: "g5", cat: "roupas", name: "Conjunto Longo Bebê 3 Peças Cookies Cinza", desc: "", img: "", url: "https://www.riachuelo.com.br/conjunto-longo-bebe-3-pecas-cookies-cinza-carter-s-16300106_sku_sku?utm_source=app_share" },
+  { id: "g6", cat: "roupas", name: "Macacão Bebê com Pezinho Foca Azul", desc: "", img: "", url: "https://www.riachuelo.com.br/produto/macac-o-bebe-com-pezinho-foca-azul-carter-s-16363116_sku_sku_marrom-claro?utm_source=app_share" },
+  { id: "g7", cat: "roupas", name: "Conjunto Longo Bebê 3 Peças Canelado e Ursinhos Multicor", desc: "", img: "", url: "https://www.riachuelo.com.br/conjunto-longo-bebe-3-pecas-canelado-e-ursinhos-multicor-carter-s-16493869_sku_sku?utm_source=app_share" },
+  { id: "g8", cat: "roupas", name: "Conjunto Longo Bebê 2 Peças em Plush Urso Bege", desc: "", img: "", url: "https://www.riachuelo.com.br/conjunto-longo-bebe-2-pecas-em-plush-urso-bege-carter-s-16363710_sku_sku?utm_source=app_share" },
+  { id: "g9", cat: "roupas", name: "Conjunto Longo Bebê 3 Peças Pelicano Off-white", desc: "", img: "", url: "https://www.riachuelo.com.br/conjunto-longo-bebe-3-pecas-pelicano-off-white-carter-s-16141288_sku_sku?utm_source=app_share" },
+  { id: "g10", cat: "roupas", name: "Jaqueta Bebê em Pelúcia Off-white", desc: "", img: "", url: "https://www.riachuelo.com.br/jaqueta-bebe-em-pelucia-off-white-carter-s-16362896_sku_sku?utm_source=app_share" },
+  { id: "g11", cat: "roupas", name: "Jardineira Bebê Canelada com Blusa Marrom", desc: "", img: "", url: "https://www.riachuelo.com.br/jardineira-bebe-canelada-com-blusa-marrom-carter-s-16542290_sku_sku?utm_source=app_share" },
+  { id: "g12", cat: "acessorios", name: "Kit Meia Bebê 3 Pares Patinho e Listras Multicor", desc: "", img: "", url: "https://www.carters.com.br/produto/-kit-meia-bebe-3-pares-patinho-e-listras-multicor-carter-s-16139828_sku_sku" },
+  { id: "g13", cat: "acessorios", name: "Kit Touca Bebê 2 Peças com Dobra Multicor", desc: "", img: "", url: "https://www.carters.com.br/produto/kit-touca-bebe-2-pecas-com-dobra-multicor-carter-s-16141202001_sku_sku" },
+  { id: "g14", cat: "acessorios", name: "Pantufa Bebê Tricô Patinho Off-white", desc: "", img: "", url: "https://www.riachuelo.com.br/pantufa-bebe-tricot-patinho-off-white-carter-s-16000447001_sku_sku?utm_source=app_share" },
+  { id: "g15", cat: "acessorios", name: "Kit Meia Bebê 2 Pares Punho Delicado Multicor", desc: "", img: "", url: "https://www.riachuelo.com.br/kit-meia-bebe-2-pares-punho-delicado-multicor-carter-s-16000455001_sku_sku?utm_source=app_share" },
+  { id: "g16", cat: "higiene", name: "Kit Toalha de Banho Bebê 2 Peças Pelicano Multicor", desc: "", img: "", url: "https://www.riachuelo.com.br/kit-toalha-de-banho-bebe-2-pecas-pelicano-multicor-carter-s-16141091001_sku_sku?utm_source=app_share" },
+  { id: "g17", cat: "higiene", name: "Kit Babador Bebê Fleece com Pantufa Cachorrinho Bege", desc: "", img: "", url: "https://www.riachuelo.com.br/kit-babador-bebe-fleece-com-pantufa-cachorrinho-bege-carter-s-15723119001_sku_sku?utm_source=app_share" }
+];
+
+/* =========================================================
+   UTILITÁRIOS
+   ========================================================= */
+const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const esc = (v) => String(v ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+const digits = (v) => String(v || "").replace(/\D/g, "");
+const normPhone = (v) => { let d = digits(v); if (d.length > 11 && d.startsWith("55")) d = d.slice(2); return d; };
+const validEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(v).trim());
+const validPhone = (v) => { const d = normPhone(v); return (d.length === 10 || d.length === 11) && !/^0/.test(d); };
+const fmtPhone = (v) => { const d = normPhone(v); if (d.length === 11) return `(${d.slice(0,2)}) ${d.slice(2,7)}-${d.slice(7)}`; if (d.length === 10) return `(${d.slice(0,2)}) ${d.slice(2,6)}-${d.slice(6)}`; return v || ""; };
+const TZ = "-03:00"; // Brasília (sem horário de verão desde 2019)
+const MONTHS = ["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
+const WEEKDAYS = ["domingo","segunda-feira","terça-feira","quarta-feira","quinta-feira","sexta-feira","sábado"];
+const parseDay = (iso) => { const [y, m, d] = String(iso).split("-").map(Number); return { y, m, d, wd: new Date(Date.UTC(y, m - 1, d)).getUTCDay() }; };
+const longDate = (iso, withYear = true) => { const p = parseDay(iso); if (!p.y) return ""; return `${String(p.d).padStart(2,"0")} de ${MONTHS[p.m-1]}${withYear ? " de " + p.y : ""}`; };
+const shortDate = (iso) => { const p = parseDay(iso); return p.y ? `${String(p.d).padStart(2,"0")}/${String(p.m).padStart(2,"0")}` : ""; };
+const hourLabel = (t) => { const [h, m] = String(t || "").split(":"); return h ? (m && m !== "00" ? `${+h}h${m}` : `${+h}h`) : ""; };
+const fmtDateTime = (ts) => { try { return new Date(ts).toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo", day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" }); } catch { return ""; } };
+const eventStart = () => new Date(`${cfg.date}T${cfg.time || "00:00"}:00${TZ}`);
+const deviceId = () => { let id = Store.raw("device"); if (!id) { id = uid(); Store.rawSet("device", id); } return id; };
+
+async function sha256(text) {
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
+}
+
+let toastTimer;
+function toast(msg, isErr = false) {
+  const t = $("#toast");
+  t.textContent = msg;
+  t.classList.toggle("err", isErr);
+  t.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove("show"), 3200);
+}
+
+/* Confirmação dentro da página (substitui confirm/prompt do navegador) */
+function ask(msg, opts = {}) {
+  return new Promise(resolve => {
+    const m = $("#askModal"), inp = $("#askInput"), yes = $("#askYes"), no = $("#askNo");
+    const prevFocus = document.activeElement;
+    $("#askMsg").textContent = msg;
+    yes.textContent = opts.ok || "Confirmar";
+    const hasInput = "input" in opts;
+    inp.hidden = !hasInput; if (hasInput) inp.value = opts.input;
+    m.hidden = false; (hasInput ? inp : yes).focus();
+    const done = (val) => { m.hidden = true; yes.onclick = no.onclick = inp.onkeydown = m.onkeydown = null; prevFocus && prevFocus.focus && prevFocus.focus(); resolve(val); };
+    yes.onclick = () => done(hasInput ? inp.value : true);
+    no.onclick = () => done(hasInput ? null : false);
+    inp.onkeydown = (e) => { if (e.key === "Enter") yes.onclick(); };
+    m.onkeydown = (e) => { if (e.key === "Escape") { e.stopPropagation(); no.onclick(); } };
+  });
+}
+
+function setErr(input, errEl, msg) {
+  if (input) input.setAttribute("aria-invalid", msg ? "true" : "false");
+  if (errEl) errEl.textContent = msg || "";
+}
+
+/* =========================================================
+   ARMAZENAMENTO
+   Toda leitura/escrita passa por aqui. Para trocar o
+   localStorage por um banco online, basta reimplementar
+   estes métodos mantendo os mesmos nomes.
+   ========================================================= */
+const Store = {
+  prefix: "chaRev_",
+  ok: true,
+  raw(k) { try { return localStorage.getItem(this.prefix + k); } catch { this.ok = false; return null; } },
+  rawSet(k, v) { try { localStorage.setItem(this.prefix + k, v); return true; } catch { this.ok = false; return false; } },
+  get(k, fallback) {
+    const v = this.raw(k);
+    if (v == null) return structuredCloneSafe(fallback);
+    try { return JSON.parse(v); } catch { return structuredCloneSafe(fallback); }
+  },
+  set(k, value) {
+    try {
+      localStorage.setItem(this.prefix + k, JSON.stringify(value));
+      return true;
+    } catch (e) {
+      const full = e && (e.name === "QuotaExceededError" || e.code === 22);
+      toast(full ? "O espaço de armazenamento acabou. Remova algumas fotos e tente de novo." : "Não foi possível salvar neste navegador.", true);
+      return false;
+    }
+  }
+};
+function structuredCloneSafe(v) { return v === undefined ? v : JSON.parse(JSON.stringify(v)); }
+
+let cfg = Object.assign({}, DEFAULT_CONFIG, Store.get("config", {}));
+const data = {
+  get guests() { return Store.get("guests", []); },
+  get guesses() { return Store.get("guesses", []); },
+  get messages() { return Store.get("messages", []); },
+  get photos() { return Store.get("photos", []); },
+  get gifts() { return Store.get("gifts", DEFAULT_GIFTS); },
+  get remindLog() { return Store.get("remindLog", []); }
+};
+const saveCfg = () => Store.set("config", cfg);
+
+/* =========================================================
+   ILUSTRAÇÕES (ursinhos em aquarela, SVG)
+   ========================================================= */
+function bearSVG(kind) {
+  const accessory = {
+    girl: `<g filter="url(#wc)">
+      <path d="M58 46 42 76l10-3 4 10 7-35z" fill="#c9b5db"/>
+      <path d="M66 46 84 73l-10-1-2 10-10-34z" fill="#c4afd8"/>
+      <path d="M62 42C40 16 18 30 28 52c6 12 22 8 34-10z" fill="url(#lilacG)"/>
+      <path d="M62 42c10-30 40-30 38-8-2 14-22 18-38 8z" fill="url(#lilacG)"/>
+      <path d="M38 38c6 4 12 6 18 6M90 30c-6 6-14 10-22 12" stroke="#a48bb8" stroke-width="1.4" fill="none" opacity=".6"/>
+      <ellipse cx="62" cy="44" rx="9" ry="10" fill="#b9a2cd"/>
+    </g>`,
+    boy: `<g filter="url(#wc)">
+      <path d="M100 142 74 128c-6 8-6 20 0 28z" fill="url(#sageG)"/>
+      <path d="M100 142l26-14c6 8 6 20 0 28z" fill="url(#sageG)"/>
+      <path d="M82 134c-2 6-2 10 0 16M118 134c2 6 2 10 0 16" stroke="#7f9474" stroke-width="1.3" fill="none" opacity=".55"/>
+      <ellipse cx="100" cy="142" rx="8" ry="9" fill="#96aa8c"/>
+    </g>`,
+    heart: ""
+  }[kind] || "";
+  const heartHold = kind === "heart" ? `<path filter="url(#wc)" d="M100 196s-30-17-30-36c0-10 8-16 16-16 6 0 11 4 14 9 3-5 8-9 14-9 8 0 16 6 16 16 0 19-30 36-30 36z" fill="url(#heartG)"/>` : "";
+  const armsFront = kind === "heart"
+    ? `<ellipse cx="72" cy="166" rx="15" ry="24" transform="rotate(-38 72 166)" fill="url(#fur)"/><ellipse cx="128" cy="166" rx="15" ry="24" transform="rotate(38 128 166)" fill="url(#fur)"/>`
+    : `<ellipse cx="52" cy="162" rx="15" ry="28" transform="rotate(22 52 162)" fill="url(#fur)"/><ellipse cx="148" cy="162" rx="15" ry="28" transform="rotate(-22 148 162)" fill="url(#fur)"/>`;
+  return `<svg class="bear bear-${kind}" viewBox="0 0 200 236" aria-hidden="true" focusable="false">
+    <ellipse cx="100" cy="226" rx="70" ry="7" fill="#8b6a50" opacity=".12" filter="url(#soft)"/>
+    <g filter="url(#wc)">
+      <circle cx="56" cy="50" r="25" fill="url(#fur)"/>
+      <circle cx="144" cy="50" r="25" fill="url(#fur)"/>
+      <circle cx="57" cy="52" r="13" fill="#e8bfa8" opacity=".85"/>
+      <circle cx="143" cy="52" r="13" fill="#e8bfa8" opacity=".85"/>
+      <ellipse cx="100" cy="168" rx="56" ry="52" fill="url(#fur)"/>
+      <ellipse cx="100" cy="178" rx="32" ry="30" fill="url(#furLight)" opacity=".55"/>
+    </g>
+    ${heartHold}
+    <g filter="url(#wc)">
+      ${armsFront}
+      <ellipse cx="62" cy="206" rx="28" ry="22" fill="url(#fur)"/>
+      <ellipse cx="138" cy="206" rx="28" ry="22" fill="url(#fur)"/>
+      <ellipse cx="56" cy="210" rx="14" ry="12" fill="url(#pad)"/>
+      <ellipse cx="144" cy="210" rx="14" ry="12" fill="url(#pad)"/>
+      <circle cx="47" cy="198" r="4" fill="url(#pad)"/><circle cx="56" cy="195" r="4" fill="url(#pad)"/><circle cx="65" cy="198" r="4" fill="url(#pad)"/>
+      <circle cx="135" cy="198" r="4" fill="url(#pad)"/><circle cx="144" cy="195" r="4" fill="url(#pad)"/><circle cx="153" cy="198" r="4" fill="url(#pad)"/>
+      <ellipse cx="100" cy="94" rx="61" ry="55" fill="url(#fur)"/>
+      <ellipse cx="100" cy="114" rx="25" ry="19" fill="url(#furLight)"/>
+    </g>
+    <circle cx="70" cy="112" r="9" fill="#ec9f92" opacity=".38" filter="url(#soft)"/>
+    <circle cx="130" cy="112" r="9" fill="#ec9f92" opacity=".38" filter="url(#soft)"/>
+    <ellipse cx="100" cy="105" rx="9" ry="6.5" fill="#5b3f30"/>
+    <ellipse cx="97" cy="103" rx="2.6" ry="1.5" fill="#fff" opacity=".55"/>
+    <path d="M100 111v5M92 117c3 4 13 4 16 0" stroke="#5b3f30" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    <circle cx="78" cy="92" r="5" fill="#3d2a20"/><circle cx="122" cy="92" r="5" fill="#3d2a20"/>
+    <circle cx="79.6" cy="90.4" r="1.6" fill="#fff"/><circle cx="123.6" cy="90.4" r="1.6" fill="#fff"/>
+    <path d="M70 80c4-3 9-3 12-1M118 79c3-2 8-2 12 1" stroke="#9a7457" stroke-width="1.2" fill="none" opacity=".5" stroke-linecap="round"/>
+    ${accessory}
+  </svg>`;
+}
+const DECO = {
+  cloud: `<svg viewBox="0 0 120 70" class="deco-cloud" aria-hidden="true"><g filter="url(#cloudF)"><ellipse cx="60" cy="48" rx="54" ry="16" fill="#ece8e2"/><circle cx="40" cy="38" r="20" fill="#fbfaf8"/><circle cx="64" cy="30" r="24" fill="#fff"/><circle cx="88" cy="40" r="17" fill="#f8f6f2"/><ellipse cx="60" cy="48" rx="50" ry="13" fill="#fff"/></g></svg>`,
+  heart: `<svg viewBox="0 0 24 24" class="deco-heart" aria-hidden="true"><path d="M12 20s-7-4.4-9.2-8.6A4.9 4.9 0 0 1 12 6.6a4.9 4.9 0 0 1 9.2 4.8C19 15.6 12 20 12 20z" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>`,
+  star: `<svg viewBox="0 0 24 24" class="deco-star" aria-hidden="true"><path d="m12 3 2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7z" fill="currentColor" opacity=".8"/></svg>`
+};
+
+function paintIllustrations() {
+  $$("[data-bear]").forEach(el => { el.outerHTML = bearSVG(el.dataset.bear); });
+  $$("[data-deco]").forEach(el => {
+    const svg = DECO[el.dataset.deco];
+    if (!svg) return;
+    el.innerHTML = svg;
+    const child = el.firstElementChild;
+    if (el.style.width) { child.style.width = el.style.width; }
+    if (el.classList.contains("sage")) child.classList.add("sage");
+  });
+}
+
+/* =========================================================
+   CONTEÚDO DINÂMICO
+   ========================================================= */
+function mapsUrl() { if (safeUrl(cfg.mapsLink)) return safeUrl(cfg.mapsLink); return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(cfg.mapsQuery || cfg.addressLines.replace(/\n/g, " ")); }
+function contactUrl(text) { const d = normPhone(cfg.contactPhone); return d ? `https://wa.me/55${d}${text ? "?text=" + encodeURIComponent(text) : ""}` : ""; }
+
+function renderContent() {
+  $$("[data-cfg]").forEach(el => {
+    const k = el.dataset.cfg;
+    if (k === "footerDate") el.textContent = `${longDate(cfg.date)} · ${hourLabel(cfg.time)}`;
+    else el.textContent = cfg[k] ?? "";
+  });
+  const p = parseDay(cfg.date);
+  $("#cdDate").textContent = `${longDate(cfg.date, false)}  •  ${hourLabel(cfg.time)}`;
+  $("#infoDate").textContent = `${longDate(cfg.date)}${p.y ? ` (${WEEKDAYS[p.wd]})` : ""}`;
+  $("#infoTime").textContent = hourLabel(cfg.time);
+  $("#infoAddr").innerHTML = esc(cfg.addressLines).replace(/\n/g, "<br>");
+  $("#mapsBtn").href = mapsUrl();
+  $("#rsvpLead").textContent = deadlinePassed()
+    ? "O prazo para confirmar já passou, mas ainda dá tempo de avisar a gente por aqui."
+    : `Pedimos que responda até ${longDate(cfg.rsvpDeadline)}.`;
+
+  const cu = contactUrl();
+  const pc = $("#privContact");
+  if (cu) { pc.href = cu; pc.removeAttribute("aria-disabled"); } else { pc.removeAttribute("href"); }
+
+  // Acompanhantes
+  const maxComp = maxCompanions();
+  $("#compHint").textContent = `Escreva o nome e sobrenome de cada pessoa que vai com você (até ${maxComp}). Se for sozinho(a), deixe em branco.`;
+  updateCompUi();
+
+  // Revelação
+  const rb = $("#revealBanner");
+  if (cfg.revealed) {
+    rb.hidden = false;
+    rb.innerHTML = `<p class="eyebrow" style="font-size:.8rem">Revelado!</p><span class="script" style="color:${cfg.revealed === "menina" ? "var(--lilac-deep)" : "var(--sage-dark)"}">É ${cfg.revealed}!</span>`;
+  } else rb.hidden = true;
+
+  renderGifts(); renderPix(); renderWall(); renderGallery(); renderGuess();
+  applyTeam(currentTeam());
+}
+
+function deadlinePassed() { return Date.now() > new Date(`${cfg.rsvpDeadline}T23:59:59${TZ}`).getTime(); }
+
+/* ---------- Contagem regressiva ---------- */
+let cdTimer;
+function tick() {
+  const now = Date.now();
+  const start = eventStart().getTime();
+  const dayStart = new Date(`${cfg.date}T00:00:00${TZ}`).getTime();
+  const dayEnd = dayStart + 86400000;
+  const box = $("#countdown"), today = $("#cdToday"), title = $("#cdTitle");
+  if (isNaN(start)) { box.hidden = true; today.hidden = true; return; }
+  if (now >= dayStart) {
+    box.hidden = true; today.hidden = false;
+    if (now < dayEnd) { title.textContent = "Chegou o grande dia"; today.textContent = "É hoje!"; }
+    else { title.textContent = "Obrigado por fazer parte"; today.textContent = "Foi especial!"; }
+    clearInterval(cdTimer); cdTimer = null;
+    if (now < dayEnd) setTimeout(startCountdown, dayEnd - now + 1000);
+    return;
+  }
+  box.hidden = false; today.hidden = true; title.textContent = "Falta pouco!";
+  let diff = Math.max(0, start - now);
+  const d = Math.floor(diff / 86400000); diff -= d * 86400000;
+  const h = Math.floor(diff / 3600000); diff -= h * 3600000;
+  const m = Math.floor(diff / 60000); diff -= m * 60000;
+  const s = Math.floor(diff / 1000);
+  const set = (k, v) => { const el = $(`[data-cd="${k}"]`); const t = String(v).padStart(2, "0"); if (el.textContent !== t) el.textContent = t; };
+  set("d", d); set("h", h); set("m", m); set("s", s);
+}
+function startCountdown() { clearInterval(cdTimer); tick(); if (!$("#countdown").hidden) cdTimer = setInterval(tick, 1000); }
+
+/* ---------- RSVP ---------- */
+function findGuest(list, email, phone) {
+  const e = String(email || "").trim().toLowerCase(), p = normPhone(phone);
+  return list.find(g => (e && g.email && g.email.toLowerCase() === e) || (p && normPhone(g.phone) === p));
+}
+
+function setupRsvp() {
+  const form = $("#rsvpForm");
+  const phone = $("#rPhone");
+  phone.addEventListener("input", () => {
+    const d = normPhone(phone.value).slice(0, 11);
+    let out = d;
+    if (d.length > 2) out = `(${d.slice(0,2)}) ${d.slice(2)}`;
+    if (d.length > 7) out = `(${d.slice(0,2)}) ${d.slice(2, d.length === 11 ? 7 : 6)}-${d.slice(d.length === 11 ? 7 : 6)}`;
+    phone.value = out;
+  });
+  form.addEventListener("change", (e) => {
+    if (e.target.name === "attend") {
+      $("#compField").hidden = !(e.target.value === "sim" && maxCompanions() > 0);
+      setErr(null, $("#rAttendErr"), "");
+    }
+  });
+  $$("input", form).forEach(i => i.addEventListener("blur", () => validateRsvpField(i)));
+  $("#compAdd").addEventListener("click", () => { const i = addCompanion(); i && i.focus(); });
+  // Avisa assim que a pessoa digita o nome, se alguém já confirmou por ela
+  $("#rName").addEventListener("change", () => {
+    const v = $("#rName").value.trim();
+    if (v.split(/\s+/).length < 2) return;
+    const self = findGuest(data.guests, $("#rEmail").value, $("#rPhone").value);
+    if (!showDupNotice(v, [], self ? self.id : null)) $("#dupNotice").hidden = true;
+  });
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    let ok = true;
+    ["rName", "rEmail", "rPhone"].forEach(id => { if (!validateRsvpField($("#" + id))) ok = false; });
+    if (!fd.get("attend")) { setErr(null, $("#rAttendErr"), "Escolha uma das opções para a gente saber."); ok = false; }
+    const attendYes = fd.get("attend") === "sim";
+    const comps = attendYes && maxCompanions() > 0 ? collectCompanions() : [];
+    if (comps === null) ok = false;
+    if (!ok) { const first = $('[aria-invalid="true"]', form) || $('input[name="attend"]', form); first && first.focus(); return; }
+
+    // Aviso de quem já foi confirmado (ex.: casal em que um já respondeu pelos dois)
+    if (!rsvpOverride) {
+      const self = findGuest(data.guests, fd.get("email"), fd.get("phone"));
+      if (showDupNotice(String(fd.get("name")).trim(), comps, self ? self.id : null)) return;
+    }
+    rsvpOverride = false;
+    $("#dupNotice").hidden = true;
+
+    const btn = $('button[type="submit"]', form);
+    btn.classList.add("is-loading");
+
+    const attend = fd.get("attend") === "sim";
+    const guests = data.guests;
+    const existing = findGuest(guests, fd.get("email"), fd.get("phone"));
+    const now = new Date().toISOString();
+    const record = Object.assign(existing || { id: uid(), createdAt: now, source: "site", reminders: 0 }, {
+      name: String(fd.get("name")).trim(),
+      email: String(fd.get("email")).trim().toLowerCase(),
+      phone: normPhone(fd.get("phone")),
+      status: attend ? "confirmado" : "nao",
+      companions: comps,
+      people: attend ? 1 + comps.length : 0,
+      consent: !!fd.get("consent"),
+      respondedAt: now
+    });
+    if (!existing) guests.push(record);
+    if (!Store.set("guests", guests)) { btn.classList.remove("is-loading"); return; }
+    Store.rawSet("me", record.id);
+
+    setTimeout(() => {
+      btn.classList.remove("is-loading");
+      form.hidden = true;
+      const okEl = $("#rsvpOk");
+      okEl.hidden = false;
+      const first = record.name.split(" ")[0];
+      okEl.innerHTML = `
+        <svg class="heart-pop" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-9.2-8.6A4.9 4.9 0 0 1 12 6.6a4.9 4.9 0 0 1 9.2 4.8C19 15.6 12 20 12 20z" fill="currentColor"/></svg>
+        <div class="script">${attend ? "Que alegria!" : "Obrigado por avisar"}</div>
+        <p>${attend
+          ? `${esc(first)}, ${comps.length ? `sua presença e a de ${esc(listJoin(comps))} estão confirmadas` : "sua presença está confirmada"}. Até o dia ${shortDate(cfg.date)}!`
+          : `${esc(first)}, sentiremos sua falta. Se mudar de ideia, é só responder de novo.`}
+        ${existing ? "<br><span class='muted small'>Atualizamos a resposta que você já tinha enviado.</span>" : ""}</p>
+        <p class="muted small">Respondido em ${fmtDateTime(now)}</p>
+        <p style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+          <a class="btn btn-sm btn-lilac" href="#palpite">Deixar meu palpite</a>
+          <button class="btn btn-sm btn-ghost" type="button" id="rsvpEdit">Alterar resposta</button>
+        </p>`;
+      okEl.focus();
+      $("#rsvpEdit").addEventListener("click", () => { okEl.hidden = true; form.hidden = false; $("#rName").focus(); });
+      renderGuess();
+    }, 350);
+  });
+}
+
+/* ---------- Acompanhantes e aviso de duplicidade ---------- */
+let rsvpOverride = false;
+const maxCompanions = () => cfg.allowCompanions ? Math.max(0, Math.min(19, (+cfg.maxPeople || 1) - 1)) : 0;
+const normName = (s) => String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z\s]/g, " ").replace(/\s+/g, " ").trim();
+function sameName(a, b) {
+  const x = normName(a), y = normName(b);
+  if (!x || !y) return false;
+  if (x === y) return true;
+  const tx = x.split(" "), ty = y.split(" ");
+  return tx.length > 1 && ty.length > 1 && tx[0] === ty[0] && tx[tx.length - 1] === ty[ty.length - 1];
+}
+const listJoin = (arr) => arr.length < 2 ? arr.join("") : arr.slice(0, -1).join(", ") + " e " + arr[arr.length - 1];
+const firstName = (n) => String(n || "").trim().split(/\s+/)[0];
+
+function addCompanion(value = "") {
+  const list = $("#compList");
+  if (list.children.length >= maxCompanions()) return;
+  const n = list.children.length + 1, id = "comp_" + uid();
+  const row = document.createElement("div");
+  row.className = "comp-row";
+  row.innerHTML = `<input class="input" id="${id}" maxlength="80" autocomplete="off" placeholder="Nome e sobrenome" aria-label="Nome do acompanhante ${n}" aria-describedby="${id}Err">
+    <button type="button" class="comp-x" aria-label="Remover acompanhante"><svg class="ico" viewBox="0 0 24 24"><use href="#i-x"/></svg></button>
+    <span class="err" id="${id}Err"></span>`;
+  row.querySelector("input").value = value;
+  row.querySelector(".comp-x").addEventListener("click", () => { row.remove(); updateCompUi(); $("#dupNotice").hidden = true; });
+  list.appendChild(row);
+  updateCompUi();
+  return row.querySelector("input");
+}
+function updateCompUi() {
+  const list = $("#compList"), add = $("#compAdd");
+  if (!list || !add) return;
+  while (list.children.length > maxCompanions()) list.lastElementChild.remove();
+  $$(".comp-row input", list).forEach((inp, i) => inp.setAttribute("aria-label", `Nome do acompanhante ${i + 1}`));
+  add.hidden = list.children.length >= maxCompanions();
+}
+// Retorna a lista de nomes ou null se algum estiver inválido.
+function collectCompanions() {
+  const own = $("#rName").value;
+  let ok = true; const names = [];
+  $$("#compList .comp-row").forEach(row => {
+    const inp = $("input", row), err = $(".err", row), v = inp.value.trim().replace(/\s+/g, " ");
+    let msg = "";
+    if (!v) { row.remove(); return; }
+    if (v.split(" ").length < 2) msg = "Escreva nome e sobrenome.";
+    else if (sameName(v, own)) msg = "Esse é o seu nome. Aqui vão só os acompanhantes.";
+    else if (names.some(x => sameName(x, v))) msg = "Esse nome já está na lista.";
+    setErr(inp, err, msg);
+    if (msg) ok = false; else names.push(v);
+  });
+  updateCompUi();
+  return ok ? names : null;
+}
+// Procura quem já foi confirmado por outra resposta. Mostra o aviso e retorna true se encontrou.
+function showDupNotice(name, comps, selfId) {
+  const others = data.guests.filter(g => g.id !== selfId && g.status === "confirmado");
+  const coveredBy = others.find(g => (g.companions || []).some(c => sameName(c, name)));
+  const compConflicts = [];
+  comps.forEach(c => {
+    const g = others.find(o => sameName(o.name, c) || (o.companions || []).some(x => sameName(x, c)));
+    if (g) compConflicts.push({ c, by: g });
+  });
+  if (!coveredBy && !compConflicts.length) return false;
+
+  const box = $("#dupNotice"), msgs = [];
+  if (coveredBy) msgs.push(`<b>${esc(coveredBy.name)}</b> já confirmou a sua presença como acompanhante${coveredBy.respondedAt ? ` em ${esc(fmtDateTime(coveredBy.respondedAt).split(",")[0])}` : ""}. Não precisa responder de novo.`);
+  compConflicts.forEach(({ c, by }) => msgs.push(sameName(by.name, c)
+    ? `<b>${esc(c)}</b> já confirmou presença.`
+    : `<b>${esc(c)}</b> já foi confirmado(a) por <b>${esc(by.name)}</b>.`));
+  box.innerHTML = `<p>${msgs.join("<br>")}</p><div class="acts">
+    ${coveredBy ? `<button type="button" class="btn btn-sm" id="dupOk">Ok, entendi</button>` : `<button type="button" class="btn btn-sm" id="dupFix">Corrigir a lista</button>`}
+    <button type="button" class="btn btn-sm btn-ghost" id="dupForce">Enviar mesmo assim</button></div>`;
+  box.hidden = false; box.focus();
+  $("#dupForce").addEventListener("click", () => { rsvpOverride = true; $("#rsvpForm").requestSubmit(); });
+  const fix = $("#dupFix"); if (fix) fix.addEventListener("click", () => { box.hidden = true; const i = $("#compList input"); i && i.focus(); });
+  const okBtn = $("#dupOk");
+  if (okBtn) okBtn.addEventListener("click", () => {
+    box.hidden = true; $("#rsvpForm").hidden = true;
+    const okEl = $("#rsvpOk"); okEl.hidden = false;
+    okEl.innerHTML = `<svg class="heart-pop" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-9.2-8.6A4.9 4.9 0 0 1 12 6.6a4.9 4.9 0 0 1 9.2 4.8C19 15.6 12 20 12 20z" fill="currentColor"/></svg>
+      <div class="script">Tudo certo!</div>
+      <p>${esc(firstName(name))}, sua presença já está confirmada por ${esc(firstName(coveredBy.name))}. Até o dia ${shortDate(cfg.date)}!</p>
+      <p><a class="btn btn-sm btn-lilac" href="#palpite">Deixar meu palpite</a></p>`;
+    okEl.focus();
+  });
+  return true;
+}
+
+function validateRsvpField(input) {
+  const v = input.value.trim();
+  let msg = "";
+  if (input.id === "rName") { if (!v) msg = "Digite seu nome."; else if (v.split(/\s+/).length < 2) msg = "Digite nome e sobrenome."; }
+  if (input.id === "rEmail") { if (!v) msg = "Digite seu e-mail."; else if (!validEmail(v)) msg = "Esse e-mail parece incompleto. Confira, por favor."; }
+  if (input.id === "rPhone") { if (!v) msg = "Digite seu celular com DDD."; else if (!validPhone(v)) msg = "Use o DDD e o número, por exemplo (61) 98765-4321."; }
+  if (!["rName", "rEmail", "rPhone"].includes(input.id)) return true;
+  setErr(input, $("#" + input.id + "Err"), msg);
+  return !msg;
+}
+
+/* ---------- Tema do palpite ---------- */
+function applyTeam(team) {
+  const root = document.documentElement;
+  if (team === "menina" || team === "menino") root.dataset.team = team; else delete root.dataset.team;
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.content = getComputedStyle(root).getPropertyValue("--off").trim() || "#f3ebdf";
+}
+function currentTeam() {
+  if (cfg.revealed) return cfg.revealed;
+  const mine = myGuess();
+  return mine ? mine.choice : "";
+}
+
+/* ---------- Palpite ---------- */
+function guessLocked() { const t = new Date(`${cfg.guessLock}:00${TZ}`).getTime(); return !isNaN(t) && Date.now() > t; }
+function myGuest() { const id = Store.raw("me"); return id ? data.guests.find(g => g.id === id) : null; }
+function myGuess() {
+  const me = myGuest(), dev = deviceId();
+  return data.guesses.find(g => (me && g.guestId === me.id) || g.deviceId === dev);
+}
+
+function renderGuess() {
+  const form = $("#guessForm");
+  const me = myGuest(), mine = myGuess(), locked = guessLocked();
+  $("#gNameField").hidden = !!me;
+  if (mine) { const r = $(`input[name="choice"][value="${mine.choice}"]`, form); if (r) r.checked = true; }
+  $$('input[name="choice"]', form).forEach(i => i.disabled = locked);
+  $("#gSubmit").disabled = locked;
+  $("#gSubmit").textContent = mine ? "Atualizar meu palpite" : "Registrar meu palpite";
+  const lockLabel = (() => { const [d, t] = String(cfg.guessLock).split("T"); return `${shortDate(d)}${t ? " às " + hourLabel(t) : ""}`; })();
+  $("#guessNote").textContent = locked
+    ? (mine ? `Palpites encerrados. O seu foi: ${mine.choice}.` : "Os palpites já foram encerrados.")
+    : mine ? `Seu palpite está registrado: ${mine.choice}. Dá para mudar até ${lockLabel}.` : `Você pode mudar seu palpite até ${lockLabel}.`;
+
+  const res = $("#guessResults");
+  if (cfg.showGuessResults || cfg.revealed) {
+    const all = data.guesses, total = all.length || 1;
+    const girls = all.filter(g => g.choice === "menina").length, boys = all.filter(g => g.choice === "menino").length;
+    res.innerHTML = `<div class="results" aria-label="Resultado dos palpites">
+      <div class="bar"><span>Menina</span><span class="bar-track"><span class="bar-fill girl" style="width:${(girls / total) * 100}%"></span></span><b>${girls}</b></div>
+      <div class="bar"><span>Menino</span><span class="bar-track"><span class="bar-fill boy" style="width:${(boys / total) * 100}%"></span></span><b>${boys}</b></div>
+    </div>`;
+  } else {
+    res.innerHTML = `<p class="secret"><svg class="ico" viewBox="0 0 24 24"><use href="#i-lock"/></svg> O placar fica em segredo até a revelação.</p>`;
+  }
+}
+
+function setupGuess() {
+  const form = $("#guessForm");
+  form.addEventListener("change", (e) => {
+    setErr(null, $("#gChoiceErr"), "");
+    if (e.target.name === "choice" && !cfg.revealed) applyTeam(e.target.value);
+  });
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (guessLocked()) return;
+    const choice = new FormData(form).get("choice");
+    const me = myGuest();
+    const nameIn = $("#gName");
+    let ok = true;
+    if (!choice) { setErr(null, $("#gChoiceErr"), "Toque em Menina ou Menino para escolher."); ok = false; }
+    if (!me && !nameIn.value.trim()) { setErr(nameIn, $("#gNameErr"), "Digite seu nome para a gente saber de quem é o palpite."); ok = false; }
+    else setErr(nameIn, $("#gNameErr"), "");
+    if (!ok) return;
+
+    const list = data.guesses;
+    const now = new Date().toISOString();
+    let g = list.find(x => (me && x.guestId === me.id) || x.deviceId === deviceId());
+    const isNew = !g;
+    if (!g) { g = { id: uid(), at: now }; list.push(g); }
+    Object.assign(g, { choice, guestId: me ? me.id : (g.guestId || null), deviceId: deviceId(), name: me ? me.name : nameIn.value.trim(), updatedAt: now });
+    if (!Store.set("guesses", list)) return;
+    toast(isNew ? `Palpite registrado: Time ${choice === "menina" ? "Menina" : "Menino"}!` : "Palpite atualizado!");
+    renderGuess();
+  });
+}
+
+/* ---------- Presentes e Pix ---------- */
+function safeUrl(u) { try { const x = new URL(u); return /^https?:$/.test(x.protocol) ? x.href : ""; } catch { return ""; } }
+function safeImg(u) { if (/^data:image\/(png|jpe?g|webp|gif);base64,/i.test(u || "")) return u; return safeUrl(u); }
+
+function pixGiftCard() {
+  return `<article class="pix-feature">
+    <div class="pix-feature-art" aria-hidden="true">
+      <svg viewBox="0 0 120 90" class="pix-illus">
+        <g filter="url(#wc)">
+          <rect x="22" y="26" width="76" height="50" rx="6" fill="#efe6dc"/>
+          <path d="M22 32l38 26 38-26" fill="none" stroke="#c9b39c" stroke-width="2"/>
+          <path d="M22 76l30-22M98 76 68 54" stroke="#d8c6b3" stroke-width="1.6"/>
+        </g>
+        <path filter="url(#wc)" d="M60 52s-14-8-14-17c0-5 4-8 7.5-8 3 0 5.2 2 6.5 4.2 1.3-2.2 3.5-4.2 6.5-4.2 3.5 0 7.5 3 7.5 8 0 9-14 17-14 17z" fill="url(#heartG)"/>
+        <path d="M86 18l2 4 4 2-4 2-2 4-2-4-4-2 4-2z" fill="#e6cf9f" opacity=".9"/>
+        <path d="M30 16l1.4 2.8 2.8 1.4-2.8 1.4L30 24.4l-1.4-2.8-2.8-1.4 2.8-1.4z" fill="#d9c6b0"/>
+      </svg>
+    </div>
+    <div class="pix-feature-body"><h3>${esc(cfg.pixCardTitle || "Presente em Pix")}</h3><p>${esc(cfg.pixCardDesc || "")}</p>
+      <button class="btn btn-sm" type="button" data-open="pixModal">Ver presente</button></div>
+  </article>`;
+}
+
+function storeName(u) {
+  try { const h = new URL(u).hostname.replace(/^www\./, ""); if (h.includes("carters")) return "Carter's"; if (h.includes("riachuelo")) return "Riachuelo"; if (h.includes("mercadolivre")) return "Mercado Livre"; if (h.includes("shopee")) return "Shopee"; if (h.includes("amazon")) return "Amazon"; return h; } catch { return ""; }
+}
+let giftFilter = "todos";
+function giftRow(g, icon) {
+  const img = safeImg(g.img), url = safeUrl(g.url), store = storeName(url);
+  const ph = `<svg class="ico" viewBox="0 0 24 24"><use href="#${icon}"/></svg>`;
+  const thumb = `<span class="gr-thumb">${img ? `<img src="${esc(img)}" alt="" loading="lazy" onerror="this.outerHTML='${ph.replace(/"/g, "&quot;")}'">` : ph}</span>`;
+  const text = `<span class="gr-text"><span class="gr-name">${esc(g.name)}</span>${store || g.desc ? `<span class="gr-meta">${esc([store, g.desc].filter(Boolean).join(" · "))}</span>` : ""}</span>`;
+  return url
+    ? `<li><a class="gift-row" href="${esc(url)}" target="_blank" rel="noopener">${thumb}${text}<span class="gr-go">Ver <svg class="ico" viewBox="0 0 24 24"><use href="#i-right"/></svg></span></a></li>`
+    : `<li><div class="gift-row">${thumb}${text}</div></li>`;
+}
+function renderGifts() {
+  const list = data.gifts, box = $("#gifts");
+  if (!list.length && !cfg.pixKey) { box.innerHTML = `<div class="empty"><svg class="ico" viewBox="0 0 24 24"><use href="#i-gift"/></svg>A lista de presentes será publicada em breve.</div>`; return; }
+  const known = GIFT_CATS.map(c => c[0]);
+  const groups = GIFT_CATS.map(([k, label, icon]) => ({ k, label, icon, items: list.filter(g => g.cat === k) }))
+    .concat([{ k: "outros", label: "Outros presentes", icon: "i-gift", items: list.filter(g => !known.includes(g.cat)) }])
+    .filter(gr => gr.items.length);
+  if (giftFilter !== "todos" && giftFilter !== "pix" && !groups.some(g => g.k === giftFilter)) giftFilter = "todos";
+  const chips = [["todos", `Todos <b>${list.length}</b>`]].concat(groups.map(g => [g.k, `${esc(({ roupas: "Roupinhas", acessorios: "Meias e calçados", higiene: "Higiene", outros: "Outros" })[g.k] || g.label)} <b>${g.items.length}</b>`]), [["pix", "Pix"]]);
+  const shown = giftFilter === "todos" ? groups : groups.filter(g => g.k === giftFilter);
+  box.innerHTML = `<div class="chips" role="tablist" aria-label="Categorias de presentes">${chips.map(([k, l]) => `<button type="button" class="chip" role="tab" aria-selected="${k === giftFilter}" data-gfilter="${k}">${l}</button>`).join("")}</div>`
+    + (giftFilter === "pix" ? "" : shown.map(gr => `<section class="gift-group">
+        <h3 class="gift-cat"><svg class="ico" viewBox="0 0 24 24"><use href="#${gr.icon}"/></svg>${esc(gr.label)}</h3>
+        <ul class="gift-list">${gr.items.map(g => giftRow(g, gr.icon)).join("")}</ul></section>`).join(""))
+    + (giftFilter === "todos" || giftFilter === "pix" ? pixGiftCard() : "");
+}
+
+function pixPayload(key, name, city) {
+  const clean = (s, n) => String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^A-Za-z0-9 @.\-+_]/g, "").trim().slice(0, n);
+  const f = (id, v) => id + String(v.length).padStart(2, "0") + v;
+  const k = String(key).trim();
+  const body = f("00", "01") + f("26", f("00", "br.gov.bcb.pix") + f("01", k)) + f("52", "0000") + f("53", "986") + f("58", "BR")
+    + f("59", clean(name, 25) || "Recebedor") + f("60", clean(city, 15) || "Brasilia") + f("62", f("05", "***")) + "6304";
+  let crc = 0xFFFF;
+  for (let i = 0; i < body.length; i++) {
+    crc ^= body.charCodeAt(i) << 8;
+    for (let j = 0; j < 8; j++) crc = (crc & 0x8000) ? ((crc << 1) ^ 0x1021) & 0xFFFF : (crc << 1) & 0xFFFF;
+  }
+  return body + crc.toString(16).toUpperCase().padStart(4, "0");
+}
+
+function copyText(text, btn, label) {
+  const done = () => {
+    if (!btn) return;
+    const old = btn.innerHTML;
+    btn.innerHTML = `<svg class="ico" viewBox="0 0 24 24"><use href="#i-check"/></svg> Copiado!`;
+    btn.classList.add("copied");
+    setTimeout(() => { btn.innerHTML = old; btn.classList.remove("copied"); }, 2200);
+    toast(label || "Copiado!");
+  };
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text) ? done() : toast("Não deu para copiar. Selecione e copie manualmente.", true));
+  } else fallbackCopy(text) ? done() : toast("Não deu para copiar. Selecione e copie manualmente.", true);
+}
+function fallbackCopy(text) {
+  const ta = document.createElement("textarea");
+  ta.value = text; ta.setAttribute("readonly", ""); ta.style.cssText = "position:fixed;opacity:0";
+  document.body.appendChild(ta); ta.select();
+  let ok = false; try { ok = document.execCommand("copy"); } catch {}
+  ta.remove(); return ok;
+}
+
+function renderPix() {
+  const body = $("#pixBody");
+  $("#pixTitle").textContent = cfg.pixCardTitle || "Presente em Pix";
+  if (!cfg.pixKey) {
+    body.innerHTML = `<p class="muted" style="margin:0">${esc(cfg.pixCardDesc)}</p><p class="muted small" style="margin:10px 0 0">A chave Pix será publicada em breve.</p>`;
+    return;
+  }
+  const payload = pixPayload(cfg.pixKey, cfg.pixName, cfg.pixCity);
+  body.innerHTML = `<div class="pix">
+      <div class="pix-qr" id="pixQr" aria-label="QR Code Pix"><span class="muted small">Carregando QR Code...</span></div>
+      <div>
+        <p style="margin:0 0 12px">${esc(cfg.pixText)}</p>
+        <p class="small muted" style="margin:0 0 4px">Chave Pix${cfg.pixName ? ` · ${esc(cfg.pixName)}` : ""}</p>
+        <p class="pix-key" style="margin:0 0 12px">${esc(cfg.pixKey)}</p>
+        <div class="pix-acts">
+          <button class="btn btn-sm" type="button" id="copyKey"><svg class="ico" viewBox="0 0 24 24"><use href="#i-copy"/></svg> Copiar chave Pix</button>
+          <button class="btn btn-sm btn-ghost" type="button" id="copyCode">Copiar código Pix</button>
+        </div>
+      </div>
+    </div>`;
+  $("#copyKey").addEventListener("click", (e) => copyText(cfg.pixKey, e.currentTarget, "Chave Pix copiada!"));
+  $("#copyCode").addEventListener("click", (e) => copyText(payload, e.currentTarget, "Código Pix copiado! Cole no app do banco."));
+  drawQr(payload);
+}
+function drawQr(payload, tries = 0) {
+  const box = $("#pixQr"); if (!box) return;
+  if (typeof window.qrcode !== "function") {
+    if (tries < 20) return setTimeout(() => drawQr(payload, tries + 1), 250);
+    box.innerHTML = `<span class="muted small" style="text-align:center">Use o botão "Copiar código Pix" para pagar.</span>`;
+    return;
+  }
+  try {
+    const qr = window.qrcode(0, "M"); qr.addData(payload); qr.make();
+    box.innerHTML = qr.createSvgTag({ cellSize: 4, margin: 0, scalable: true });
+    const svg = box.querySelector("svg"); svg && svg.setAttribute("role", "img");
+  } catch { box.innerHTML = `<span class="muted small">Não foi possível gerar o QR Code.</span>`; }
+}
+
+/* ---------- Mensagens ---------- */
+let wallLimit = 6;
+function renderWall() {
+  const list = data.messages.filter(m => !m.hidden).sort((a, b) => b.at.localeCompare(a.at));
+  const wall = $("#wall");
+  if (!list.length) { wall.innerHTML = `<div class="empty"><svg class="ico" viewBox="0 0 24 24"><use href="#i-chat"/></svg>Seja a primeira pessoa a deixar um recado.</div>`; return; }
+  wall.innerHTML = list.slice(0, wallLimit).map(m => `<article class="note"><p>${esc(m.text)}</p><footer><strong>${esc(m.name)}</strong><span>${new Date(m.at).toLocaleDateString("pt-BR")}</span></footer></article>`).join("")
+    + (list.length > wallLimit ? `<p class="center"><button class="btn btn-sm btn-ghost" type="button" id="moreMsgs">Ver mais mensagens</button></p>` : "");
+  const more = $("#moreMsgs"); if (more) more.addEventListener("click", () => { wallLimit += 6; renderWall(); });
+}
+function setupMessages() {
+  const form = $("#msgForm"), text = $("#mText");
+  text.addEventListener("input", () => { $("#mCount").textContent = `${text.value.length}/600`; });
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const name = $("#mName"), v = text.value.trim();
+    let ok = true;
+    if (!name.value.trim()) { setErr(name, $("#mNameErr"), "Digite seu nome."); ok = false; } else setErr(name, $("#mNameErr"), "");
+    if (v.length < 3) { setErr(text, $("#mTextErr"), "Escreva sua mensagem antes de enviar."); ok = false; } else setErr(text, $("#mTextErr"), "");
+    if (!ok) return;
+    const list = data.messages;
+    // evita envio duplicado (duplo toque)
+    if (list.some(m => m.text === v && m.name === name.value.trim() && Date.now() - new Date(m.at).getTime() < 60000)) { toast("Essa mensagem já foi enviada."); return; }
+    list.push({ id: uid(), name: name.value.trim(), text: v, at: new Date().toISOString(), hidden: false });
+    if (!Store.set("messages", list)) return;
+    form.reset(); $("#mCount").textContent = "0/600";
+    toast("Mensagem enviada com carinho!");
+    renderWall();
+  });
+}
+
+/* ---------- Galeria ---------- */
+let lbIndex = 0;
+function renderGallery() {
+  const list = data.photos, box = $("#gallery");
+  if (!list.length) { box.innerHTML = `<div class="empty" style="grid-column:1/-1"><svg class="ico" viewBox="0 0 24 24"><use href="#i-photo"/></svg>As fotos do chá vão aparecer aqui. Volte depois do evento!</div>`; return; }
+  box.innerHTML = list.map((p, i) => `<button type="button" data-i="${i}" aria-label="Ampliar foto${p.caption ? ": " + esc(p.caption) : ""}"><img src="${esc(safeImg(p.src))}" alt="${esc(p.caption || "Foto do chá")}" loading="lazy"></button>`).join("");
+}
+function openLightbox(i) {
+  const list = data.photos; if (!list.length) return;
+  lbIndex = (i + list.length) % list.length;
+  const p = list[lbIndex];
+  $("#lbImg").src = safeImg(p.src); $("#lbImg").alt = p.caption || "Foto do chá";
+  $("#lbCap").textContent = p.caption || "";
+  $("#lbCount").textContent = `${lbIndex + 1} de ${list.length}`;
+  const lb = $("#lightbox");
+  if (lb.hidden) { lb.hidden = false; document.body.style.overflow = "hidden"; $(".lb-close").focus(); }
+}
+function closeLightbox() { $("#lightbox").hidden = true; document.body.style.overflow = ""; }
+function setupGallery() {
+  $("#gallery").addEventListener("click", (e) => { const b = e.target.closest("button[data-i]"); if (b) openLightbox(+b.dataset.i); });
+  const lb = $("#lightbox");
+  lb.addEventListener("click", (e) => {
+    const a = e.target.closest("[data-lb]")?.dataset.lb;
+    if (a === "close" || e.target === lb) closeLightbox();
+    if (a === "prev") openLightbox(lbIndex - 1);
+    if (a === "next") openLightbox(lbIndex + 1);
+  });
+  let x0 = null;
+  lb.addEventListener("touchstart", (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+  lb.addEventListener("touchend", (e) => { if (x0 == null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 50) openLightbox(lbIndex + (dx < 0 ? 1 : -1)); x0 = null; });
+  document.addEventListener("keydown", (e) => {
+    if (!lb.hidden) { if (e.key === "Escape") closeLightbox(); if (e.key === "ArrowLeft") openLightbox(lbIndex - 1); if (e.key === "ArrowRight") openLightbox(lbIndex + 1); }
+  });
+}
+
+/* ---------- Menu, modais e animações ---------- */
+function setupChrome() {
+  const btn = $("#menuBtn");
+  const toggle = (open) => { document.body.classList.toggle("menu-open", open); btn.setAttribute("aria-expanded", open); btn.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu"); };
+  btn.addEventListener("click", () => toggle(!document.body.classList.contains("menu-open")));
+  $$("#drawer a").forEach(a => a.addEventListener("click", () => toggle(false)));
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") { toggle(false); $$(".modal:not(#askModal)").forEach(m => m.hidden = true); } });
+
+  document.addEventListener("click", (e) => {
+    const gf = e.target.closest("[data-gfilter]");
+    if (gf) { giftFilter = gf.dataset.gfilter; renderGifts(); const c = $(`[data-gfilter="${giftFilter}"]`); c && c.focus(); return; }
+    const o = e.target.closest("[data-open]"); if (o) { const m = $("#" + o.dataset.open); m.hidden = false; $("[data-close]", m)?.focus(); }
+    if ((e.target.closest("[data-close]") || e.target.classList.contains("modal")) && e.target.closest(".modal").id !== "askModal") e.target.closest(".modal").hidden = true;
+  });
+
+  if ("IntersectionObserver" in window) {
+    document.documentElement.classList.add("anim");
+    const io = new IntersectionObserver((entries) => entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } }), { threshold: .12 });
+    $$(".fade").forEach(el => io.observe(el));
+  } else $$(".fade").forEach(el => el.classList.add("in"));
+}
+
+/* =========================================================
+   PAINEL ADMINISTRATIVO
+   ========================================================= */
+const Admin = {
+  tab: "resumo",
+  filter: { q: "", status: "" },
+  tabs: [["resumo","Resumo"],["convidados","Convidados"],["lembretes","Lembretes"],["palpites","Palpites"],["mensagens","Mensagens"],["presentes","Presentes"],["pix","Pix"],["galeria","Galeria"],["evento","Evento e textos"]],
+
+  open() {
+    $("#admin").hidden = false; document.body.style.overflow = "hidden";
+    const logged = sessionStorageSafe("get", "chaRev_admin") === "1";
+    $("#adminLogin").hidden = logged; $("#adminApp").hidden = !logged;
+    if (logged) this.render(); else setTimeout(() => $("#aPass").focus(), 50);
+  },
+  close() { $("#admin").hidden = true; document.body.style.overflow = ""; if (location.hash === "#admin") history.replaceState(null, "", location.pathname + location.search); renderContent(); startCountdown(); },
+
+  render() {
+    $("#tabs").innerHTML = this.tabs.map(([k, l]) => `<button class="tab" role="tab" aria-selected="${k === this.tab}" data-tab="${k}">${l}</button>`).join("");
+    const main = $("#adminMain");
+    main.innerHTML = this["v_" + this.tab]();
+    this.bind[this.tab] && this.bind[this.tab].call(this, main);
+  },
+
+  /* ---- Resumo ---- */
+  v_resumo() {
+    const g = data.guests, gs = data.guesses;
+    const conf = g.filter(x => x.status === "confirmado"), nao = g.filter(x => x.status === "nao"), pend = g.filter(x => !x.status || x.status === "pendente");
+    const people = conf.reduce((s, x) => s + (+x.people || 1), 0);
+    const girls = gs.filter(x => x.choice === "menina").length, boys = gs.filter(x => x.choice === "menino").length;
+    const usingDefault = cfg.adminHash === DEFAULT_CONFIG.adminHash;
+    return `${usingDefault ? `<div class="alert">Você ainda está usando a senha padrão. Troque em <b>Evento e textos</b>.</div>` : ""}
+      <div class="alert info"><b>Importante:</b> nesta versão, os dados ficam salvos apenas neste navegador. Respostas enviadas pelo celular dos convidados não chegam aqui até o site ser ligado a um banco de dados online. Use <b>Evento e textos &gt; Backup</b> para guardar uma cópia.</div>
+      <div class="stats">
+        <div class="stat"><b>${conf.length}</b><span>confirmados</span></div>
+        <div class="stat"><b>${people}</b><span>pessoas no total</span></div>
+        <div class="stat"><b>${nao.length}</b><span>não vão</span></div>
+        <div class="stat"><b>${pend.length}</b><span>pendentes</span></div>
+        <div class="stat"><b>${girls}</b><span>palpites menina</span></div>
+        <div class="stat"><b>${boys}</b><span>palpites menino</span></div>
+        <div class="stat"><b>${data.messages.length}</b><span>mensagens</span></div>
+        <div class="stat"><b>${this.dueReminders().length}</b><span>lembretes para enviar hoje</span></div>
+      </div>
+      <div class="card"><h2>Próximos passos</h2>
+        <ul style="margin:0;padding-left:20px;line-height:1.8">
+          <li>Cadastre os convidados em <b>Convidados</b> para acompanhar quem ainda não respondeu.</li>
+          <li>Preencha o celular de contato e os dados do Pix.</li>
+          <li>Ajuste a lista de presentes com os links das lojas.</li>
+        </ul>
+      </div>`;
+  },
+
+  /* ---- Convidados ---- */
+  v_convidados() {
+    const { q, status } = this.filter;
+    const list = data.guests
+      .filter(g => !status || (g.status || "pendente") === status)
+      .filter(g => !q || [g.name, g.email, g.phone].join(" ").toLowerCase().includes(q.toLowerCase()))
+      .sort((a, b) => a.name.localeCompare(b.name, "pt-BR"));
+    const label = { pendente: "Pendente", confirmado: "Confirmado", nao: "Não comparecerá" };
+    return `<div class="card">
+      <h2>Adicionar convidado</h2>
+      <form id="addGuest" class="grid2" novalidate>
+        <div class="field"><label for="agName">Nome</label><input class="input" id="agName" name="name" required><span class="err" id="agNameErr"></span></div>
+        <div class="field"><label for="agPhone">Celular com DDD</label><input class="input" id="agPhone" name="phone" type="tel"><span class="err" id="agPhoneErr"></span></div>
+        <div class="field"><label for="agEmail">E-mail (opcional)</label><input class="input" id="agEmail" name="email" type="email"><span class="err" id="agEmailErr"></span></div>
+        <div class="field" style="align-self:end"><label class="check"><input type="checkbox" name="consent"> Pessoa autorizou receber lembretes</label></div>
+        <div><button class="btn btn-sm" type="submit">Adicionar como pendente</button></div>
+      </form>
+    </div>
+    <div class="card">
+      <h2>Lista de convidados</h2>
+      <div class="toolbar">
+        <input class="input" id="gq" placeholder="Buscar por nome, e-mail ou celular" value="${esc(q)}">
+        <select class="select" id="gs">
+          <option value="">Todos (${data.guests.length})</option>
+          ${["pendente","confirmado","nao"].map(s => `<option value="${s}" ${s === status ? "selected" : ""}>${label[s]}</option>`).join("")}
+        </select>
+        <button class="mini" id="csvBtn">Exportar planilha (CSV)</button>
+      </div>
+      ${list.length ? `<div class="table-wrap"><table>
+        <thead><tr><th>Nome</th><th>Contato</th><th>Status</th><th>Pessoas</th><th>Acompanhantes</th><th>Resposta</th><th></th></tr></thead>
+        <tbody>${list.map(g => `<tr>
+          <td><b>${esc(g.name)}</b>${g.optOut ? `<br><span class="pill oculta">sem lembretes</span>` : ""}</td>
+          <td>${esc(fmtPhone(g.phone))}<br><span class="muted small">${esc(g.email || "")}</span></td>
+          <td><span class="pill ${g.status || "pendente"}">${label[g.status || "pendente"]}</span></td>
+          <td>${g.status === "confirmado" ? (+g.people || 1) : "-"}</td>
+          <td class="small" style="max-width:220px">${esc((g.companions || []).join(", ")) || "-"}</td>
+          <td class="small">${g.respondedAt ? fmtDateTime(g.respondedAt) : "-"}</td>
+          <td><div class="acts">
+            <select class="mini" data-set-status="${g.id}" aria-label="Alterar status de ${esc(g.name)}">
+              ${["pendente","confirmado","nao"].map(s => `<option value="${s}" ${(g.status || "pendente") === s ? "selected" : ""}>${label[s]}</option>`).join("")}
+            </select>
+            <button class="mini danger" data-del-guest="${g.id}">Excluir</button>
+          </div></td></tr>`).join("")}</tbody></table></div>`
+        : `<div class="empty">${data.guests.length ? "Nenhum convidado com esse filtro." : "Nenhum convidado ainda. Adicione acima ou aguarde as respostas pelo site."}</div>`}
+    </div>`;
+  },
+
+  /* ---- Lembretes ---- */
+  dueReminders() {
+    const end = new Date(`${cfg.remindEnd}T23:59:59${TZ}`).getTime();
+    if (Date.now() > end) return [];
+    const freq = Math.max(1, +cfg.remindFreqDays || 3) * 86400000;
+    const log = data.remindLog;
+    return data.guests.filter(g => (!g.status || g.status === "pendente") && g.consent && !g.optOut && (g.phone || g.email)).filter(g => {
+      const last = log.filter(l => l.guestId === g.id).map(l => new Date(l.at).getTime()).sort((a, b) => b - a)[0];
+      return !last || Date.now() - last >= freq;
+    });
+  },
+  reminderText(g) {
+    const link = (cfg.siteUrl || location.href.split("#")[0]) + "#rsvp";
+    return cfg.remindTemplate
+      .replace(/\{nome\}/g, (g.name || "").split(" ")[0])
+      .replace(/\{data\}/g, shortDate(cfg.date)).replace(/\{hora\}/g, hourLabel(cfg.time))
+      .replace(/\{prazo\}/g, shortDate(cfg.rsvpDeadline)).replace(/\{link\}/g, link);
+  },
+  reminderUrl(g, ch) {
+    const text = this.reminderText(g);
+    return ch === "email"
+      ? `mailto:${encodeURIComponent(g.email)}?subject=${encodeURIComponent("Chá Revelação: confirme sua presença")}&body=${encodeURIComponent(text)}`
+      : `https://wa.me/55${normPhone(g.phone)}?text=${encodeURIComponent(text)}`;
+  },
+  v_lembretes() {
+    const due = this.dueReminders();
+    const pend = data.guests.filter(g => !g.status || g.status === "pendente");
+    const log = data.remindLog.slice().sort((a, b) => b.at.localeCompare(a.at)).slice(0, 100);
+    const ended = Date.now() > new Date(`${cfg.remindEnd}T23:59:59${TZ}`).getTime();
+    return `<div class="alert info">O envio automático (sem ninguém clicar) precisa de um servidor e de um provedor de mensagens autorizado. Nesta versão o painel faz a parte de controle: mostra quem precisa de lembrete hoje, abre a mensagem pronta e registra o histórico. Quem respondeu sai da lista na hora.</div>
+      <div class="card"><h2>Configuração</h2>
+        <form id="remCfg" class="grid2" novalidate>
+          <div class="field"><label for="rcFreq">Intervalo entre lembretes (dias)</label><input class="input" id="rcFreq" name="remindFreqDays" type="number" min="1" max="30" value="${esc(cfg.remindFreqDays)}"></div>
+          <div class="field"><label for="rcEnd">Parar de enviar em</label><input class="input" id="rcEnd" name="remindEnd" type="date" value="${esc(cfg.remindEnd)}"></div>
+          <div class="field" style="grid-column:1/-1"><label for="rcUrl">Endereço do site (vai no link da mensagem)</label><input class="input" id="rcUrl" name="siteUrl" placeholder="https://seu-usuario.github.io/cha-revelacao/" value="${esc(cfg.siteUrl)}"></div>
+          <div class="field" style="grid-column:1/-1"><label for="rcTpl">Texto da mensagem</label><textarea class="textarea" id="rcTpl" name="remindTemplate">${esc(cfg.remindTemplate)}</textarea><span class="hint">Use {nome}, {data}, {hora}, {prazo} e {link}.</span></div>
+          <div><button class="btn btn-sm" type="submit">Salvar</button></div>
+        </form>
+      </div>
+      <div class="card"><h2>Para enviar hoje (${due.length})</h2>
+        ${ended ? `<div class="empty">O período de lembretes terminou em ${shortDate(cfg.remindEnd)}.</div>` : due.length ? `<div class="table-wrap"><table><thead><tr><th>Convidado</th><th>Enviados</th><th></th></tr></thead><tbody>
+          ${due.map(g => { const n = data.remindLog.filter(l => l.guestId === g.id).length; return `<tr><td><b>${esc(g.name)}</b><br><span class="muted small">${esc(fmtPhone(g.phone))} ${esc(g.email || "")}</span></td><td>${n}</td><td><div class="acts">
+            ${g.phone ? `<a class="mini" target="_blank" rel="noopener" href="${esc(this.reminderUrl(g, "whatsapp"))}" data-remind="${g.id}" data-ch="whatsapp">Enviar pelo WhatsApp</a>` : ""}
+            ${g.email ? `<a class="mini" target="_blank" rel="noopener" href="${esc(this.reminderUrl(g, "email"))}" data-remind="${g.id}" data-ch="email">Enviar por e-mail</a>` : ""}
+            <button class="mini danger" data-optout="${g.id}">Parar lembretes</button></div></td></tr>`; }).join("")}
+          </tbody></table></div>` : `<div class="empty">Ninguém precisa de lembrete agora.${pend.length ? ` ${pend.length} pendente(s) já foram lembrados recentemente ou não autorizaram.` : ""}</div>`}
+      </div>
+      <div class="card"><h2>Histórico</h2>
+        ${log.length ? `<div class="table-wrap"><table><thead><tr><th>Quando</th><th>Convidado</th><th>Canal</th></tr></thead><tbody>
+        ${log.map(l => `<tr><td class="small">${fmtDateTime(l.at)}</td><td>${esc(l.name)}</td><td>${l.channel === "email" ? "E-mail" : "WhatsApp"}</td></tr>`).join("")}</tbody></table></div>` : `<div class="empty">Nenhum lembrete enviado ainda.</div>`}
+      </div>`;
+  },
+
+  /* ---- Palpites ---- */
+  v_palpites() {
+    const list = data.guesses.slice().sort((a, b) => (b.updatedAt || b.at).localeCompare(a.updatedAt || a.at));
+    const girls = list.filter(x => x.choice === "menina").length, boys = list.length - girls;
+    return `<div class="stats"><div class="stat"><b>${girls}</b><span>Menina</span></div><div class="stat"><b>${boys}</b><span>Menino</span></div><div class="stat"><b>${list.length}</b><span>total</span></div></div>
+      <div class="card"><h2>Configuração</h2>
+        <form id="guessCfg" class="grid2" novalidate>
+          <div class="field"><label for="gcLock">Aceitar palpites até</label><input class="input" id="gcLock" name="guessLock" type="datetime-local" value="${esc(cfg.guessLock)}"></div>
+          <div class="field"><label for="gcRev">Resultado revelado</label><select class="select" id="gcRev" name="revealed">
+            <option value="" ${!cfg.revealed ? "selected" : ""}>Ainda não revelado</option>
+            <option value="menina" ${cfg.revealed === "menina" ? "selected" : ""}>É menina!</option>
+            <option value="menino" ${cfg.revealed === "menino" ? "selected" : ""}>É menino!</option></select></div>
+          <div class="field" style="grid-column:1/-1"><label class="check"><input type="checkbox" name="showGuessResults" ${cfg.showGuessResults ? "checked" : ""}> Mostrar o placar dos palpites no site antes da revelação</label><span class="hint">Recomendado deixar desmarcado para manter a surpresa.</span></div>
+          <div><button class="btn btn-sm" type="submit">Salvar</button></div>
+        </form>
+      </div>
+      <div class="card"><h2>Respostas</h2>
+        ${list.length ? `<div class="table-wrap"><table><thead><tr><th>Nome</th><th>Palpite</th><th>Quando</th><th></th></tr></thead><tbody>
+          ${list.map(g => `<tr><td>${esc(g.name)}${g.guestId ? ` <span class="muted small">(confirmou presença)</span>` : ""}</td><td><span class="pill ${g.choice}">${g.choice}</span></td><td class="small">${fmtDateTime(g.updatedAt || g.at)}</td><td><button class="mini danger" data-del-guess="${g.id}">Excluir</button></td></tr>`).join("")}
+        </tbody></table></div>` : `<div class="empty">Nenhum palpite ainda.</div>`}
+      </div>`;
+  },
+
+  /* ---- Mensagens ---- */
+  v_mensagens() {
+    const list = data.messages.slice().sort((a, b) => b.at.localeCompare(a.at));
+    return `<div class="card"><h2>Mensagens (${list.length})</h2>
+      ${list.length ? `<div class="admin-list">${list.map(m => `<div class="note" style="${m.hidden ? "opacity:.55" : ""}">
+        <p>${esc(m.text)}</p>
+        <footer><span><b>${esc(m.name)}</b> · ${fmtDateTime(m.at)} ${m.hidden ? `<span class="pill oculta">oculta</span>` : ""}</span>
+        <span class="acts" style="display:flex;gap:6px"><button class="mini" data-hide-msg="${m.id}">${m.hidden ? "Mostrar" : "Ocultar"}</button><button class="mini danger" data-del-msg="${m.id}">Excluir</button></span></footer></div>`).join("")}</div>`
+      : `<div class="empty">Nenhuma mensagem ainda.</div>`}</div>`;
+  },
+
+  /* ---- Presentes ---- */
+  editingGift: null,
+  v_presentes() {
+    const list = data.gifts, e = list.find(g => g.id === this.editingGift) || {};
+    return `<div class="card"><h2>${e.id ? "Editar presente" : "Novo presente"}</h2>
+      <form id="giftForm" class="grid2" novalidate>
+        <div class="field"><label for="gfName">Nome</label><input class="input" id="gfName" name="name" value="${esc(e.name)}" maxlength="60"><span class="err" id="gfNameErr"></span></div>
+        <div class="field"><label for="gfUrl">Link da loja</label><input class="input" id="gfUrl" name="url" value="${esc(e.url)}" placeholder="https://..."><span class="err" id="gfUrlErr"></span></div>
+        <div class="field"><label for="gfCat">Categoria</label><select class="select" id="gfCat" name="cat">${GIFT_CATS.map(([k, l]) => `<option value="${k}" ${e.cat === k ? "selected" : ""}>${l}</option>`).join("")}<option value="outros" ${e.cat && !GIFT_CATS.some(c => c[0] === e.cat) ? "selected" : ""}>Outros presentes</option></select></div>
+        <div class="field"><label for="gfDesc">Descrição (opcional)</label><input class="input" id="gfDesc" name="desc" value="${esc(e.desc)}" maxlength="120"></div>
+        <div class="field"><label for="gfImg">Imagem: link ou arquivo (opcional)</label><input class="input" id="gfImg" name="img" value="${esc(e.img && !e.img.startsWith("data:") ? e.img : "")}" placeholder="https://..."><input type="file" id="gfFile" accept="image/*" class="small"></div>
+        <div style="display:flex;gap:8px"><button class="btn btn-sm" type="submit">${e.id ? "Salvar alterações" : "Adicionar"}</button>${e.id ? `<button class="mini" type="button" id="gfCancel">Cancelar</button>` : ""}</div>
+      </form></div>
+      <div class="card"><h2>Lista (${list.length})</h2>
+        ${list.length ? `<div class="admin-list">${list.map(g => `<div class="admin-item">
+          ${safeImg(g.img) ? `<img src="${esc(safeImg(g.img))}" alt="">` : `<span class="ph"><svg class="ico" viewBox="0 0 24 24"><use href="#i-gift"/></svg></span>`}
+          <div class="meta"><b>${esc(g.name)}</b><span>${esc(g.url)}</span></div>
+          <div class="acts" style="display:flex;gap:6px;flex-wrap:wrap"><button class="mini" data-edit-gift="${g.id}">Editar</button><button class="mini danger" data-del-gift="${g.id}">Remover</button></div></div>`).join("")}</div>`
+        : `<div class="empty">Nenhum presente cadastrado.</div>`}
+      </div>`;
+  },
+
+  /* ---- Pix ---- */
+  v_pix() {
+    return `<div class="card"><h2>Dados do Pix</h2>
+      <form id="pixForm" class="grid2" novalidate>
+        <div class="field"><label for="pxKey">Chave Pix</label><input class="input" id="pxKey" name="pixKey" value="${esc(cfg.pixKey)}" placeholder="CPF, e-mail, celular ou chave aleatória"><span class="hint">Celular no formato +5561999999999.</span></div>
+        <div class="field"><label for="pxName">Nome do titular</label><input class="input" id="pxName" name="pixName" value="${esc(cfg.pixName)}" maxlength="25"></div>
+        <div class="field"><label for="pxCity">Cidade do titular</label><input class="input" id="pxCity" name="pixCity" value="${esc(cfg.pixCity)}" maxlength="15"></div>
+        <div class="field"><label for="pxCT">Nome do card</label><input class="input" id="pxCT" name="pixCardTitle" value="${esc(cfg.pixCardTitle)}" maxlength="40"></div>
+        <div class="field"><label for="pxCD">Descrição do card</label><input class="input" id="pxCD" name="pixCardDesc" value="${esc(cfg.pixCardDesc)}" maxlength="120"></div>
+        <div class="field" style="grid-column:1/-1"><label for="pxText">Texto ao abrir o Pix</label><textarea class="textarea" id="pxText" name="pixText">${esc(cfg.pixText)}</textarea></div>
+        <div><button class="btn btn-sm" type="submit">Salvar</button></div>
+      </form>
+      <p class="hint" style="margin-top:12px">O QR Code é gerado automaticamente a partir da chave. Faça um teste no app do banco antes de divulgar.</p></div>`;
+  },
+
+  /* ---- Galeria ---- */
+  v_galeria() {
+    const list = data.photos;
+    return `<div class="card"><h2>Adicionar fotos</h2>
+      <form id="photoForm" novalidate>
+        <div class="field"><label for="phFiles">Arquivos</label><input type="file" id="phFiles" accept="image/*" multiple><span class="hint">As fotos são reduzidas automaticamente. Neste navegador cabem cerca de 30 fotos.</span></div>
+        <div class="field"><label for="phUrl">ou link de uma foto</label><input class="input" id="phUrl" placeholder="https://..."></div>
+        <div class="field"><label for="phCap">Legenda (opcional)</label><input class="input" id="phCap" maxlength="100"></div>
+        <button class="btn btn-sm" type="submit">Adicionar</button>
+      </form></div>
+      <div class="card"><h2>Fotos (${list.length})</h2>
+        ${list.length ? `<div class="admin-list">${list.map(p => `<div class="admin-item"><img src="${esc(safeImg(p.src))}" alt=""><div class="meta"><b>${esc(p.caption || "Sem legenda")}</b><span>${fmtDateTime(p.at)}</span></div><div class="acts" style="display:flex;gap:6px;flex-wrap:wrap"><button class="mini" data-cap-photo="${p.id}">Legenda</button><button class="mini danger" data-del-photo="${p.id}">Remover</button></div></div>`).join("")}</div>`
+        : `<div class="empty">Nenhuma foto ainda.</div>`}</div>`;
+  },
+
+  /* ---- Evento ---- */
+  v_evento() {
+    const f = (name, label, type = "text", extra = "") => `<div class="field"><label for="ev_${name}">${label}</label>${type === "textarea"
+      ? `<textarea class="textarea" id="ev_${name}" name="${name}">${esc(cfg[name])}</textarea>`
+      : `<input class="input" id="ev_${name}" name="${name}" type="${type}" value="${esc(cfg[name])}" ${extra}>`}</div>`;
+    return `<div class="card"><h2>Evento</h2>
+      <form id="evForm" novalidate>
+        <div class="grid2">
+          ${f("date", "Data", "date")}${f("time", "Horário", "time")}
+          ${f("rsvpDeadline", "Prazo para confirmar", "date")}${f("maxPeople", "Máximo de pessoas por resposta (contando quem responde)", "number", 'min="1" max="20"')}
+        </div>
+        <label class="check" style="margin-bottom:14px"><input type="checkbox" name="allowCompanions" ${cfg.allowCompanions ? "checked" : ""}> Permitir acompanhantes</label>
+        ${f("addressLines", "Endereço (uma informação por linha)", "textarea")}
+        ${f("mapsLink", "Link do Google Maps (botão Como chegar)", "url")}
+        ${f("mapsQuery", "Endereço para o Google Maps (usado se o link ficar vazio)")}
+        ${f("contactPhone", "Celular de contato para dúvidas (com DDD)", "tel")}
+        <h3>Textos</h3>
+        ${f("eyebrow", "Linha de cima")}${f("title", "Título")}${f("welcome", "Boas-vindas", "textarea")}
+        ${f("giftsLead", "Texto da lista de presentes", "textarea")}
+        <button class="btn btn-sm" type="submit">Salvar evento</button>
+      </form></div>
+      <div class="card"><h2>Senha</h2>
+        <form id="passForm" class="grid2" novalidate>
+          <div class="field"><label for="np1">Nova senha</label><input class="input" id="np1" type="password" autocomplete="new-password"><span class="err" id="np1Err"></span></div>
+          <div class="field"><label for="np2">Repita a senha</label><input class="input" id="np2" type="password" autocomplete="new-password"><span class="err" id="np2Err"></span></div>
+          <div><button class="btn btn-sm" type="submit">Trocar senha</button></div>
+        </form></div>
+      <div class="card"><h2>Backup</h2>
+        <p class="muted small" style="margin-top:0">Baixe uma cópia de tudo (configurações, convidados, palpites, mensagens, presentes e fotos) ou restaure de um arquivo.</p>
+        <div class="toolbar"><button class="mini" id="bkDown">Baixar backup</button><label class="mini" style="cursor:pointer">Restaurar backup<input type="file" id="bkUp" accept="application/json" hidden></label><button class="mini danger" id="bkReset">Apagar respostas de teste</button></div>
+      </div>`;
+  },
+
+  /* ---- Eventos de cada aba ---- */
+  bind: {
+    convidados(main) {
+      $("#gq", main).addEventListener("input", (e) => { this.filter.q = e.target.value; const pos = e.target.selectionStart; this.render(); const n = $("#gq"); n.focus(); n.setSelectionRange(pos, pos); });
+      $("#gs", main).addEventListener("change", (e) => { this.filter.status = e.target.value; this.render(); });
+      $("#csvBtn", main).addEventListener("click", () => this.exportCsv());
+      $("#addGuest", main).addEventListener("submit", (e) => {
+        e.preventDefault();
+        const fd = new FormData(e.target), name = String(fd.get("name")).trim(), phone = String(fd.get("phone")).trim(), email = String(fd.get("email")).trim();
+        let ok = true;
+        setErr($("#agName"), $("#agNameErr"), name ? "" : "Digite o nome."); if (!name) ok = false;
+        const pBad = phone && !validPhone(phone); setErr($("#agPhone"), $("#agPhoneErr"), pBad ? "Celular inválido. Use DDD + número." : ""); if (pBad) ok = false;
+        const eBad = email && !validEmail(email); setErr($("#agEmail"), $("#agEmailErr"), eBad ? "E-mail inválido." : ""); if (eBad) ok = false;
+        if (!phone && !email && name) { setErr($("#agPhone"), $("#agPhoneErr"), "Informe celular ou e-mail."); ok = false; }
+        if (!ok) return;
+        const list = data.guests;
+        if (findGuest(list, email, phone)) { toast("Já existe um convidado com esse celular ou e-mail.", true); return; }
+        list.push({ id: uid(), name, phone: normPhone(phone), email: email.toLowerCase(), status: "pendente", people: 0, companions: [], consent: !!fd.get("consent"), createdAt: new Date().toISOString(), source: "admin" });
+        if (Store.set("guests", list)) { toast("Convidado adicionado como pendente."); this.render(); }
+      });
+      main.addEventListener("change", (e) => {
+        const id = e.target.dataset.setStatus; if (!id) return;
+        const list = data.guests, g = list.find(x => x.id === id); if (!g) return;
+        g.status = e.target.value; if (g.status !== "pendente" && !g.respondedAt) g.respondedAt = new Date().toISOString();
+        if (g.status === "confirmado" && !g.people) g.people = 1;
+        Store.set("guests", list); toast("Status atualizado."); this.render();
+      });
+      main.addEventListener("click", async (e) => {
+        const id = e.target.dataset.delGuest; if (!id) return;
+        const g = data.guests.find(x => x.id === id);
+        if (!await ask(`Excluir ${g ? g.name : "este convidado"}? Isso não pode ser desfeito.`)) return;
+        Store.set("guests", data.guests.filter(x => x.id !== id));
+        Store.set("guesses", data.guesses.filter(x => x.guestId !== id));
+        toast("Convidado excluído."); this.render();
+      });
+    },
+    lembretes(main) {
+      $("#remCfg", main).addEventListener("submit", (e) => {
+        e.preventDefault(); const fd = new FormData(e.target);
+        cfg.remindFreqDays = Math.max(1, Math.min(30, +fd.get("remindFreqDays") || 3));
+        cfg.remindEnd = fd.get("remindEnd") || cfg.remindEnd;
+        cfg.siteUrl = safeUrl(String(fd.get("siteUrl")).trim()) || "";
+        cfg.remindTemplate = String(fd.get("remindTemplate")).trim() || DEFAULT_CONFIG.remindTemplate;
+        if (saveCfg()) { toast("Lembretes salvos."); this.render(); }
+      });
+      main.addEventListener("click", (e) => {
+        const b = e.target.closest("[data-remind],[data-optout]"); if (!b) return;
+        const list = data.guests, g = list.find(x => x.id === (b.dataset.remind || b.dataset.optout)); if (!g) return;
+        if (b.dataset.optout) { g.optOut = true; Store.set("guests", list); toast("Lembretes interrompidos para " + g.name.split(" ")[0] + "."); this.render(); return; }
+        const log = data.remindLog; log.push({ id: uid(), guestId: g.id, name: g.name, channel: b.dataset.ch, at: new Date().toISOString() });
+        Store.set("remindLog", log); toast("Lembrete registrado no histórico."); setTimeout(() => this.render(), 300);
+      });
+    },
+    palpites(main) {
+      $("#guessCfg", main).addEventListener("submit", (e) => {
+        e.preventDefault(); const fd = new FormData(e.target);
+        cfg.guessLock = fd.get("guessLock") || cfg.guessLock; cfg.revealed = fd.get("revealed") || ""; cfg.showGuessResults = !!fd.get("showGuessResults");
+        if (saveCfg()) { toast("Configuração dos palpites salva."); this.render(); }
+      });
+      main.addEventListener("click", async (e) => {
+        const id = e.target.dataset.delGuess; if (!id || !await ask("Excluir este palpite?")) return;
+        Store.set("guesses", data.guesses.filter(x => x.id !== id)); this.render();
+      });
+    },
+    mensagens(main) {
+      main.addEventListener("click", async (e) => {
+        const h = e.target.dataset.hideMsg, d = e.target.dataset.delMsg;
+        if (!h && !d) return;
+        let list = data.messages;
+        if (h) { const m = list.find(x => x.id === h); if (m) m.hidden = !m.hidden; }
+        if (d) { if (!await ask("Excluir esta mensagem? Isso não pode ser desfeito.")) return; list = list.filter(x => x.id !== d); }
+        Store.set("messages", list); this.render();
+      });
+    },
+    presentes(main) {
+      const form = $("#giftForm", main);
+      let fileData = null;
+      $("#gfFile", main).addEventListener("change", async (e) => {
+        const f = e.target.files[0]; if (!f) return;
+        try { fileData = await resizeImage(f, 600, .8); toast("Imagem pronta. Clique em salvar."); } catch { toast("Não foi possível ler essa imagem.", true); }
+      });
+      form.addEventListener("submit", (e) => {
+        e.preventDefault(); const fd = new FormData(form);
+        const name = String(fd.get("name")).trim(), url = String(fd.get("url")).trim();
+        let ok = true;
+        setErr($("#gfName"), $("#gfNameErr"), name ? "" : "Digite o nome do presente."); if (!name) ok = false;
+        const bad = !safeUrl(url); setErr($("#gfUrl"), $("#gfUrlErr"), bad ? "Cole o link completo, começando com https://" : ""); if (bad) ok = false;
+        if (!ok) return;
+        const list = data.gifts;
+        let g = list.find(x => x.id === this.editingGift);
+        if (!g) { g = { id: uid() }; list.push(g); }
+        const imgUrl = String(fd.get("img")).trim();
+        Object.assign(g, { name, cat: String(fd.get("cat") || "outros"), url: safeUrl(url), desc: String(fd.get("desc")).trim(), img: fileData || (imgUrl ? safeUrl(imgUrl) : (g.img && g.img.startsWith("data:") ? g.img : "")) });
+        if (Store.set("gifts", list)) { toast(this.editingGift ? "Presente atualizado." : "Presente adicionado."); this.editingGift = null; this.render(); }
+      });
+      const cancel = $("#gfCancel", main); if (cancel) cancel.addEventListener("click", () => { this.editingGift = null; this.render(); });
+      main.addEventListener("click", async (e) => {
+        const ed = e.target.dataset.editGift, del = e.target.dataset.delGift;
+        if (ed) { this.editingGift = ed; this.render(); window.scrollTo(0, 0); $("#admin").scrollTop = 0; }
+        if (del && await ask("Remover este presente da lista?")) { Store.set("gifts", data.gifts.filter(x => x.id !== del)); this.render(); }
+      });
+    },
+    pix(main) {
+      $("#pixForm", main).addEventListener("submit", (e) => {
+        e.preventDefault(); const fd = new FormData(e.target);
+        ["pixKey", "pixName", "pixCity", "pixText", "pixCardTitle", "pixCardDesc"].forEach(k => cfg[k] = String(fd.get(k)).trim());
+        if (saveCfg()) toast("Dados do Pix salvos.");
+      });
+    },
+    galeria(main) {
+      $("#photoForm", main).addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const files = [...$("#phFiles").files], url = $("#phUrl").value.trim(), cap = $("#phCap").value.trim();
+        if (!files.length && !url) { toast("Escolha um arquivo ou cole um link.", true); return; }
+        if (url && !safeUrl(url)) { toast("Link inválido. Use o endereço completo com https://", true); return; }
+        const btn = $('button[type="submit"]', e.target); btn.classList.add("is-loading");
+        const list = data.photos; let added = 0;
+        for (const f of files) {
+          try { list.push({ id: uid(), src: await resizeImage(f, 1280, .78), caption: cap, at: new Date().toISOString() }); added++; }
+          catch { toast(`Não foi possível ler ${f.name}.`, true); }
+        }
+        if (url) { list.push({ id: uid(), src: safeUrl(url), caption: cap, at: new Date().toISOString() }); added++; }
+        btn.classList.remove("is-loading");
+        if (added && Store.set("photos", list)) { toast(`${added} foto(s) adicionada(s).`); this.render(); }
+      });
+      main.addEventListener("click", async (e) => {
+        const del = e.target.dataset.delPhoto, cap = e.target.dataset.capPhoto;
+        const list = data.photos;
+        if (del && await ask("Remover esta foto?")) { Store.set("photos", list.filter(x => x.id !== del)); this.render(); }
+        if (cap) { const p = list.find(x => x.id === cap); const v = await ask("Legenda da foto:", { input: p.caption || "", ok: "Salvar" }); if (v != null) { p.caption = v.trim().slice(0, 100); Store.set("photos", list); this.render(); } }
+      });
+    },
+    evento(main) {
+      $("#evForm", main).addEventListener("submit", (e) => {
+        e.preventDefault(); const fd = new FormData(e.target);
+        if (!fd.get("date") || !fd.get("time")) { toast("Data e horário são obrigatórios.", true); return; }
+        const pBad = fd.get("contactPhone") && !validPhone(fd.get("contactPhone"));
+        if (pBad) { toast("O celular de contato parece inválido. Use DDD + número.", true); return; }
+        ["date","time","rsvpDeadline","addressLines","mapsQuery","eyebrow","title","welcome","giftsLead"].forEach(k => cfg[k] = String(fd.get(k) ?? "").trim() || DEFAULT_CONFIG[k]);
+        cfg.contactPhone = normPhone(fd.get("contactPhone"));
+        cfg.mapsLink = safeUrl(String(fd.get("mapsLink") || "").trim());
+        cfg.maxPeople = Math.max(1, Math.min(20, +fd.get("maxPeople") || 1));
+        cfg.allowCompanions = !!fd.get("allowCompanions");
+        if (saveCfg()) toast("Evento atualizado.");
+      });
+      $("#passForm", main).addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const a = $("#np1").value, b = $("#np2").value;
+        setErr($("#np1"), $("#np1Err"), a.length < 6 ? "Use pelo menos 6 caracteres." : "");
+        setErr($("#np2"), $("#np2Err"), a !== b ? "As senhas não são iguais." : "");
+        if (a.length < 6 || a !== b) return;
+        cfg.adminHash = await sha256(a); if (saveCfg()) { toast("Senha trocada."); e.target.reset(); }
+      });
+      $("#bkDown", main).addEventListener("click", () => {
+        const dump = { version: 1, exportedAt: new Date().toISOString(), config: cfg, guests: data.guests, guesses: data.guesses, messages: data.messages, gifts: data.gifts, photos: data.photos, remindLog: data.remindLog };
+        download(`backup-cha-revelacao-${new Date().toISOString().slice(0, 10)}.json`, JSON.stringify(dump, null, 2), "application/json");
+      });
+      $("#bkUp", main).addEventListener("change", (e) => {
+        const f = e.target.files[0]; if (!f) return;
+        const r = new FileReader();
+        r.onload = async () => {
+          try {
+            const d = JSON.parse(r.result);
+            if (!d || typeof d !== "object" || !d.config) throw new Error();
+            if (!await ask("Restaurar este backup? Os dados atuais deste navegador serão substituídos.")) return;
+            ["guests","guesses","messages","gifts","photos","remindLog"].forEach(k => Array.isArray(d[k]) && Store.set(k, d[k]));
+            cfg = Object.assign({}, DEFAULT_CONFIG, d.config); saveCfg();
+            toast("Backup restaurado."); this.render();
+          } catch { toast("Esse arquivo não é um backup válido.", true); }
+        };
+        r.onerror = () => toast("Não foi possível ler o arquivo.", true);
+        r.readAsText(f);
+      });
+      $("#bkReset", main).addEventListener("click", async () => {
+        if (!await ask("Apagar todos os convidados, palpites, mensagens e histórico de lembretes deste navegador? Configurações, presentes e fotos ficam.")) return;
+        ["guests","guesses","messages","remindLog"].forEach(k => Store.set(k, []));
+        try { localStorage.removeItem(Store.prefix + "me"); } catch {}
+        toast("Respostas apagadas."); this.render();
+      });
+    }
+  },
+
+  exportCsv() {
+    const label = { pendente: "Pendente", confirmado: "Confirmado", nao: "Não comparecerá" };
+    const guesses = data.guesses;
+    const rows = [["Nome","E-mail","Celular","Status","Pessoas","Acompanhantes","Palpite","Aceita lembretes","Respondido em","Cadastrado em"]]
+      .concat(data.guests.map(g => [g.name, g.email, fmtPhone(g.phone), label[g.status || "pendente"], g.status === "confirmado" ? (g.people || 1) : 0, (g.companions || []).join(", "), (guesses.find(x => x.guestId === g.id) || {}).choice || "", g.consent && !g.optOut ? "Sim" : "Não", g.respondedAt ? fmtDateTime(g.respondedAt) : "", g.createdAt ? fmtDateTime(g.createdAt) : ""]));
+    const csv = rows.map(r => r.map(c => `"${String(c ?? "").replace(/"/g, '""')}"`).join(";")).join("\r\n");
+    download(`convidados-${new Date().toISOString().slice(0, 10)}.csv`, "﻿" + csv, "text/csv;charset=utf-8");
+  }
+};
+
+function sessionStorageSafe(op, k, v) { try { return op === "get" ? sessionStorage.getItem(k) : op === "set" ? sessionStorage.setItem(k, v) : sessionStorage.removeItem(k); } catch { return null; } }
+function download(name, content, type) {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([content], { type }));
+  a.download = name; document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+}
+function resizeImage(file, max, quality) {
+  return new Promise((resolve, reject) => {
+    if (!file.type.startsWith("image/")) return reject(new Error("tipo"));
+    const url = URL.createObjectURL(file), img = new Image();
+    img.onload = () => {
+      const s = Math.min(1, max / Math.max(img.width, img.height));
+      const c = document.createElement("canvas"); c.width = Math.round(img.width * s); c.height = Math.round(img.height * s);
+      c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url); resolve(c.toDataURL("image/jpeg", quality));
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error("img")); };
+    img.src = url;
+  });
+}
+
+function setupAdmin() {
+  $("#adminLink").addEventListener("click", () => { history.replaceState(null, "", "#admin"); Admin.open(); });
+  $$("[data-admin-exit]").forEach(b => b.addEventListener("click", () => Admin.close()));
+  $("#logoutBtn").addEventListener("click", () => { sessionStorageSafe("del", "chaRev_admin"); Admin.close(); });
+  $("#tabs").addEventListener("click", (e) => { const t = e.target.dataset.tab; if (t) { Admin.tab = t; Admin.editingGift = null; Admin.render(); $("#admin").scrollTop = 0; } });
+  let attempts = 0;
+  $("#loginForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const pass = $("#aPass").value;
+    if (!pass) { setErr($("#aPass"), $("#aPassErr"), "Digite a senha."); return; }
+    if (attempts >= 5) { setErr($("#aPass"), $("#aPassErr"), "Muitas tentativas. Recarregue a página e tente de novo."); return; }
+    let hash;
+    try { hash = await sha256(pass); } catch { setErr($("#aPass"), $("#aPassErr"), "Abra o site pelo endereço https para entrar no painel."); return; }
+    if (hash !== cfg.adminHash) { attempts++; setErr($("#aPass"), $("#aPassErr"), "Senha incorreta."); return; }
+    setErr($("#aPass"), $("#aPassErr"), "");
+    sessionStorageSafe("set", "chaRev_admin", "1");
+    $("#aPass").value = "";
+    Admin.open();
+  });
+  if (location.hash === "#admin") Admin.open();
+}
+
+/* =========================================================
+   INICIALIZAÇÃO
+   ========================================================= */
+async function init() {
+  // Calcula o hash da senha padrão uma vez, para não depender de um valor fixo no código.
+  try {
+    const def = await sha256("revelacao2026");
+    if (cfg.adminHash === DEFAULT_CONFIG.adminHash) cfg.adminHash = def;
+    DEFAULT_CONFIG.adminHash = def;
+  } catch {}
+  paintIllustrations();
+  renderContent();
+  startCountdown();
+  setupChrome(); setupRsvp(); setupGuess(); setupMessages(); setupGallery(); setupAdmin();
+  if (!Store.ok) toast("Seu navegador está bloqueando o armazenamento. Suas respostas podem não ser salvas.", true);
+  // Se já respondeu neste aparelho, preenche o formulário para facilitar uma alteração.
+  const me = myGuest();
+  if (me) {
+    $("#rName").value = me.name || ""; $("#rEmail").value = me.email || ""; $("#rPhone").value = fmtPhone(me.phone);
+    const r = $(`input[name="attend"][value="${me.status === "nao" ? "nao" : "sim"}"]`); if (r && me.status !== "pendente") { r.checked = true; $("#compField").hidden = !(me.status === "confirmado" && maxCompanions() > 0); }
+    (me.companions || []).forEach(c => addCompanion(c));
+    $("#rConsent").checked = !!me.consent;
+  }
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) startCountdown(); });
+}
+init();
+})();
+</script>
+</body>
+</html>
