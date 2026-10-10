@@ -724,8 +724,13 @@ td .acts{display:flex;gap:6px;flex-wrap:wrap}
   <div class="login" id="adminLogin">
     <div class="card">
       <h2 style="font-family:var(--serif);font-weight:600;margin:0 0 4px">Área dos organizadores</h2>
-      <p class="muted small" style="margin:0 0 16px">Digite a senha para gerenciar o chá.</p>
+      <p class="muted small" style="margin:0 0 16px" id="loginLead">Digite a senha para gerenciar o chá.</p>
       <form id="loginForm" novalidate>
+        <div class="field" id="aEmailField" hidden>
+          <label for="aEmail">E-mail</label>
+          <input class="input" id="aEmail" type="email" autocomplete="username" aria-describedby="aEmailErr">
+          <span class="err" id="aEmailErr"></span>
+        </div>
         <div class="field">
           <label for="aPass">Senha</label>
           <input class="input" id="aPass" type="password" autocomplete="current-password" aria-describedby="aPassErr">
@@ -740,6 +745,7 @@ td .acts{display:flex;gap:6px;flex-wrap:wrap}
     <div class="admin-top">
       <div class="in">
         <h1>Painel do chá</h1>
+        <button class="mini" id="refreshBtn" hidden>Atualizar</button>
         <button class="mini" data-admin-exit>Ver site</button>
         <button class="mini" id="logoutBtn">Sair</button>
       </div>
@@ -788,9 +794,19 @@ td .acts{display:flex;gap:6px;flex-wrap:wrap}
 </svg>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.75.0/dist/umd/supabase.js"></script>
 <script>
 (() => {
 "use strict";
+
+/* =========================================================
+   BANCO DE DADOS (Supabase)
+   A chave "anon" é pública por natureza: o que cada visitante
+   pode ler ou gravar é controlado pelas regras do supabase.sql.
+   Com os dois campos vazios, o site salva só no navegador.
+   ========================================================= */
+const SUPABASE_URL = "https://ookhqypqbtaasmspiiqq.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9va2hxeXBxYnRhYXNtc3BpaXFxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE2NDAzNjAsImV4cCI6MjEwNzIxNjM2MH0.jrYzqd5XOd15CqjVaAWTzWaagoYWLqolN6vynfRZE00";
 
 /* =========================================================
    CONFIGURAÇÃO PADRÃO
@@ -861,7 +877,13 @@ const DEFAULT_GIFTS = [
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 const esc = (v) => String(v ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+const uid = () => {
+  if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+  const b = crypto.getRandomValues(new Uint8Array(16)); b[6] = (b[6] & 15) | 64; b[8] = (b[8] & 63) | 128;
+  const h = [...b].map(x => x.toString(16).padStart(2, "0")).join("");
+  return `${h.slice(0, 8)}-${h.slice(8, 12)}-${h.slice(12, 16)}-${h.slice(16, 20)}-${h.slice(20)}`;
+};
+const isUuid = (v) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(String(v || ""));
 const digits = (v) => String(v || "").replace(/\D/g, "");
 const normPhone = (v) => { let d = digits(v); if (d.length > 11 && d.startsWith("55")) d = d.slice(2); return d; };
 const validEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(v).trim());
@@ -945,16 +967,115 @@ const Store = {
 };
 function structuredCloneSafe(v) { return v === undefined ? v : JSON.parse(JSON.stringify(v)); }
 
-let cfg = Object.assign({}, DEFAULT_CONFIG, Store.get("config", {}));
-const data = {
-  get guests() { return Store.get("guests", []); },
-  get guesses() { return Store.get("guesses", []); },
-  get messages() { return Store.get("messages", []); },
-  get photos() { return Store.get("photos", []); },
-  get gifts() { return Store.get("gifts", DEFAULT_GIFTS); },
-  get remindLog() { return Store.get("remindLog", []); }
+/* ---------- Modo online (Supabase) ----------
+   As telas leem "data" e gravam com save(lista, ...), igual ao
+   modo local. Online, save() compara com o que veio do banco e
+   envia só o que mudou. */
+const ONLINE = !!(SUPABASE_URL && SUPABASE_ANON_KEY);
+const sb = ONLINE && window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+const TABLES = {
+  guests: { t: "guests", cols: { id: "id", name: "name", email: "email", phone: "phone", status: "status", companions: "companions", people: "people", consent: "consent", optOut: "opt_out", source: "source", respondedAt: "responded_at", createdAt: "created_at" } },
+  guesses: { t: "guesses", cols: { id: "id", guestId: "guest_id", deviceId: "device_id", name: "name", choice: "choice", at: "created_at", updatedAt: "updated_at" } },
+  messages: { t: "messages", cols: { id: "id", name: "name", text: "text", hidden: "hidden", at: "created_at" } },
+  gifts: { t: "gifts", cols: { id: "id", cat: "cat", name: "name", desc: "descr", img: "img", url: "url", position: "position" } },
+  photos: { t: "photos", cols: { id: "id", src: "src", caption: "caption", at: "created_at" } },
+  remindLog: { t: "remind_log", cols: { id: "id", guestId: "guest_id", name: "name", channel: "channel", at: "created_at" } }
 };
-const saveCfg = () => Store.set("config", cfg);
+const ORDER = { guests: "created_at", guesses: "created_at", messages: "created_at", gifts: "position", photos: "created_at", remindLog: "created_at" };
+// gifts = null enquanto a lista padrão ainda não foi gravada no banco
+const mem = { guests: [], guesses: [], messages: [], gifts: null, photos: [], remindLog: [], myChoice: null, counts: null };
+const toRow = (k, o, i) => { const r = {}; for (const [js, db] of Object.entries(TABLES[k].cols)) if (o[js] !== undefined) r[db] = o[js]; if (k === "gifts") r.position = i; return r; };
+const fromRow = (k, r) => { const o = {}; for (const [js, db] of Object.entries(TABLES[k].cols)) o[js] = r[db] ?? (db === "descr" || db === "img" || db === "url" ? "" : r[db]); return o; };
+
+function errMsg(e) {
+  const m = String((e && (e.message || e.error_description)) || e || "");
+  if (/failed to fetch|network|load failed/i.test(m)) return "Sem conexão com a internet. Tente de novo.";
+  if (/palpites encerrados/.test(m)) return "Os palpites já foram encerrados.";
+  if (/celular invalido/.test(m)) return "Confira o celular, com DDD.";
+  if (/email invalido/.test(m)) return "Confira o e-mail.";
+  if (/acompanhantes demais/.test(m)) return "Há mais acompanhantes do que o permitido.";
+  if (e && e.code === "23505") return "Já existe um convidado com esse celular ou e-mail.";
+  return "Não foi possível salvar agora. Tente de novo em instantes.";
+}
+function needDb() {
+  if (sb) return true;
+  toast("Não foi possível conectar. Recarregue a página e tente de novo.", true);
+  return false;
+}
+
+async function reload(k) {
+  const { data: rows, error } = await sb.from(TABLES[k].t).select("*").order(ORDER[k]);
+  if (error) throw error;
+  mem[k] = rows.map(r => fromRow(k, r));
+}
+async function loadConfig() {
+  const { data: row, error } = await sb.from("settings").select("data").eq("id", 1).maybeSingle();
+  if (error) throw error;
+  cfg = Object.assign({}, DEFAULT_CONFIG, (row && row.data) || {});
+}
+// O que qualquer visitante pode ver
+async function loadPublic() {
+  await loadConfig();
+  const giftsP = reload("gifts").then(() => { if (!cfg.giftsSeeded && !mem.gifts.length) mem.gifts = null; });
+  const me = myGuest();
+  const [, , , mine, counts] = await Promise.all([
+    giftsP, reload("messages"), reload("photos"),
+    sb.rpc("my_guess", { p_device: deviceId(), p_guest: me ? me.id : null }),
+    sb.rpc("guess_counts")
+  ]);
+  mem.myChoice = mine.error ? mem.myChoice : mine.data;
+  mem.counts = counts.error ? null : counts.data;
+}
+// Tudo, para o painel (só com login)
+async function loadAdmin() {
+  await loadConfig();
+  await Promise.all(Object.keys(TABLES).map(reload));
+  if (!cfg.giftsSeeded) {
+    // Primeira vez no painel: grava a lista de presentes padrão no banco
+    if (!mem.gifts.length && await save("gifts", DEFAULT_GIFTS.map(g => Object.assign({}, g, { id: uid() })))) { cfg.giftsSeeded = true; await saveCfg(); }
+    else if (mem.gifts.length) { cfg.giftsSeeded = true; await saveCfg(); }
+  }
+}
+
+async function save(k, list) {
+  if (!ONLINE) return Store.set(k, list);
+  if (!needDb()) return false;
+  const T = TABLES[k], old = mem[k] || [];
+  const before = new Map(old.map((o, i) => [o.id, JSON.stringify(toRow(k, o, i))]));
+  const ups = list.map((o, i) => toRow(k, o, i)).filter(r => before.get(r.id) !== JSON.stringify(r));
+  const keep = new Set(list.map(o => o.id));
+  const dels = old.filter(o => !keep.has(o.id)).map(o => o.id);
+  try {
+    if (ups.length) { const { error } = await sb.from(T.t).upsert(ups, { defaultToNull: false }); if (error) throw error; }
+    if (dels.length) { const { error } = await sb.from(T.t).delete().in("id", dels); if (error) throw error; }
+    mem[k] = structuredCloneSafe(list);
+    return true;
+  } catch (e) {
+    console.error(e); toast(errMsg(e), true);
+    try { await reload(k); } catch {}
+    return false;
+  }
+}
+
+let cfg = Object.assign({}, DEFAULT_CONFIG, ONLINE ? {} : Store.get("config", {}));
+const data = {
+  get guests() { return ONLINE ? structuredCloneSafe(mem.guests) : Store.get("guests", []); },
+  get guesses() { return ONLINE ? structuredCloneSafe(mem.guesses) : Store.get("guesses", []); },
+  get messages() { return ONLINE ? structuredCloneSafe(mem.messages) : Store.get("messages", []); },
+  get photos() { return ONLINE ? structuredCloneSafe(mem.photos) : Store.get("photos", []); },
+  get gifts() { return ONLINE ? structuredCloneSafe(mem.gifts || DEFAULT_GIFTS) : Store.get("gifts", DEFAULT_GIFTS); },
+  get remindLog() { return ONLINE ? structuredCloneSafe(mem.remindLog) : Store.get("remindLog", []); }
+};
+async function saveCfg() {
+  if (!ONLINE) return Store.set("config", cfg);
+  if (!needDb()) return false;
+  // Grava só o que difere do padrão, sem a senha antiga
+  const diff = {};
+  for (const [k, v] of Object.entries(cfg)) if (k !== "adminHash" && JSON.stringify(v) !== JSON.stringify(DEFAULT_CONFIG[k])) diff[k] = v;
+  const { error } = await sb.from("settings").update({ data: diff, updated_at: new Date().toISOString() }).eq("id", 1);
+  if (error) { console.error(error); toast(errMsg(error), true); return false; }
+  return true;
+}
 
 /* =========================================================
    ILUSTRAÇÕES (ursinhos em aquarela, SVG)
@@ -1129,14 +1250,23 @@ function setupRsvp() {
   $$("input", form).forEach(i => i.addEventListener("blur", () => validateRsvpField(i)));
   $("#compAdd").addEventListener("click", () => { const i = addCompanion(); i && i.focus(); });
   // Avisa assim que a pessoa digita o nome, se alguém já confirmou por ela
-  $("#rName").addEventListener("change", () => {
+  $("#rName").addEventListener("change", async () => {
     const v = $("#rName").value.trim();
     if (v.split(/\s+/).length < 2) return;
-    const self = findGuest(data.guests, $("#rEmail").value, $("#rPhone").value);
-    if (!showDupNotice(v, [], self ? self.id : null)) $("#dupNotice").hidden = true;
+    let res;
+    if (ONLINE) {
+      if (!sb) return;
+      const r = await sb.rpc("rsvp_check", { p_name: v, p_companions: [], p_email: $("#rEmail").value.trim(), p_phone: $("#rPhone").value });
+      if (r.error) return;
+      res = r.data;
+    } else {
+      const self = findGuest(data.guests, $("#rEmail").value, $("#rPhone").value);
+      res = dupCheckLocal(v, [], self ? self.id : null);
+    }
+    if (!showDupNotice(v, res)) $("#dupNotice").hidden = true;
   });
 
-  form.addEventListener("submit", (e) => {
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const fd = new FormData(form);
     let ok = true;
@@ -1147,23 +1277,24 @@ function setupRsvp() {
     if (comps === null) ok = false;
     if (!ok) { const first = $('[aria-invalid="true"]', form) || $('input[name="attend"]', form); first && first.focus(); return; }
 
-    // Aviso de quem já foi confirmado (ex.: casal em que um já respondeu pelos dois)
-    if (!rsvpOverride) {
+    // Aviso de quem já foi confirmado (ex.: casal em que um já respondeu pelos dois).
+    // Online, quem confere é o banco, na própria gravação.
+    const name = String(fd.get("name")).trim();
+    if (!rsvpOverride && !ONLINE) {
       const self = findGuest(data.guests, fd.get("email"), fd.get("phone"));
-      if (showDupNotice(String(fd.get("name")).trim(), comps, self ? self.id : null)) return;
+      if (showDupNotice(name, dupCheckLocal(name, comps, self ? self.id : null))) return;
     }
+    const force = rsvpOverride;
     rsvpOverride = false;
     $("#dupNotice").hidden = true;
 
     const btn = $('button[type="submit"]', form);
+    if (btn.classList.contains("is-loading")) return;
     btn.classList.add("is-loading");
 
     const attend = fd.get("attend") === "sim";
-    const guests = data.guests;
-    const existing = findGuest(guests, fd.get("email"), fd.get("phone"));
-    const now = new Date().toISOString();
-    const record = Object.assign(existing || { id: uid(), createdAt: now, source: "site", reminders: 0 }, {
-      name: String(fd.get("name")).trim(),
+    let now = new Date().toISOString(), existing, record = {
+      name,
       email: String(fd.get("email")).trim().toLowerCase(),
       phone: normPhone(fd.get("phone")),
       status: attend ? "confirmado" : "nao",
@@ -1171,10 +1302,23 @@ function setupRsvp() {
       people: attend ? 1 + comps.length : 0,
       consent: !!fd.get("consent"),
       respondedAt: now
-    });
-    if (!existing) guests.push(record);
-    if (!Store.set("guests", guests)) { btn.classList.remove("is-loading"); return; }
+    };
+    if (ONLINE) {
+      if (!needDb()) { btn.classList.remove("is-loading"); return; }
+      const { data: r, error } = await sb.rpc("submit_rsvp", { p_name: record.name, p_email: record.email, p_phone: record.phone, p_attend: attend, p_companions: comps, p_consent: record.consent, p_force: force });
+      if (error) { btn.classList.remove("is-loading"); toast(errMsg(error), true); return; }
+      if (!r.ok) { btn.classList.remove("is-loading"); showDupNotice(name, r); return; }
+      existing = r.updated; record.id = r.id; record.respondedAt = now = r.responded_at || now;
+    } else {
+      const guests = data.guests;
+      existing = findGuest(guests, fd.get("email"), fd.get("phone"));
+      record = Object.assign(existing || { id: uid(), createdAt: now, source: "site" }, record);
+      if (!existing) guests.push(record);
+      if (!Store.set("guests", guests)) { btn.classList.remove("is-loading"); return; }
+    }
     Store.rawSet("me", record.id);
+    Store.set("meRec", record);
+    if (ONLINE && sb) sb.rpc("my_guess", { p_device: deviceId(), p_guest: record.id }).then(r => { if (!r.error && r.data) { mem.myChoice = r.data; renderGuess(); applyTeam(currentTeam()); } });
 
     setTimeout(() => {
       btn.classList.remove("is-loading");
@@ -1254,22 +1398,28 @@ function collectCompanions() {
   updateCompUi();
   return ok ? names : null;
 }
-// Procura quem já foi confirmado por outra resposta. Mostra o aviso e retorna true se encontrou.
-function showDupNotice(name, comps, selfId) {
+// Procura quem já foi confirmado por outra resposta (modo local).
+// Mesmo formato que o banco devolve: { covered_by: {name, at} | null, conflicts: [{name, by}] }
+function dupCheckLocal(name, comps, selfId) {
   const others = data.guests.filter(g => g.id !== selfId && g.status === "confirmado");
-  const coveredBy = others.find(g => (g.companions || []).some(c => sameName(c, name)));
-  const compConflicts = [];
+  const cov = others.find(g => (g.companions || []).some(c => sameName(c, name)));
+  const conflicts = [];
   comps.forEach(c => {
     const g = others.find(o => sameName(o.name, c) || (o.companions || []).some(x => sameName(x, c)));
-    if (g) compConflicts.push({ c, by: g });
+    if (g) conflicts.push({ name: c, by: g.name });
   });
+  return { covered_by: cov ? { name: cov.name, at: cov.respondedAt } : null, conflicts };
+}
+// Mostra o aviso e retorna true se alguém já foi confirmado.
+function showDupNotice(name, res) {
+  const coveredBy = res && res.covered_by, compConflicts = (res && res.conflicts) || [];
   if (!coveredBy && !compConflicts.length) return false;
 
   const box = $("#dupNotice"), msgs = [];
-  if (coveredBy) msgs.push(`<b>${esc(coveredBy.name)}</b> já confirmou a sua presença como acompanhante${coveredBy.respondedAt ? ` em ${esc(fmtDateTime(coveredBy.respondedAt).split(",")[0])}` : ""}. Não precisa responder de novo.`);
-  compConflicts.forEach(({ c, by }) => msgs.push(sameName(by.name, c)
+  if (coveredBy) msgs.push(`<b>${esc(coveredBy.name)}</b> já confirmou a sua presença como acompanhante${coveredBy.at ? ` em ${esc(fmtDateTime(coveredBy.at).split(",")[0])}` : ""}. Não precisa responder de novo.`);
+  compConflicts.forEach(({ name: c, by }) => msgs.push(sameName(by, c)
     ? `<b>${esc(c)}</b> já confirmou presença.`
-    : `<b>${esc(c)}</b> já foi confirmado(a) por <b>${esc(by.name)}</b>.`));
+    : `<b>${esc(c)}</b> já foi confirmado(a) por <b>${esc(by)}</b>.`));
   box.innerHTML = `<p>${msgs.join("<br>")}</p><div class="acts">
     ${coveredBy ? `<button type="button" class="btn btn-sm" id="dupOk">Ok, entendi</button>` : `<button type="button" class="btn btn-sm" id="dupFix">Corrigir a lista</button>`}
     <button type="button" class="btn btn-sm btn-ghost" id="dupForce">Enviar mesmo assim</button></div>`;
@@ -1315,10 +1465,22 @@ function currentTeam() {
 
 /* ---------- Palpite ---------- */
 function guessLocked() { const t = new Date(`${cfg.guessLock}:00${TZ}`).getTime(); return !isNaN(t) && Date.now() > t; }
-function myGuest() { const id = Store.raw("me"); return id ? data.guests.find(g => g.id === id) : null; }
+// Online o visitante não lê a lista de convidados, então guardamos a própria resposta neste aparelho.
+function myGuest() {
+  const id = Store.raw("me"); if (!id) return null;
+  if (ONLINE) { const r = Store.get("meRec", null); return r && r.id === id ? r : null; }
+  return data.guests.find(g => g.id === id) || null;
+}
 function myGuess() {
+  if (ONLINE) return mem.myChoice ? { choice: mem.myChoice } : null;
   const me = myGuest(), dev = deviceId();
   return data.guesses.find(g => (me && g.guestId === me.id) || g.deviceId === dev);
+}
+function guessCounts() {
+  if (ONLINE) return mem.counts;
+  if (!cfg.showGuessResults && !cfg.revealed) return null;
+  const all = data.guesses;
+  return { menina: all.filter(g => g.choice === "menina").length, menino: all.filter(g => g.choice === "menino").length };
 }
 
 function renderGuess() {
@@ -1335,9 +1497,9 @@ function renderGuess() {
     : mine ? `Seu palpite está registrado: ${mine.choice}. Dá para mudar até ${lockLabel}.` : `Você pode mudar seu palpite até ${lockLabel}.`;
 
   const res = $("#guessResults");
-  if (cfg.showGuessResults || cfg.revealed) {
-    const all = data.guesses, total = all.length || 1;
-    const girls = all.filter(g => g.choice === "menina").length, boys = all.filter(g => g.choice === "menino").length;
+  const counts = guessCounts();
+  if (counts) {
+    const girls = +counts.menina || 0, boys = +counts.menino || 0, total = (girls + boys) || 1;
     res.innerHTML = `<div class="results" aria-label="Resultado dos palpites">
       <div class="bar"><span>Menina</span><span class="bar-track"><span class="bar-fill girl" style="width:${(girls / total) * 100}%"></span></span><b>${girls}</b></div>
       <div class="bar"><span>Menino</span><span class="bar-track"><span class="bar-fill boy" style="width:${(boys / total) * 100}%"></span></span><b>${boys}</b></div>
@@ -1353,7 +1515,7 @@ function setupGuess() {
     setErr(null, $("#gChoiceErr"), "");
     if (e.target.name === "choice" && !cfg.revealed) applyTeam(e.target.value);
   });
-  form.addEventListener("submit", (e) => {
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
     if (guessLocked()) return;
     const choice = new FormData(form).get("choice");
@@ -1365,13 +1527,32 @@ function setupGuess() {
     else setErr(nameIn, $("#gNameErr"), "");
     if (!ok) return;
 
-    const list = data.guesses;
-    const now = new Date().toISOString();
-    let g = list.find(x => (me && x.guestId === me.id) || x.deviceId === deviceId());
-    const isNew = !g;
-    if (!g) { g = { id: uid(), at: now }; list.push(g); }
-    Object.assign(g, { choice, guestId: me ? me.id : (g.guestId || null), deviceId: deviceId(), name: me ? me.name : nameIn.value.trim(), updatedAt: now });
-    if (!Store.set("guesses", list)) return;
+    let isNew;
+    if (ONLINE) {
+      if (!needDb()) return;
+      const btn = $("#gSubmit"); if (btn.classList.contains("is-loading")) return;
+      btn.classList.add("is-loading");
+      isNew = !mem.myChoice;
+      const send = (guest) => sb.rpc("submit_guess", { p_device: deviceId(), p_guest: guest ? guest.id : null, p_name: guest ? guest.name : nameIn.value.trim(), p_choice: choice });
+      let { error } = await send(me);
+      // Resposta apagada pelos organizadores: tenta de novo sem o vínculo
+      if (error && me && /nome obrigatorio/.test(error.message || "")) {
+        nameIn.value = me.name; try { localStorage.removeItem(Store.prefix + "me"); } catch {}
+        ({ error } = await send(null));
+      }
+      btn.classList.remove("is-loading");
+      if (error) { toast(errMsg(error), true); return; }
+      mem.myChoice = choice;
+      sb.rpc("guess_counts").then(r => { if (!r.error) { mem.counts = r.data; renderGuess(); } });
+    } else {
+      const list = data.guesses;
+      const now = new Date().toISOString();
+      let g = list.find(x => (me && x.guestId === me.id) || x.deviceId === deviceId());
+      isNew = !g;
+      if (!g) { g = { id: uid(), at: now }; list.push(g); }
+      Object.assign(g, { choice, guestId: me ? me.id : (g.guestId || null), deviceId: deviceId(), name: me ? me.name : nameIn.value.trim(), updatedAt: now });
+      if (!Store.set("guesses", list)) return;
+    }
     toast(isNew ? `Palpite registrado: Time ${choice === "menina" ? "Menina" : "Menino"}!` : "Palpite atualizado!");
     renderGuess();
   });
@@ -1516,7 +1697,7 @@ function renderWall() {
 function setupMessages() {
   const form = $("#msgForm"), text = $("#mText");
   text.addEventListener("input", () => { $("#mCount").textContent = `${text.value.length}/600`; });
-  form.addEventListener("submit", (e) => {
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const name = $("#mName"), v = text.value.trim();
     let ok = true;
@@ -1526,8 +1707,19 @@ function setupMessages() {
     const list = data.messages;
     // evita envio duplicado (duplo toque)
     if (list.some(m => m.text === v && m.name === name.value.trim() && Date.now() - new Date(m.at).getTime() < 60000)) { toast("Essa mensagem já foi enviada."); return; }
-    list.push({ id: uid(), name: name.value.trim(), text: v, at: new Date().toISOString(), hidden: false });
-    if (!Store.set("messages", list)) return;
+    if (ONLINE) {
+      if (!needDb()) return;
+      const btn = $('button[type="submit"]', form); if (btn.classList.contains("is-loading")) return;
+      btn.classList.add("is-loading");
+      const { error } = await sb.from("messages").insert({ name: name.value.trim().slice(0, 60), text: v.slice(0, 600) });
+      if (!error) mem.messages.push({ id: uid(), name: name.value.trim(), text: v, at: new Date().toISOString(), hidden: false });
+      btn.classList.remove("is-loading");
+      if (error) { toast(errMsg(error), true); return; }
+      reload("messages").then(renderWall).catch(() => {});
+    } else {
+      list.push({ id: uid(), name: name.value.trim(), text: v, at: new Date().toISOString(), hidden: false });
+      if (!Store.set("messages", list)) return;
+    }
     form.reset(); $("#mCount").textContent = "0/600";
     toast("Mensagem enviada com carinho!");
     renderWall();
@@ -1599,13 +1791,26 @@ const Admin = {
   filter: { q: "", status: "" },
   tabs: [["resumo","Resumo"],["convidados","Convidados"],["lembretes","Lembretes"],["palpites","Palpites"],["mensagens","Mensagens"],["presentes","Presentes"],["pix","Pix"],["galeria","Galeria"],["evento","Evento e textos"]],
 
-  open() {
+  async open() {
     $("#admin").hidden = false; document.body.style.overflow = "hidden";
-    const logged = sessionStorageSafe("get", "chaRev_admin") === "1";
+    let logged = sessionStorageSafe("get", "chaRev_admin") === "1";
+    if (ONLINE) {
+      logged = false;
+      if (sb) { try { const { data: s } = await sb.auth.getSession(); logged = !!(s && s.session); } catch {} }
+      if (logged) {
+        $("#adminLogin").hidden = true; $("#adminApp").hidden = false;
+        $("#adminMain").innerHTML = `<div class="empty">Carregando...</div>`;
+        try { await loadAdmin(); } catch (e) { console.error(e); $("#adminMain").innerHTML = `<div class="empty">Não foi possível carregar os dados. Confira a internet e abra o painel de novo.</div>`; return; }
+      }
+    }
     $("#adminLogin").hidden = logged; $("#adminApp").hidden = !logged;
-    if (logged) this.render(); else setTimeout(() => $("#aPass").focus(), 50);
+    if (logged) this.render(); else setTimeout(() => $(ONLINE ? "#aEmail" : "#aPass").focus(), 50);
   },
-  close() { $("#admin").hidden = true; document.body.style.overflow = ""; if (location.hash === "#admin") history.replaceState(null, "", location.pathname + location.search); renderContent(); startCountdown(); },
+  close() {
+    $("#admin").hidden = true; document.body.style.overflow = ""; if (location.hash === "#admin") history.replaceState(null, "", location.pathname + location.search);
+    renderContent(); startCountdown();
+    if (ONLINE && sb) loadPublic().then(renderContent).catch(() => {});
+  },
 
   render() {
     $("#tabs").innerHTML = this.tabs.map(([k, l]) => `<button class="tab" role="tab" aria-selected="${k === this.tab}" data-tab="${k}">${l}</button>`).join("");
@@ -1620,9 +1825,9 @@ const Admin = {
     const conf = g.filter(x => x.status === "confirmado"), nao = g.filter(x => x.status === "nao"), pend = g.filter(x => !x.status || x.status === "pendente");
     const people = conf.reduce((s, x) => s + (+x.people || 1), 0);
     const girls = gs.filter(x => x.choice === "menina").length, boys = gs.filter(x => x.choice === "menino").length;
-    const usingDefault = cfg.adminHash === DEFAULT_CONFIG.adminHash;
+    const usingDefault = !ONLINE && cfg.adminHash === DEFAULT_CONFIG.adminHash;
     return `${usingDefault ? `<div class="alert">Você ainda está usando a senha padrão. Troque em <b>Evento e textos</b>.</div>` : ""}
-      <div class="alert info"><b>Importante:</b> nesta versão, os dados ficam salvos apenas neste navegador. Respostas enviadas pelo celular dos convidados não chegam aqui até o site ser ligado a um banco de dados online. Use <b>Evento e textos &gt; Backup</b> para guardar uma cópia.</div>
+      ${ONLINE ? "" : `<div class="alert info"><b>Importante:</b> nesta versão, os dados ficam salvos apenas neste navegador. Respostas enviadas pelo celular dos convidados não chegam aqui até o site ser ligado a um banco de dados online. Use <b>Evento e textos &gt; Backup</b> para guardar uma cópia.</div>`}
       <div class="stats">
         <div class="stat"><b>${conf.length}</b><span>confirmados</span></div>
         <div class="stat"><b>${people}</b><span>pessoas no total</span></div>
@@ -1867,7 +2072,7 @@ const Admin = {
       $("#gq", main).addEventListener("input", (e) => { this.filter.q = e.target.value; const pos = e.target.selectionStart; this.render(); const n = $("#gq"); n.focus(); n.setSelectionRange(pos, pos); });
       $("#gs", main).addEventListener("change", (e) => { this.filter.status = e.target.value; this.render(); });
       $("#csvBtn", main).addEventListener("click", () => this.exportCsv());
-      $("#addGuest", main).addEventListener("submit", (e) => {
+      $("#addGuest", main).addEventListener("submit", async (e) => {
         e.preventDefault();
         const fd = new FormData(e.target), name = String(fd.get("name")).trim(), phone = String(fd.get("phone")).trim(), email = String(fd.get("email")).trim();
         let ok = true;
@@ -1879,50 +2084,51 @@ const Admin = {
         const list = data.guests;
         if (findGuest(list, email, phone)) { toast("Já existe um convidado com esse celular ou e-mail.", true); return; }
         list.push({ id: uid(), name, phone: normPhone(phone), email: email.toLowerCase(), status: "pendente", people: 0, companions: [], consent: !!fd.get("consent"), createdAt: new Date().toISOString(), source: "admin" });
-        if (Store.set("guests", list)) { toast("Convidado adicionado como pendente."); this.render(); }
+        if (await save("guests", list)) { toast("Convidado adicionado como pendente."); this.render(); }
       });
-      main.addEventListener("change", (e) => {
+      main.addEventListener("change", async (e) => {
         const id = e.target.dataset.setStatus; if (!id) return;
         const list = data.guests, g = list.find(x => x.id === id); if (!g) return;
         g.status = e.target.value; if (g.status !== "pendente" && !g.respondedAt) g.respondedAt = new Date().toISOString();
         if (g.status === "confirmado" && !g.people) g.people = 1;
-        Store.set("guests", list); toast("Status atualizado."); this.render();
+        if (await save("guests", list)) toast("Status atualizado."); this.render();
       });
       main.addEventListener("click", async (e) => {
         const id = e.target.dataset.delGuest; if (!id) return;
         const g = data.guests.find(x => x.id === id);
         if (!await ask(`Excluir ${g ? g.name : "este convidado"}? Isso não pode ser desfeito.`)) return;
-        Store.set("guests", data.guests.filter(x => x.id !== id));
-        Store.set("guesses", data.guesses.filter(x => x.guestId !== id));
+        if (!await save("guests", data.guests.filter(x => x.id !== id))) { this.render(); return; }
+        if (ONLINE) { await Promise.all([reload("guesses"), reload("remindLog")]).catch(() => {}); }
+        else save("guesses", data.guesses.filter(x => x.guestId !== id));
         toast("Convidado excluído."); this.render();
       });
     },
     lembretes(main) {
-      $("#remCfg", main).addEventListener("submit", (e) => {
+      $("#remCfg", main).addEventListener("submit", async (e) => {
         e.preventDefault(); const fd = new FormData(e.target);
         cfg.remindFreqDays = Math.max(1, Math.min(30, +fd.get("remindFreqDays") || 3));
         cfg.remindEnd = fd.get("remindEnd") || cfg.remindEnd;
         cfg.siteUrl = safeUrl(String(fd.get("siteUrl")).trim()) || "";
         cfg.remindTemplate = String(fd.get("remindTemplate")).trim() || DEFAULT_CONFIG.remindTemplate;
-        if (saveCfg()) { toast("Lembretes salvos."); this.render(); }
+        if (await saveCfg()) { toast("Lembretes salvos."); this.render(); }
       });
-      main.addEventListener("click", (e) => {
+      main.addEventListener("click", async (e) => {
         const b = e.target.closest("[data-remind],[data-optout]"); if (!b) return;
         const list = data.guests, g = list.find(x => x.id === (b.dataset.remind || b.dataset.optout)); if (!g) return;
-        if (b.dataset.optout) { g.optOut = true; Store.set("guests", list); toast("Lembretes interrompidos para " + g.name.split(" ")[0] + "."); this.render(); return; }
+        if (b.dataset.optout) { g.optOut = true; if (!await save("guests", list)) return; toast("Lembretes interrompidos para " + g.name.split(" ")[0] + "."); this.render(); return; }
         const log = data.remindLog; log.push({ id: uid(), guestId: g.id, name: g.name, channel: b.dataset.ch, at: new Date().toISOString() });
-        Store.set("remindLog", log); toast("Lembrete registrado no histórico."); setTimeout(() => this.render(), 300);
+        if (await save("remindLog", log)) toast("Lembrete registrado no histórico."); setTimeout(() => this.render(), 300);
       });
     },
     palpites(main) {
-      $("#guessCfg", main).addEventListener("submit", (e) => {
+      $("#guessCfg", main).addEventListener("submit", async (e) => {
         e.preventDefault(); const fd = new FormData(e.target);
         cfg.guessLock = fd.get("guessLock") || cfg.guessLock; cfg.revealed = fd.get("revealed") || ""; cfg.showGuessResults = !!fd.get("showGuessResults");
-        if (saveCfg()) { toast("Configuração dos palpites salva."); this.render(); }
+        if (await saveCfg()) { toast("Configuração dos palpites salva."); this.render(); }
       });
       main.addEventListener("click", async (e) => {
         const id = e.target.dataset.delGuess; if (!id || !await ask("Excluir este palpite?")) return;
-        Store.set("guesses", data.guesses.filter(x => x.id !== id)); this.render();
+        await save("guesses", data.guesses.filter(x => x.id !== id)); this.render();
       });
     },
     mensagens(main) {
@@ -1932,7 +2138,7 @@ const Admin = {
         let list = data.messages;
         if (h) { const m = list.find(x => x.id === h); if (m) m.hidden = !m.hidden; }
         if (d) { if (!await ask("Excluir esta mensagem? Isso não pode ser desfeito.")) return; list = list.filter(x => x.id !== d); }
-        Store.set("messages", list); this.render();
+        await save("messages", list); this.render();
       });
     },
     presentes(main) {
@@ -1942,7 +2148,7 @@ const Admin = {
         const f = e.target.files[0]; if (!f) return;
         try { fileData = await resizeImage(f, 600, .8); toast("Imagem pronta. Clique em salvar."); } catch { toast("Não foi possível ler essa imagem.", true); }
       });
-      form.addEventListener("submit", (e) => {
+      form.addEventListener("submit", async (e) => {
         e.preventDefault(); const fd = new FormData(form);
         const name = String(fd.get("name")).trim(), url = String(fd.get("url")).trim();
         let ok = true;
@@ -1954,20 +2160,20 @@ const Admin = {
         if (!g) { g = { id: uid() }; list.push(g); }
         const imgUrl = String(fd.get("img")).trim();
         Object.assign(g, { name, cat: String(fd.get("cat") || "outros"), url: safeUrl(url), desc: String(fd.get("desc")).trim(), img: fileData || (imgUrl ? safeUrl(imgUrl) : (g.img && g.img.startsWith("data:") ? g.img : "")) });
-        if (Store.set("gifts", list)) { toast(this.editingGift ? "Presente atualizado." : "Presente adicionado."); this.editingGift = null; this.render(); }
+        if (await save("gifts", list)) { toast(this.editingGift ? "Presente atualizado." : "Presente adicionado."); this.editingGift = null; this.render(); }
       });
       const cancel = $("#gfCancel", main); if (cancel) cancel.addEventListener("click", () => { this.editingGift = null; this.render(); });
       main.addEventListener("click", async (e) => {
         const ed = e.target.dataset.editGift, del = e.target.dataset.delGift;
         if (ed) { this.editingGift = ed; this.render(); window.scrollTo(0, 0); $("#admin").scrollTop = 0; }
-        if (del && await ask("Remover este presente da lista?")) { Store.set("gifts", data.gifts.filter(x => x.id !== del)); this.render(); }
+        if (del && await ask("Remover este presente da lista?")) { await save("gifts", data.gifts.filter(x => x.id !== del)); this.render(); }
       });
     },
     pix(main) {
-      $("#pixForm", main).addEventListener("submit", (e) => {
+      $("#pixForm", main).addEventListener("submit", async (e) => {
         e.preventDefault(); const fd = new FormData(e.target);
         ["pixKey", "pixName", "pixCity", "pixText", "pixCardTitle", "pixCardDesc"].forEach(k => cfg[k] = String(fd.get(k)).trim());
-        if (saveCfg()) toast("Dados do Pix salvos.");
+        if (await saveCfg()) toast("Dados do Pix salvos.");
       });
     },
     galeria(main) {
@@ -1984,17 +2190,17 @@ const Admin = {
         }
         if (url) { list.push({ id: uid(), src: safeUrl(url), caption: cap, at: new Date().toISOString() }); added++; }
         btn.classList.remove("is-loading");
-        if (added && Store.set("photos", list)) { toast(`${added} foto(s) adicionada(s).`); this.render(); }
+        if (added && await save("photos", list)) { toast(`${added} foto(s) adicionada(s).`); this.render(); }
       });
       main.addEventListener("click", async (e) => {
         const del = e.target.dataset.delPhoto, cap = e.target.dataset.capPhoto;
         const list = data.photos;
-        if (del && await ask("Remover esta foto?")) { Store.set("photos", list.filter(x => x.id !== del)); this.render(); }
-        if (cap) { const p = list.find(x => x.id === cap); const v = await ask("Legenda da foto:", { input: p.caption || "", ok: "Salvar" }); if (v != null) { p.caption = v.trim().slice(0, 100); Store.set("photos", list); this.render(); } }
+        if (del && await ask("Remover esta foto?")) { await save("photos", list.filter(x => x.id !== del)); this.render(); }
+        if (cap) { const p = list.find(x => x.id === cap); const v = await ask("Legenda da foto:", { input: p.caption || "", ok: "Salvar" }); if (v != null) { p.caption = v.trim().slice(0, 100); await save("photos", list); this.render(); } }
       });
     },
     evento(main) {
-      $("#evForm", main).addEventListener("submit", (e) => {
+      $("#evForm", main).addEventListener("submit", async (e) => {
         e.preventDefault(); const fd = new FormData(e.target);
         if (!fd.get("date") || !fd.get("time")) { toast("Data e horário são obrigatórios.", true); return; }
         const pBad = fd.get("contactPhone") && !validPhone(fd.get("contactPhone"));
@@ -2004,7 +2210,7 @@ const Admin = {
         cfg.mapsLink = safeUrl(String(fd.get("mapsLink") || "").trim());
         cfg.maxPeople = Math.max(1, Math.min(20, +fd.get("maxPeople") || 1));
         cfg.allowCompanions = !!fd.get("allowCompanions");
-        if (saveCfg()) toast("Evento atualizado.");
+        if (await saveCfg()) toast("Evento atualizado.");
       });
       $("#passForm", main).addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -2012,7 +2218,13 @@ const Admin = {
         setErr($("#np1"), $("#np1Err"), a.length < 6 ? "Use pelo menos 6 caracteres." : "");
         setErr($("#np2"), $("#np2Err"), a !== b ? "As senhas não são iguais." : "");
         if (a.length < 6 || a !== b) return;
-        cfg.adminHash = await sha256(a); if (saveCfg()) { toast("Senha trocada."); e.target.reset(); }
+        if (ONLINE) {
+          if (!needDb()) return;
+          const { error } = await sb.auth.updateUser({ password: a });
+          if (error) { toast(/different|same/i.test(error.message || "") ? "A nova senha precisa ser diferente da atual." : "Não foi possível trocar a senha agora.", true); return; }
+          toast("Senha trocada."); e.target.reset(); return;
+        }
+        cfg.adminHash = await sha256(a); if (await saveCfg()) { toast("Senha trocada."); e.target.reset(); }
       });
       $("#bkDown", main).addEventListener("click", () => {
         const dump = { version: 1, exportedAt: new Date().toISOString(), config: cfg, guests: data.guests, guesses: data.guesses, messages: data.messages, gifts: data.gifts, photos: data.photos, remindLog: data.remindLog };
@@ -2025,18 +2237,30 @@ const Admin = {
           try {
             const d = JSON.parse(r.result);
             if (!d || typeof d !== "object" || !d.config) throw new Error();
-            if (!await ask("Restaurar este backup? Os dados atuais deste navegador serão substituídos.")) return;
-            ["guests","guesses","messages","gifts","photos","remindLog"].forEach(k => Array.isArray(d[k]) && Store.set(k, d[k]));
-            cfg = Object.assign({}, DEFAULT_CONFIG, d.config); saveCfg();
-            toast("Backup restaurado."); this.render();
+            if (!await ask(ONLINE ? "Restaurar este backup? Os dados atuais do site serão substituídos pelos do arquivo." : "Restaurar este backup? Os dados atuais deste navegador serão substituídos.")) return;
+            const keys = ["guests","guesses","messages","gifts","photos","remindLog"];
+            if (ONLINE) {
+              // Backups do modo local usam ids curtos; o banco precisa de uuid.
+              const ids = {}, fix = (v) => v == null ? v : isUuid(v) ? v : (ids[v] = ids[v] || uid());
+              keys.forEach(k => Array.isArray(d[k]) && d[k].forEach(o => { o.id = fix(o.id); if ("guestId" in o) o.guestId = fix(o.guestId); }));
+            }
+            let okAll = true;
+            for (const k of keys) if (Array.isArray(d[k]) && !await save(k, d[k])) okAll = false;
+            const { adminHash, ...restCfg } = d.config;
+            cfg = Object.assign({}, DEFAULT_CONFIG, restCfg, ONLINE ? { giftsSeeded: true } : { adminHash: adminHash || cfg.adminHash });
+            if (!await saveCfg()) okAll = false;
+            if (ONLINE) await loadAdmin().catch(() => {});
+            toast(okAll ? "Backup restaurado." : "Parte do backup não foi restaurada. Tente de novo.", !okAll); this.render();
           } catch { toast("Esse arquivo não é um backup válido.", true); }
         };
         r.onerror = () => toast("Não foi possível ler o arquivo.", true);
         r.readAsText(f);
       });
       $("#bkReset", main).addEventListener("click", async () => {
-        if (!await ask("Apagar todos os convidados, palpites, mensagens e histórico de lembretes deste navegador? Configurações, presentes e fotos ficam.")) return;
-        ["guests","guesses","messages","remindLog"].forEach(k => Store.set(k, []));
+        if (!await ask(ONLINE ? "Apagar todos os convidados, palpites, mensagens e histórico de lembretes do site? Configurações, presentes e fotos ficam. Isso não pode ser desfeito." : "Apagar todos os convidados, palpites, mensagens e histórico de lembretes deste navegador? Configurações, presentes e fotos ficam.")) return;
+        for (const k of ["guests","guesses","messages","remindLog"]) await save(k, []);
+        if (ONLINE) await loadAdmin().catch(() => {});
+        try { localStorage.removeItem(Store.prefix + "meRec"); } catch {}
         try { localStorage.removeItem(Store.prefix + "me"); } catch {}
         toast("Respostas apagadas."); this.render();
       });
@@ -2078,12 +2302,32 @@ function resizeImage(file, max, quality) {
 function setupAdmin() {
   $("#adminLink").addEventListener("click", () => { history.replaceState(null, "", "#admin"); Admin.open(); });
   $$("[data-admin-exit]").forEach(b => b.addEventListener("click", () => Admin.close()));
-  $("#logoutBtn").addEventListener("click", () => { sessionStorageSafe("del", "chaRev_admin"); Admin.close(); });
+  $("#logoutBtn").addEventListener("click", async () => { sessionStorageSafe("del", "chaRev_admin"); if (ONLINE && sb) { try { await sb.auth.signOut(); } catch {} } Admin.close(); });
+  $("#refreshBtn").hidden = !ONLINE;
+  $("#refreshBtn").addEventListener("click", async (e) => {
+    const b = e.currentTarget; b.disabled = true;
+    try { await loadAdmin(); Admin.render(); toast("Dados atualizados."); } catch { toast(errMsg("network"), true); }
+    b.disabled = false;
+  });
+  if (ONLINE) { $("#aEmailField").hidden = false; $("#loginLead").textContent = "Entre com o e-mail e a senha de organizador."; }
   $("#tabs").addEventListener("click", (e) => { const t = e.target.dataset.tab; if (t) { Admin.tab = t; Admin.editingGift = null; Admin.render(); $("#admin").scrollTop = 0; } });
   let attempts = 0;
   $("#loginForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     const pass = $("#aPass").value;
+    if (ONLINE) {
+      const email = $("#aEmail").value.trim();
+      setErr($("#aEmail"), $("#aEmailErr"), email ? "" : "Digite seu e-mail.");
+      setErr($("#aPass"), $("#aPassErr"), pass ? "" : "Digite a senha.");
+      if (!email || !pass || !needDb()) return;
+      const btn = $('button[type="submit"]', e.target); btn.classList.add("is-loading");
+      const { error } = await sb.auth.signInWithPassword({ email, password: pass });
+      btn.classList.remove("is-loading");
+      if (error) { setErr($("#aPass"), $("#aPassErr"), /invalid/i.test(error.message || "") ? "E-mail ou senha incorretos." : "Não foi possível entrar agora. Tente de novo."); return; }
+      $("#aPass").value = "";
+      Admin.open();
+      return;
+    }
     if (!pass) { setErr($("#aPass"), $("#aPassErr"), "Digite a senha."); return; }
     if (attempts >= 5) { setErr($("#aPass"), $("#aPassErr"), "Muitas tentativas. Recarregue a página e tente de novo."); return; }
     let hash;
@@ -2111,7 +2355,10 @@ async function init() {
   renderContent();
   startCountdown();
   setupChrome(); setupRsvp(); setupGuess(); setupMessages(); setupGallery(); setupAdmin();
-  if (!Store.ok) toast("Seu navegador está bloqueando o armazenamento. Suas respostas podem não ser salvas.", true);
+  if (ONLINE) {
+    if (!sb) toast("Não foi possível conectar. Recarregue a página.", true);
+    else loadPublic().then(() => { renderContent(); startCountdown(); }).catch(e => { console.error(e); toast("Não foi possível carregar tudo. Confira a internet e recarregue a página.", true); });
+  } else if (!Store.ok) toast("Seu navegador está bloqueando o armazenamento. Suas respostas podem não ser salvas.", true);
   // Se já respondeu neste aparelho, preenche o formulário para facilitar uma alteração.
   const me = myGuest();
   if (me) {
