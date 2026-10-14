@@ -308,10 +308,15 @@ a.gift-row:hover .gr-go{background:var(--tan);color:#fff;border-color:var(--tan)
 .gr-meta{font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--brown-3)}
 .gr-go{display:inline-flex;align-items:center;gap:2px;padding:6px 10px 6px 14px;border:1px solid var(--beige-2);border-radius:999px;font-size:.92rem;color:var(--brown);white-space:nowrap;transition:all .2s}
 .gr-go .ico{width:16px;height:16px}
+.is-taken .gr-thumb,.is-taken .gcard-img{opacity:.45;filter:grayscale(.6)}
+.is-taken .gr-name,.is-taken .gcard-name{color:var(--brown-3)}
+.gr-taken{border-style:dashed;color:var(--brown-3);padding:6px 12px;font-size:.86rem}
+.gflag{position:absolute;top:10px;left:10px;background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:3px 10px;font-size:.8rem;color:var(--brown);box-shadow:var(--shadow)}
+.gflag.mine{background:var(--tan);border-color:var(--tan);color:#fff}
 /* Presentes em destaque (página inicial) */
 .gift-feat{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 @media (min-width:760px){.gift-feat{grid-template-columns:repeat(4,minmax(0,1fr))}}
-.gcard{display:flex;flex-direction:column;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;color:var(--brown);text-decoration:none;box-shadow:var(--shadow);transition:transform .2s var(--ease),border-color .2s}
+.gcard{position:relative;display:flex;flex-direction:column;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;color:var(--brown);text-decoration:none;box-shadow:var(--shadow);transition:transform .2s var(--ease),border-color .2s}
 a.gcard:hover{transform:translateY(-2px);border-color:var(--beige-2)}
 .gcard-img{aspect-ratio:1;background:linear-gradient(160deg,var(--off),var(--beige));display:grid;place-items:center;color:var(--brown-3);overflow:hidden}
 .gcard-img img{width:100%;height:100%;object-fit:cover}
@@ -613,6 +618,12 @@ td .acts{display:flex;gap:6px;flex-wrap:wrap}
           <div class="comp-list" id="compList"></div>
           <button type="button" class="btn btn-sm btn-ghost" id="compAdd">+ Adicionar acompanhante</button>
         </fieldset>
+        <div class="field" id="giftField" hidden>
+          <label for="rGift">Qual presente você vai levar?</label>
+          <select class="select" id="rGift" name="gift" aria-describedby="rGiftHint rGiftErr"></select>
+          <span class="hint" id="rGiftHint">Alguns itens são únicos e saem da lista quando alguém escolhe. Se mudar de ideia, é só responder de novo. <a href="#lista-presentes" data-gp-open>Ver a lista com fotos</a></span>
+          <span class="err" id="rGiftErr"></span>
+        </div>
         <div class="dup" id="dupNotice" hidden role="alert" tabindex="-1"></div>
         <label class="check" style="margin-bottom:16px"><input type="checkbox" name="consent" id="rConsent"> <span>Aceito receber um lembrete sobre o chá no meu celular ou e-mail. Posso pedir para parar a qualquer momento.</span></label>
         <button class="btn btn-block" type="submit">Enviar resposta</button>
@@ -883,59 +894,63 @@ const DEFAULT_CONFIG = {
 
 // Aumente este número ao trocar DEFAULT_GIFTS: o site passa a mostrar a lista nova
 // e, quando um organizador abrir o painel, ela substitui a que está no banco.
-const GIFTS_VERSION = 10;
-// Destaques da página inicial que acompanham a lista DEFAULT_GIFTS (ids de lá)
-const DEFAULT_FEATURED = ["n47", "n46", "n29", "n3"];
+const GIFTS_VERSION = 11;
+// Id fixo (formato uuid) de cada item da lista padrão: o presente escolhido por um
+// convidado continua valendo quando a lista é regravada no banco.
+function giftId(n) { return "00000000-0000-4000-8000-" + String(n).padStart(12, "0"); }
+// Destaques da página inicial e itens únicos (só uma pessoa pode escolher), pelo número na lista padrão
+const DEFAULT_FEATURED = [47, 46, 29, 3].map(giftId);
+const DEFAULT_UNIQUE = [1, 2, 3, 4, 5, 6, 7, 11, 13, 14, 16, 17, 23, 24, 43, 44].map(giftId);
 const GIFT_LABELS = { roupas: "Roupinhas e conjuntos", acessorios: "Meias, toucas e calçados", higiene: "Higiene e acessórios", outros: "Outros presentes" };
 const GIFT_SHORT = { roupas: "Roupinhas", acessorios: "Meias e calçados", higiene: "Higiene", outros: "Outros" };
 const FEATURED_MAX = 4;
 const DEFAULT_GIFTS = [
-  { id: "n1", cat: "Alimentação", name: "Bomba tira-leite elétrica", desc: "", img: "img/presentes/01.jpg", url: "https://s.shopee.com.br/1LgUlY3oht" },
-  { id: "n2", cat: "Quarto e sono", name: "Berço multifuncional", desc: "", img: "img/presentes/02.jpg", url: "https://s.shopee.com.br/4VdWXSG4UH" },
-  { id: "n3", cat: "Quarto e sono", name: "Naninha com cobertor ursinho", desc: "", img: "img/presentes/03.jpg", url: "https://s.shopee.com.br/9pf2tNSCsY" },
-  { id: "n4", cat: "Brinquedos e livros", name: "Livro de super contraste Vamos Dormir", desc: "", img: "img/presentes/04.jpg", url: "https://s.shopee.com.br/6fi17wm65q" },
-  { id: "n5", cat: "Quarto e sono", name: "Kit cabides de bebê", desc: "", img: "img/presentes/05.jpg", url: "https://s.shopee.com.br/1gJLAt1y9j" },
-  { id: "n6", cat: "Brinquedos e livros", name: "Espelho de atividades sensorial", desc: "", img: "img/presentes/06.jpg", url: "https://s.shopee.com.br/9APM6hlfgr" },
-  { id: "n7", cat: "Brinquedos e livros", name: "Tapete de água sensorial", desc: "", img: "img/presentes/07.jpg", url: "https://s.shopee.com.br/5q8u8c25eQ" },
-  { id: "n8", cat: "Roupinhas", name: "Kit meias RN 3 pares", desc: "", img: "img/presentes/08.jpg", url: "https://s.shopee.com.br/9pf2u2gIze" },
-  { id: "n9", cat: "Roupinhas", name: "Charutinho para bebê", desc: "", img: "img/presentes/09.jpg", url: "https://s.shopee.com.br/4fwwkc7E7t" },
-  { id: "n10", cat: "Banho e higiene", name: "Lixeira anti odor para fraldas", desc: "", img: "img/presentes/10.jpg", url: "https://s.shopee.com.br/qkEBcl90v" },
-  { id: "n11", cat: "Passeio", name: "Bolsa mini berço portátil", desc: "", img: "img/presentes/11.jpg", url: "https://s.shopee.com.br/80DOiud23r" },
-  { id: "n12", cat: "Banho e higiene", name: "Ofurô baby", desc: "", img: "img/presentes/12.jpg", url: "https://s.shopee.com.br/8fT5WF7CQL" },
-  { id: "n13", cat: "Quarto e sono", name: "Babá eletrônica com câmera", desc: "", img: "img/presentes/13.jpg", url: "https://s.shopee.com.br/4B0gA34iCO" },
-  { id: "n14", cat: "Quarto e sono", name: "Ruído branco com luz noturna", desc: "", img: "img/presentes/14.jpg", url: "https://s.shopee.com.br/AKbJVTwLIm" },
-  { id: "n15", cat: "Roupinhas", name: "Macacão branco com capuz de ursinho", desc: "", img: "img/presentes/15.jpg", url: "https://s.shopee.com.br/1VzuzOHXF3" },
-  { id: "n16", cat: "Quarto e sono", name: "Cadeira de balanço elétrica", desc: "", img: "img/presentes/16.jpg", url: "https://s.shopee.com.br/7VH88Vns1K" },
-  { id: "n17", cat: "Alimentação", name: "Kit mamadeira anticólica", desc: "", img: "img/presentes/17.jpg", url: "https://s.shopee.com.br/1BN4b5fzpp" },
-  { id: "n19", cat: "Banho e higiene", name: "Sabonete líquido Mustela", desc: "", img: "img/presentes/19.jpg", url: "https://s.shopee.com.br/4B0gAyPcE8" },
-  { id: "n20", cat: "Banho e higiene", name: "Aspirador nasal", desc: "", img: "img/presentes/20.jpg", url: "https://s.shopee.com.br/4fwwm0Kx9v" },
-  { id: "n21", cat: "Banho e higiene", name: "Kit higiene infantil 5 peças", desc: "", img: "img/presentes/21.jpg", url: "https://s.shopee.com.br/6L5AlJzD0y" },
-  { id: "n22", cat: "Banho e higiene", name: "Lixa de unha elétrica para bebê", desc: "", img: "img/presentes/22.jpg", url: "https://a.co/d/0cYcdzh9" },
-  { id: "n23", cat: "Alimentação", name: "Cadeira de alimentação", desc: "", img: "img/presentes/23.jpg", url: "https://s.shopee.com.br/30oioAremj" },
-  { id: "n24", cat: "Alimentação", name: "Esterilizador de mamadeiras", desc: "", img: "img/presentes/24.jpg", url: "https://s.shopee.com.br/4qGMzdr7cZ" },
-  { id: "n25", cat: "Roupinhas", name: "Pantufa baby de ursinho", desc: "", img: "img/presentes/25.jpg", url: "https://www.lojasrenner.com.br/p/-/A-930128916-br.lr?sku=930130098" },
-  { id: "n26", cat: "Banho e higiene", name: "Termômetro de banho", desc: "", img: "img/presentes/26.jpg", url: "https://s.shopee.com.br/1qclQIXdGZ" },
-  { id: "n27", cat: "Banho e higiene", name: "Toalha de banho com capuz", desc: "", img: "img/presentes/27.jpg", url: "https://s.shopee.com.br/6fi1BGM9KL" },
-  { id: "n28", cat: "Banho e higiene", name: "Escovinha de dente massageadora", desc: "", img: "img/presentes/28.jpg", url: "https://s.shopee.com.br/6fi1BJyOhV" },
-  { id: "n29", cat: "Roupinhas", name: "Kit 5 bodies brancos manga curta RN", desc: "", img: "img/presentes/29.jpg", url: "https://www.riachuelo.com.br/kit-body-bebe-5-pecas-manga-curta-lisos-branco-carter-s-14097524_sku_sku?utm_source=app_share" },
-  { id: "n30", cat: "Roupinhas", name: "Kit 4 bodies brancos manga longa", desc: "", img: "img/presentes/30.jpg", url: "https://www.riachuelo.com.br/kit-body-bebe-carter-s-4-pecas-branco-14097591_sku?utm_source=app_share" },
-  { id: "n31", cat: "Roupinhas", name: "Kit calças brancas", desc: "", img: "img/presentes/31.jpg", url: "https://s.shopee.com.br/2LZ21ZVi55" },
-  { id: "n32", cat: "Roupinhas", name: "Kit luva, meia e touca", desc: "", img: "img/presentes/32.jpg", url: "https://s.shopee.com.br/7AeHmfyr7Q" },
-  { id: "n33", cat: "Roupinhas", name: "Kit calças tamanho P", desc: "", img: "img/presentes/33.jpg", url: "https://s.shopee.com.br/5fpTzz7UFk" },
-  { id: "n34", cat: "Roupinhas", name: "Fraldinhas de boca bege", desc: "", img: "img/presentes/34.jpg", url: "https://s.shopee.com.br/9KimyPmVRH" },
-  { id: "n35", cat: "Banho e higiene", name: "Pacotes de algodão", desc: "", img: "img/presentes/35.jpg", url: "https://s.shopee.com.br/9Kimyc3j4q" },
-  { id: "n36", cat: "Banho e higiene", name: "Sabonete Johnson's Derma Protect", desc: "", img: "img/presentes/36.jpg", url: "https://s.shopee.com.br/6L5BPEKe5o" },
-  { id: "n37", cat: "Banho e higiene", name: "Hidratante Johnson's Derma Protect", desc: "", img: "img/presentes/37.jpg", url: "https://s.shopee.com.br/1qcm2zJIl1" },
-  { id: "n38", cat: "Banho e higiene", name: "Pomada para assaduras", desc: "", img: "img/presentes/38.jpg", url: "https://s.shopee.com.br/30ojRBiVxF" },
-  { id: "n39", cat: "Banho e higiene", name: "Água de limpeza", desc: "", img: "img/presentes/39.jpg", url: "https://s.shopee.com.br/7AeIP9phxI" },
-  { id: "n40", cat: "Banho e higiene", name: "Lenços umedecidos", desc: "", img: "img/presentes/40.jpg", url: "https://s.shopee.com.br/6AllDYNGMU" },
-  { id: "n41", cat: "Banho e higiene", name: "Creme Weleda para prevenir assaduras", desc: "", img: "img/presentes/41.jpg", url: "https://s.shopee.com.br/AUukNu1TEQ" },
-  { id: "n43", cat: "Passeio", name: "Mini ventilador para berço e carrinho", desc: "", img: "img/presentes/43.jpg", url: "https://s.shopee.com.br/7ptzWq7T13" },
-  { id: "n44", cat: "Passeio", name: "Sling", desc: "", img: "img/presentes/44.jpg", url: "https://s.shopee.com.br/5q8v9GLSL4" },
-  { id: "n46", cat: "Banho e higiene", name: "Kit colônia e sabonetes Mamãe e Bebê Natura", desc: "", img: "img/presentes/46.jpg", url: "https://www.natura.com.br/p/kit-agua-de-colonia-infantil-0-a-3-anos-mamae-e-bebe--sabonetes-em-barra-puro-vegetal-mamae-e-bebe--caixa-personalizada-mamae-e-bebe-4-produtos/NATBRA-277942" },
-  { id: "n47", cat: "Fraldas", name: "Fraldas Pampers Premium Care", desc: "Tamanho M ou G", img: "img/presentes/47.jpg", url: "" },
-  { id: "n48", cat: "Fraldas", name: "Fraldas Huggies Dermacare", desc: "Tamanho M ou G", img: "img/presentes/48.jpg", url: "" },
-  { id: "n49", cat: "Fraldas", name: "Fraldas Babysec Premium", desc: "Tamanho M ou G", img: "img/presentes/49.jpg", url: "" }
+  { id: giftId(1), cat: "Alimentação", name: "Bomba tira-leite elétrica", desc: "", img: "img/presentes/01.jpg", url: "https://s.shopee.com.br/1LgUlY3oht" },
+  { id: giftId(2), cat: "Quarto e sono", name: "Berço multifuncional", desc: "", img: "img/presentes/02.jpg", url: "https://s.shopee.com.br/4VdWXSG4UH" },
+  { id: giftId(3), cat: "Quarto e sono", name: "Naninha com cobertor ursinho", desc: "", img: "img/presentes/03.jpg", url: "https://s.shopee.com.br/9pf2tNSCsY" },
+  { id: giftId(4), cat: "Brinquedos e livros", name: "Livro de super contraste Vamos Dormir", desc: "", img: "img/presentes/04.jpg", url: "https://s.shopee.com.br/6fi17wm65q" },
+  { id: giftId(5), cat: "Quarto e sono", name: "Kit cabides de bebê", desc: "", img: "img/presentes/05.jpg", url: "https://s.shopee.com.br/1gJLAt1y9j" },
+  { id: giftId(6), cat: "Brinquedos e livros", name: "Espelho de atividades sensorial", desc: "", img: "img/presentes/06.jpg", url: "https://s.shopee.com.br/9APM6hlfgr" },
+  { id: giftId(7), cat: "Brinquedos e livros", name: "Tapete de água sensorial", desc: "", img: "img/presentes/07.jpg", url: "https://s.shopee.com.br/5q8u8c25eQ" },
+  { id: giftId(8), cat: "Roupinhas", name: "Kit meias RN 3 pares", desc: "", img: "img/presentes/08.jpg", url: "https://s.shopee.com.br/9pf2u2gIze" },
+  { id: giftId(9), cat: "Roupinhas", name: "Charutinho para bebê", desc: "", img: "img/presentes/09.jpg", url: "https://s.shopee.com.br/4fwwkc7E7t" },
+  { id: giftId(10), cat: "Banho e higiene", name: "Lixeira anti odor para fraldas", desc: "", img: "img/presentes/10.jpg", url: "https://s.shopee.com.br/qkEBcl90v" },
+  { id: giftId(11), cat: "Passeio", name: "Bolsa mini berço portátil", desc: "", img: "img/presentes/11.jpg", url: "https://s.shopee.com.br/80DOiud23r" },
+  { id: giftId(12), cat: "Banho e higiene", name: "Ofurô baby", desc: "", img: "img/presentes/12.jpg", url: "https://s.shopee.com.br/8fT5WF7CQL" },
+  { id: giftId(13), cat: "Quarto e sono", name: "Babá eletrônica com câmera", desc: "", img: "img/presentes/13.jpg", url: "https://s.shopee.com.br/4B0gA34iCO" },
+  { id: giftId(14), cat: "Quarto e sono", name: "Ruído branco com luz noturna", desc: "", img: "img/presentes/14.jpg", url: "https://s.shopee.com.br/AKbJVTwLIm" },
+  { id: giftId(15), cat: "Roupinhas", name: "Macacão branco com capuz de ursinho", desc: "", img: "img/presentes/15.jpg", url: "https://s.shopee.com.br/1VzuzOHXF3" },
+  { id: giftId(16), cat: "Quarto e sono", name: "Cadeira de balanço elétrica", desc: "", img: "img/presentes/16.jpg", url: "https://s.shopee.com.br/7VH88Vns1K" },
+  { id: giftId(17), cat: "Alimentação", name: "Kit mamadeira anticólica", desc: "", img: "img/presentes/17.jpg", url: "https://s.shopee.com.br/1BN4b5fzpp" },
+  { id: giftId(19), cat: "Banho e higiene", name: "Sabonete líquido Mustela", desc: "", img: "img/presentes/19.jpg", url: "https://s.shopee.com.br/4B0gAyPcE8" },
+  { id: giftId(20), cat: "Banho e higiene", name: "Aspirador nasal", desc: "", img: "img/presentes/20.jpg", url: "https://s.shopee.com.br/4fwwm0Kx9v" },
+  { id: giftId(21), cat: "Banho e higiene", name: "Kit higiene infantil 5 peças", desc: "", img: "img/presentes/21.jpg", url: "https://s.shopee.com.br/6L5AlJzD0y" },
+  { id: giftId(22), cat: "Banho e higiene", name: "Lixa de unha elétrica para bebê", desc: "", img: "img/presentes/22.jpg", url: "https://a.co/d/0cYcdzh9" },
+  { id: giftId(23), cat: "Alimentação", name: "Cadeira de alimentação", desc: "", img: "img/presentes/23.jpg", url: "https://s.shopee.com.br/30oioAremj" },
+  { id: giftId(24), cat: "Alimentação", name: "Esterilizador de mamadeiras", desc: "", img: "img/presentes/24.jpg", url: "https://s.shopee.com.br/4qGMzdr7cZ" },
+  { id: giftId(25), cat: "Roupinhas", name: "Pantufa baby de ursinho", desc: "", img: "img/presentes/25.jpg", url: "https://www.lojasrenner.com.br/p/-/A-930128916-br.lr?sku=930130098" },
+  { id: giftId(26), cat: "Banho e higiene", name: "Termômetro de banho", desc: "", img: "img/presentes/26.jpg", url: "https://s.shopee.com.br/1qclQIXdGZ" },
+  { id: giftId(27), cat: "Banho e higiene", name: "Toalha de banho com capuz", desc: "", img: "img/presentes/27.jpg", url: "https://s.shopee.com.br/6fi1BGM9KL" },
+  { id: giftId(28), cat: "Banho e higiene", name: "Escovinha de dente massageadora", desc: "", img: "img/presentes/28.jpg", url: "https://s.shopee.com.br/6fi1BJyOhV" },
+  { id: giftId(29), cat: "Roupinhas", name: "Kit 5 bodies brancos manga curta RN", desc: "", img: "img/presentes/29.jpg", url: "https://www.riachuelo.com.br/kit-body-bebe-5-pecas-manga-curta-lisos-branco-carter-s-14097524_sku_sku?utm_source=app_share" },
+  { id: giftId(30), cat: "Roupinhas", name: "Kit 4 bodies brancos manga longa", desc: "", img: "img/presentes/30.jpg", url: "https://www.riachuelo.com.br/kit-body-bebe-carter-s-4-pecas-branco-14097591_sku?utm_source=app_share" },
+  { id: giftId(31), cat: "Roupinhas", name: "Kit calças brancas", desc: "", img: "img/presentes/31.jpg", url: "https://s.shopee.com.br/2LZ21ZVi55" },
+  { id: giftId(32), cat: "Roupinhas", name: "Kit luva, meia e touca", desc: "", img: "img/presentes/32.jpg", url: "https://s.shopee.com.br/7AeHmfyr7Q" },
+  { id: giftId(33), cat: "Roupinhas", name: "Kit calças tamanho P", desc: "", img: "img/presentes/33.jpg", url: "https://s.shopee.com.br/5fpTzz7UFk" },
+  { id: giftId(34), cat: "Roupinhas", name: "Fraldinhas de boca bege", desc: "", img: "img/presentes/34.jpg", url: "https://s.shopee.com.br/9KimyPmVRH" },
+  { id: giftId(35), cat: "Banho e higiene", name: "Pacotes de algodão", desc: "", img: "img/presentes/35.jpg", url: "https://s.shopee.com.br/9Kimyc3j4q" },
+  { id: giftId(36), cat: "Banho e higiene", name: "Sabonete Johnson's Derma Protect", desc: "", img: "img/presentes/36.jpg", url: "https://s.shopee.com.br/6L5BPEKe5o" },
+  { id: giftId(37), cat: "Banho e higiene", name: "Hidratante Johnson's Derma Protect", desc: "", img: "img/presentes/37.jpg", url: "https://s.shopee.com.br/1qcm2zJIl1" },
+  { id: giftId(38), cat: "Banho e higiene", name: "Pomada para assaduras", desc: "", img: "img/presentes/38.jpg", url: "https://s.shopee.com.br/30ojRBiVxF" },
+  { id: giftId(39), cat: "Banho e higiene", name: "Água de limpeza", desc: "", img: "img/presentes/39.jpg", url: "https://s.shopee.com.br/7AeIP9phxI" },
+  { id: giftId(40), cat: "Banho e higiene", name: "Lenços umedecidos", desc: "", img: "img/presentes/40.jpg", url: "https://s.shopee.com.br/6AllDYNGMU" },
+  { id: giftId(41), cat: "Banho e higiene", name: "Creme Weleda para prevenir assaduras", desc: "", img: "img/presentes/41.jpg", url: "https://s.shopee.com.br/AUukNu1TEQ" },
+  { id: giftId(43), cat: "Passeio", name: "Mini ventilador para berço e carrinho", desc: "", img: "img/presentes/43.jpg", url: "https://s.shopee.com.br/7ptzWq7T13" },
+  { id: giftId(44), cat: "Passeio", name: "Sling", desc: "", img: "img/presentes/44.jpg", url: "https://s.shopee.com.br/5q8v9GLSL4" },
+  { id: giftId(46), cat: "Banho e higiene", name: "Kit colônia e sabonetes Mamãe e Bebê Natura", desc: "", img: "img/presentes/46.jpg", url: "https://www.natura.com.br/p/kit-agua-de-colonia-infantil-0-a-3-anos-mamae-e-bebe--sabonetes-em-barra-puro-vegetal-mamae-e-bebe--caixa-personalizada-mamae-e-bebe-4-produtos/NATBRA-277942" },
+  { id: giftId(47), cat: "Fraldas", name: "Fraldas Pampers Premium Care", desc: "Tamanho M ou G", img: "img/presentes/47.jpg", url: "" },
+  { id: giftId(48), cat: "Fraldas", name: "Fraldas Huggies Dermacare", desc: "Tamanho M ou G", img: "img/presentes/48.jpg", url: "" },
+  { id: giftId(49), cat: "Fraldas", name: "Fraldas Babysec Premium", desc: "Tamanho M ou G", img: "img/presentes/49.jpg", url: "" }
 ];
 
 /* =========================================================
@@ -1041,7 +1056,7 @@ function structuredCloneSafe(v) { return v === undefined ? v : JSON.parse(JSON.s
 const ONLINE = !!(SUPABASE_URL && SUPABASE_ANON_KEY);
 const sb = ONLINE && window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 const TABLES = {
-  guests: { t: "guests", cols: { id: "id", name: "name", email: "email", phone: "phone", status: "status", companions: "companions", people: "people", consent: "consent", optOut: "opt_out", source: "source", respondedAt: "responded_at", createdAt: "created_at" } },
+  guests: { t: "guests", cols: { id: "id", name: "name", email: "email", phone: "phone", status: "status", companions: "companions", people: "people", consent: "consent", optOut: "opt_out", source: "source", respondedAt: "responded_at", createdAt: "created_at", giftId: "gift_id", giftName: "gift_name" } },
   guesses: { t: "guesses", cols: { id: "id", guestId: "guest_id", deviceId: "device_id", name: "name", choice: "choice", at: "created_at", updatedAt: "updated_at" } },
   messages: { t: "messages", cols: { id: "id", name: "name", text: "text", hidden: "hidden", at: "created_at" } },
   gifts: { t: "gifts", cols: { id: "id", cat: "cat", name: "name", desc: "descr", img: "img", url: "url", position: "position" } },
@@ -1049,7 +1064,7 @@ const TABLES = {
   remindLog: { t: "remind_log", cols: { id: "id", guestId: "guest_id", name: "name", channel: "channel", at: "created_at" } }
 };
 const ORDER = { guests: "created_at", guesses: "created_at", messages: "created_at", gifts: "position", photos: "created_at", remindLog: "created_at" };
-const mem = { guests: [], guesses: [], messages: [], gifts: null, photos: [], remindLog: [], myChoice: null, counts: null };
+const mem = { guests: [], guesses: [], messages: [], gifts: null, photos: [], remindLog: [], myChoice: null, counts: null, taken: [] };
 const toRow = (k, o, i) => { const r = {}; for (const [js, db] of Object.entries(TABLES[k].cols)) if (o[js] !== undefined) r[db] = o[js]; if (k === "gifts") r.position = i; return r; };
 const fromRow = (k, r) => { const o = {}; for (const [js, db] of Object.entries(TABLES[k].cols)) o[js] = r[db] ?? (db === "descr" || db === "img" || db === "url" ? "" : r[db]); return o; };
 
@@ -1084,13 +1099,20 @@ async function loadPublic() {
   await loadConfig();
   const giftsP = reload("gifts");
   const me = myGuest();
-  const [, , , mine, counts] = await Promise.all([
+  const [, , , mine, counts, taken] = await Promise.all([
     giftsP, reload("messages"), reload("photos"),
     sb.rpc("my_guess", { p_device: deviceId(), p_guest: me ? me.id : null }),
-    sb.rpc("guess_counts")
+    sb.rpc("guess_counts"), sb.rpc("gifts_taken")
   ]);
   mem.myChoice = mine.error ? mem.myChoice : mine.data;
   mem.counts = counts.error ? null : counts.data;
+  mem.taken = taken.error ? [] : (taken.data || []);
+}
+// Itens únicos já escolhidos por quem confirmou presença
+async function refreshTaken() {
+  if (!ONLINE || !sb) return;
+  const r = await sb.rpc("gifts_taken");
+  if (!r.error) mem.taken = r.data || [];
 }
 // Tudo, para o painel (só com login)
 async function loadAdmin() {
@@ -1103,10 +1125,9 @@ function giftsVer() { return +cfg.giftsVersion || (cfg.giftsSeeded ? 1 : 0); }
 // Grava a lista de DEFAULT_GIFTS quando ela é mais nova que a salva.
 async function migrateGifts() {
   if (giftsVer() >= GIFTS_VERSION) return;
-  const idMap = {};
-  const fresh = DEFAULT_GIFTS.map(g => Object.assign({}, g, { id: (idMap[g.id] = uid()) }));
+  const fresh = structuredCloneSafe(DEFAULT_GIFTS);
   cfg.giftsVersion = GIFTS_VERSION; // antes do save, para data.gifts já ler a lista salva
-  if (await save("gifts", fresh)) { cfg.featuredGifts = DEFAULT_FEATURED.map(id => idMap[id]).filter(Boolean); await saveCfg(); }
+  if (await save("gifts", fresh)) { cfg.featuredGifts = DEFAULT_FEATURED.slice(); cfg.uniqueGifts = DEFAULT_UNIQUE.slice(); await saveCfg(); }
   else cfg.giftsVersion = 0;
 }
 
@@ -1320,8 +1341,10 @@ function setupRsvp() {
   form.addEventListener("change", (e) => {
     if (e.target.name === "attend") {
       $("#compField").hidden = !(e.target.value === "sim" && maxCompanions() > 0);
+      $("#giftField").hidden = e.target.value !== "sim";
       setErr(null, $("#rAttendErr"), "");
     }
+    if (e.target.name === "gift") setErr($("#rGift"), $("#rGiftErr"), "");
   });
   $$("input", form).forEach(i => i.addEventListener("blur", () => validateRsvpField(i)));
   $("#compAdd").addEventListener("click", () => { const i = addCompanion(); i && i.focus(); });
@@ -1351,6 +1374,9 @@ function setupRsvp() {
     const attendYes = fd.get("attend") === "sim";
     const comps = attendYes && maxCompanions() > 0 ? collectCompanions() : [];
     if (comps === null) ok = false;
+    const giftVal = attendYes ? String(fd.get("gift") || "") : "";
+    setErr($("#rGift"), $("#rGiftErr"), attendYes && !giftVal ? "Escolha o presente que você vai levar." : "");
+    if (attendYes && !giftVal) ok = false;
     if (!ok) { const first = $('[aria-invalid="true"]', form) || $('input[name="attend"]', form); first && first.focus(); return; }
 
     // Aviso de quem já foi confirmado (ex.: casal em que um já respondeu pelos dois).
@@ -1377,23 +1403,39 @@ function setupRsvp() {
       companions: comps,
       people: attend ? 1 + comps.length : 0,
       consent: !!fd.get("consent"),
-      respondedAt: now
+      respondedAt: now,
+      giftId: giftVal || null,
+      giftName: giftVal ? giftNameFor(giftVal) : null
+    };
+    // Outra pessoa escolheu o mesmo item único antes de enviar
+    const giftTaken = async () => {
+      btn.classList.remove("is-loading");
+      await refreshTaken(); renderGifts();
+      setErr($("#rGift"), $("#rGiftErr"), "Esse presente acabou de ser escolhido por outra pessoa. Escolha outro, por favor.");
+      $("#rGift").focus();
     };
     if (ONLINE) {
       if (!needDb()) { btn.classList.remove("is-loading"); return; }
-      const { data: r, error } = await sb.rpc("submit_rsvp", { p_name: record.name, p_email: record.email, p_phone: record.phone, p_attend: attend, p_companions: comps, p_consent: record.consent, p_force: force });
+      const args = { p_name: record.name, p_email: record.email, p_phone: record.phone, p_attend: attend, p_companions: comps, p_consent: record.consent, p_force: force };
+      let res = await sb.rpc("submit_rsvp", Object.assign({ p_gift: record.giftId, p_gift_name: record.giftName }, args));
+      // Banco ainda sem a coluna de presente: grava a resposta sem ele
+      if (res.error && /PGRST202|could not find the function/i.test(`${res.error.code} ${res.error.message}`)) res = await sb.rpc("submit_rsvp", args);
+      const { data: r, error } = res;
       if (error) { btn.classList.remove("is-loading"); toast(errMsg(error), true); return; }
+      if (!r.ok && r.gift_taken) { await giftTaken(); return; }
       if (!r.ok) { btn.classList.remove("is-loading"); showDupNotice(name, r); return; }
       existing = r.updated; record.id = r.id; record.respondedAt = now = r.responded_at || now;
     } else {
       const guests = data.guests;
       existing = findGuest(guests, fd.get("email"), fd.get("phone"));
+      if (record.giftId && isUnique(record.giftId) && guests.some(x => x.id !== (existing && existing.id) && x.status === "confirmado" && x.giftId === record.giftId)) { await giftTaken(); return; }
       record = Object.assign(existing || { id: uid(), createdAt: now, source: "site" }, record);
       if (!existing) guests.push(record);
       if (!Store.set("guests", guests)) { btn.classList.remove("is-loading"); return; }
     }
     Store.rawSet("me", record.id);
     Store.set("meRec", record);
+    refreshTaken().then(renderGifts);
     if (ONLINE && sb) sb.rpc("my_guess", { p_device: deviceId(), p_guest: record.id }).then(r => { if (!r.error && r.data) { mem.myChoice = r.data; renderGuess(); applyTeam(currentTeam()); } });
 
     setTimeout(() => {
@@ -1408,6 +1450,7 @@ function setupRsvp() {
         <p>${attend
           ? `${esc(first)}, ${comps.length ? `sua presença e a de ${esc(listJoin(comps))} estão confirmadas` : "sua presença está confirmada"}. Até o dia ${shortDate(cfg.date)}!`
           : `${esc(first)}, sentiremos sua falta. Se mudar de ideia, é só responder de novo.`}
+        ${attend && record.giftName ? `<br>Presente: <b>${esc(record.giftName)}</b>` : ""}
         ${existing ? "<br><span class='muted small'>Atualizamos a resposta que você já tinha enviado.</span>" : ""}</p>
         <p class="muted small">Respondido em ${fmtDateTime(now)}</p>
         <p style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
@@ -1687,33 +1730,73 @@ function giftThumb(g, cls) {
   const img = safeImg(g.img), ph = `<svg class="ico" viewBox="0 0 24 24"><use href="#${catIcon(g.cat)}"/></svg>`;
   return `<span class="${cls}">${img ? `<img src="${esc(img)}" alt="" loading="lazy" onerror="this.outerHTML='${ph.replace(/"/g, "&quot;")}'">` : ph}</span>`;
 }
-function giftCard(g) {
-  const url = safeUrl(g.url);
-  const body = `${giftThumb(g, "gcard-img")}<span class="gcard-body"><span class="gcard-name">${esc(g.name)}</span>${g.desc ? `<span class="gcard-meta">${esc(g.desc)}</span>` : ""}</span>`;
-  return url ? `<a class="gcard" href="${esc(url)}" target="_blank" rel="noopener">${body}</a>` : `<div class="gcard">${body}</div>`;
+// Itens únicos: quando alguém escolhe ao confirmar presença, ficam indisponíveis para os outros
+function uniqueIds() { return Array.isArray(cfg.uniqueGifts) ? cfg.uniqueGifts : DEFAULT_UNIQUE; }
+const isUnique = (id) => uniqueIds().includes(id);
+function myGiftId() { const me = myGuest(); return me && me.status === "confirmado" ? me.giftId || "" : ""; }
+function takenIds() {
+  const me = myGuest(), mine = myGiftId();
+  const ids = ONLINE ? (mem.taken || []) : data.guests.filter(x => x.status === "confirmado" && x.giftId && !(me && x.id === me.id)).map(x => x.giftId);
+  return new Set(ids.filter(id => id !== mine && isUnique(id)));
 }
-function giftRow(g) {
-  const url = safeUrl(g.url);
-  const text = `<span class="gr-text"><span class="gr-name">${esc(g.name)}</span>${g.desc ? `<span class="gr-meta">${esc(g.desc)}</span>` : ""}</span>`;
+function giftStatus(g, taken) {
+  if (g.id === myGiftId()) return "mine";
+  if (!isUnique(g.id)) return "";
+  return taken.has(g.id) ? "taken" : "unique";
+}
+const GIFT_TAG = { mine: "Seu presente", taken: "Já escolhido", unique: "Item único" };
+function giftMeta(g, st, cls) {
+  const t = [g.desc, st === "unique" || st === "mine" ? GIFT_TAG[st] : ""].filter(Boolean).join(" · ");
+  return t ? `<span class="${cls}">${esc(t)}</span>` : "";
+}
+function giftCard(g, taken) {
+  const st = giftStatus(g, taken), url = st === "taken" ? "" : safeUrl(g.url);
+  const flag = st === "taken" || st === "mine" ? `<span class="gflag ${st}">${GIFT_TAG[st]}</span>` : "";
+  const body = `${giftThumb(g, "gcard-img")}${flag}<span class="gcard-body"><span class="gcard-name">${esc(g.name)}</span>${giftMeta(g, st, "gcard-meta")}</span>`;
+  const cls = `gcard${st === "taken" ? " is-taken" : ""}`;
+  return url ? `<a class="${cls}" href="${esc(url)}" target="_blank" rel="noopener">${body}</a>` : `<div class="${cls}">${body}</div>`;
+}
+function giftRow(g, taken) {
+  const st = giftStatus(g, taken), url = st === "taken" ? "" : safeUrl(g.url);
+  const text = `<span class="gr-text"><span class="gr-name">${esc(g.name)}</span>${giftMeta(g, st, "gr-meta")}</span>`;
+  if (st === "taken") return `<li><div class="gift-row is-taken">${giftThumb(g, "gr-thumb")}${text}<span class="gr-go gr-taken">Já escolhido</span></div></li>`;
   return url
     ? `<li><a class="gift-row" href="${esc(url)}" target="_blank" rel="noopener">${giftThumb(g, "gr-thumb")}${text}<span class="gr-go">Ver <svg class="ico" viewBox="0 0 24 24"><use href="#i-right"/></svg></span></a></li>`
     : `<li><div class="gift-row">${giftThumb(g, "gr-thumb")}${text}</div></li>`;
+}
+// Campo "Qual presente você vai levar?" da confirmação de presença
+function renderGiftSelect() {
+  const sel = $("#rGift"); if (!sel) return;
+  const cur = sel.value || myGiftId(), taken = takenIds();
+  sel.innerHTML = `<option value="">Escolha um presente</option>`
+    + giftGroups(data.gifts).map(gr => `<optgroup label="${esc(gr.k)}">${gr.items.map(g => {
+        const t = taken.has(g.id);
+        return `<option value="${esc(g.id)}"${t ? " disabled" : ""}>${esc(g.name)}${t ? " (já escolhido)" : ""}</option>`;
+      }).join("")}</optgroup>`).join("")
+    + `<optgroup label="Outras opções"><option value="pix">Pix</option><option value="outro">Outro presente, fora da lista</option></optgroup>`;
+  sel.value = [...sel.options].some(o => o.value === cur && !o.disabled) ? cur : "";
+}
+function giftNameFor(id) {
+  if (id === "pix") return "Pix";
+  if (id === "outro") return "Outro presente";
+  return (data.gifts.find(g => g.id === id) || {}).name || "";
 }
 // Página inicial: só os destaques
 function renderGifts() {
   const list = data.gifts, box = $("#gifts");
   if (!list.length) { box.innerHTML = `<div class="empty"><svg class="ico" viewBox="0 0 24 24"><use href="#i-gift"/></svg>A lista de presentes será publicada em breve.</div>` + pixGiftCard(); return; }
-  const feat = featuredGifts(list);
-  box.innerHTML = (feat.length ? `<div class="gift-feat">${feat.map(giftCard).join("")}</div>` : "")
+  const feat = featuredGifts(list), taken = takenIds();
+  box.innerHTML = (feat.length ? `<div class="gift-feat">${feat.map(g => giftCard(g, taken)).join("")}</div>` : "")
     + `<p class="gift-more"><a class="btn" href="#lista-presentes" data-gp-open>Ver mais presentes</a></p>`
     + pixGiftCard();
   if (!$("#giftsPage").hidden) renderGiftsAll();
+  renderGiftSelect();
 }
 // Aba completa, com filtro e busca
 let giftFilter = "todos", giftQuery = "";
 function renderGiftsAll() {
   const list = data.gifts, box = $("#giftsAll");
-  const groups = giftGroups(list);
+  const groups = giftGroups(list), taken = takenIds();
   if (giftFilter !== "todos" && giftFilter !== "pix" && !groups.some(g => g.k === giftFilter)) giftFilter = "todos";
   const q = normName(giftQuery);
   const chips = [["todos", `Todos <b>${list.length}</b>`]].concat(groups.map(g => [g.k, `${esc(catShort(g.cat))} <b>${g.items.length}</b>`]), [["pix", "Pix"]]);
@@ -1724,7 +1807,7 @@ function renderGiftsAll() {
   if (giftFilter !== "pix") {
     html += shown.length ? shown.map(gr => `<section class="gift-group">
         <h3 class="gift-cat"><svg class="ico" viewBox="0 0 24 24"><use href="#${catIcon(gr.cat)}"/></svg>${esc(gr.k)}</h3>
-        <ul class="gift-list">${gr.items.map(giftRow).join("")}</ul></section>`).join("")
+        <ul class="gift-list">${gr.items.map(g => giftRow(g, taken)).join("")}</ul></section>`).join("")
       : `<div class="empty">${list.length ? "Nenhum presente encontrado com essa busca." : "A lista de presentes será publicada em breve."}</div>`;
   }
   if (giftFilter === "todos" || giftFilter === "pix") html += pixGiftCard();
@@ -2022,13 +2105,14 @@ const Admin = {
         <button class="mini" id="csvBtn">Exportar planilha (CSV)</button>
       </div>
       ${list.length ? `<div class="table-wrap"><table>
-        <thead><tr><th>Nome</th><th>Contato</th><th>Status</th><th>Pessoas</th><th>Acompanhantes</th><th>Resposta</th><th></th></tr></thead>
+        <thead><tr><th>Nome</th><th>Contato</th><th>Status</th><th>Pessoas</th><th>Acompanhantes</th><th>Presente</th><th>Resposta</th><th></th></tr></thead>
         <tbody>${list.map(g => `<tr>
           <td><b>${esc(g.name)}</b>${g.optOut ? `<br><span class="pill oculta">sem lembretes</span>` : ""}</td>
           <td>${esc(fmtPhone(g.phone))}<br><span class="muted small">${esc(g.email || "")}</span></td>
           <td><span class="pill ${g.status || "pendente"}">${label[g.status || "pendente"]}</span></td>
           <td>${g.status === "confirmado" ? (+g.people || 1) : "-"}</td>
           <td class="small" style="max-width:220px">${esc((g.companions || []).join(", ")) || "-"}</td>
+          <td class="small" style="max-width:200px">${g.status === "confirmado" && g.giftName ? esc(g.giftName) : "-"}</td>
           <td class="small">${g.respondedAt ? fmtDateTime(g.respondedAt) : "-"}</td>
           <td><div class="acts">
             <select class="mini" data-set-status="${g.id}" aria-label="Alterar status de ${esc(g.name)}">
@@ -2131,7 +2215,8 @@ const Admin = {
   editingGift: null,
   v_presentes() {
     const list = data.gifts, e = list.find(g => g.id === this.editingGift) || {};
-    const feat = new Set(featuredGifts(list).map(g => g.id));
+    const feat = new Set(featuredGifts(list).map(g => g.id)), uniq = new Set(uniqueIds());
+    const by = {}; data.guests.filter(x => x.status === "confirmado" && x.giftId).forEach(x => (by[x.giftId] = by[x.giftId] || []).push(x.name));
     const cats = [...new Set(list.map(g => catLabel(g.cat)))];
     return `<div class="card"><h2>${e.id ? "Editar presente" : "Novo presente"}</h2>
       <form id="giftForm" class="grid2" novalidate>
@@ -2140,16 +2225,18 @@ const Admin = {
         <div class="field"><label for="gfCat">Categoria</label><input class="input" id="gfCat" name="cat" list="gfCats" value="${esc(e.id ? catLabel(e.cat) : "")}" maxlength="40" placeholder="Escolha ou escreva uma nova"><datalist id="gfCats">${cats.map(c => `<option value="${esc(c)}">`).join("")}</datalist><span class="hint">Presentes com a mesma categoria ficam juntos no filtro.</span></div>
         <div class="field"><label for="gfDesc">Descrição (opcional)</label><input class="input" id="gfDesc" name="desc" value="${esc(e.desc)}" maxlength="120"></div>
         <div class="field"><label for="gfImg">Foto: link ou arquivo (opcional)</label><input class="input" id="gfImg" name="img" value="${esc(e.img && !e.img.startsWith("data:") ? e.img : "")}" placeholder="https://..."><input type="file" id="gfFile" accept="image/*" class="small"></div>
-        <div class="field" style="align-self:end"><label class="check"><input type="checkbox" name="featured" ${e.id && feat.has(e.id) ? "checked" : ""}> Destaque na página inicial</label></div>
+        <div class="field" style="align-self:end"><label class="check"><input type="checkbox" name="featured" ${e.id && feat.has(e.id) ? "checked" : ""}> Destaque na página inicial</label><label class="check"><input type="checkbox" name="unique" ${e.id && uniq.has(e.id) ? "checked" : ""}> Item único (só uma pessoa pode escolher)</label></div>
         <div style="display:flex;gap:8px"><button class="btn btn-sm" type="submit">${e.id ? "Salvar alterações" : "Adicionar"}</button>${e.id ? `<button class="mini" type="button" id="gfCancel">Cancelar</button>` : ""}</div>
       </form></div>
       <div class="card"><h2>Lista (${list.length})</h2>
-        <p class="hint" style="margin:-4px 0 12px">A página inicial mostra até ${FEATURED_MAX} destaques (estrela). Use as setas para mudar a ordem.</p>
+        <p class="hint" style="margin:-4px 0 12px">A página inicial mostra até ${FEATURED_MAX} destaques (estrela). Use as setas para mudar a ordem. Itens únicos aparecem como "Já escolhido" depois que alguém escolhe ao confirmar presença.</p>
         ${list.length ? `<div class="admin-list">${list.map((g, i) => `<div class="admin-item">
           ${safeImg(g.img) ? `<img src="${esc(safeImg(g.img))}" alt="">` : `<span class="ph"><svg class="ico" viewBox="0 0 24 24"><use href="#${catIcon(g.cat)}"/></svg></span>`}
-          <div class="meta"><b>${feat.has(g.id) ? "★ " : ""}${esc(g.name)}</b><span>${esc(catLabel(g.cat))} · ${esc(storeName(g.url) || g.url)}</span></div>
+          <div class="meta"><b>${feat.has(g.id) ? "★ " : ""}${esc(g.name)}</b><span>${esc(catLabel(g.cat))}${uniq.has(g.id) ? " · Item único" : ""}${g.url ? ` · ${esc(storeName(g.url) || g.url)}` : ""}</span>${by[g.id] ? `<span><b>Escolhido por ${esc(listJoin(by[g.id]))}</b></span>` : ""}</div>
           <div class="acts" style="display:flex;gap:6px;flex-wrap:wrap">
             <button class="mini" data-feat-gift="${g.id}" aria-pressed="${feat.has(g.id)}">${feat.has(g.id) ? "Tirar destaque" : "Destacar"}</button>
+            <button class="mini" data-uniq-gift="${g.id}" aria-pressed="${uniq.has(g.id)}">${uniq.has(g.id) ? "Deixar de ser único" : "Tornar único"}</button>
+            ${by[g.id] ? `<button class="mini" data-free-gift="${g.id}">Desfazer escolha</button>` : ""}
             <button class="mini" data-move-gift="${g.id}" data-dir="-1" ${i ? "" : "disabled"} aria-label="Subir">↑</button>
             <button class="mini" data-move-gift="${g.id}" data-dir="1" ${i < list.length - 1 ? "" : "disabled"} aria-label="Descer">↓</button>
             <button class="mini" data-edit-gift="${g.id}">Editar</button><button class="mini danger" data-del-gift="${g.id}">Remover</button></div></div>`).join("")}</div>`
@@ -2307,7 +2394,7 @@ const Admin = {
         const name = String(fd.get("name")).trim(), url = String(fd.get("url")).trim();
         let ok = true;
         setErr($("#gfName"), $("#gfNameErr"), name ? "" : "Digite o nome do presente."); if (!name) ok = false;
-        const bad = !safeUrl(url); setErr($("#gfUrl"), $("#gfUrlErr"), bad ? "Cole o link completo, começando com https://" : ""); if (bad) ok = false;
+        const bad = !!url && !safeUrl(url); setErr($("#gfUrl"), $("#gfUrlErr"), bad ? "Cole o link completo, começando com https://" : ""); if (bad) ok = false;
         if (!ok) return;
         const list = data.gifts;
         let g = list.find(x => x.id === this.editingGift);
@@ -2320,17 +2407,32 @@ const Admin = {
         const wasNew = !this.editingGift;
         if (!await save("gifts", list)) return;
         const feat = featuredGifts(list).map(x => x.id), want = !!fd.get("featured"), has = feat.includes(g.id);
-        let msg = wasNew ? "Presente adicionado." : "Presente atualizado.", full = false;
+        let msg = wasNew ? "Presente adicionado." : "Presente atualizado.", full = false, cfgChanged = false;
         if (want !== has) {
           if (want && feat.length >= FEATURED_MAX) { full = true; msg = `Presente salvo. Já há ${FEATURED_MAX} destaques: tire um para destacar este.`; }
-          else { cfg.featuredGifts = want ? feat.concat(g.id) : feat.filter(id => id !== g.id); await saveCfg(); }
+          else { cfg.featuredGifts = want ? feat.concat(g.id) : feat.filter(id => id !== g.id); cfgChanged = true; }
         }
+        const u = uniqueIds(), wantU = !!fd.get("unique");
+        if (wantU !== u.includes(g.id)) { cfg.uniqueGifts = wantU ? u.concat(g.id) : u.filter(id => id !== g.id); cfgChanged = true; }
+        if (cfgChanged) await saveCfg();
         toast(msg, full);
         this.editingGift = null; this.render();
       });
       const cancel = $("#gfCancel", main); if (cancel) cancel.addEventListener("click", () => { this.editingGift = null; this.render(); });
       main.addEventListener("click", async (e) => {
-        const ed = e.target.dataset.editGift, del = e.target.dataset.delGift, fe = e.target.dataset.featGift, mv = e.target.dataset.moveGift;
+        const ed = e.target.dataset.editGift, del = e.target.dataset.delGift, fe = e.target.dataset.featGift, mv = e.target.dataset.moveGift, un = e.target.dataset.uniqGift, fr = e.target.dataset.freeGift;
+        if (un) {
+          const u = uniqueIds();
+          cfg.uniqueGifts = u.includes(un) ? u.filter(id => id !== un) : u.concat(un);
+          if (await saveCfg()) this.render();
+          return;
+        }
+        if (fr) {
+          if (!await ask("Desfazer a escolha deste presente? Ele volta a ficar disponível no site.")) return;
+          const gs = data.guests; gs.forEach(x => { if (x.giftId === fr) { x.giftId = null; x.giftName = null; } });
+          if (await save("guests", gs)) { toast("Presente disponível de novo."); this.render(); }
+          return;
+        }
         if (fe) {
           const feat = featuredGifts(data.gifts).map(x => x.id);
           if (!feat.includes(fe) && feat.length >= FEATURED_MAX) { toast(`A página inicial mostra só ${FEATURED_MAX} destaques. Tire um antes.`, true); return; }
@@ -2453,8 +2555,8 @@ const Admin = {
   exportCsv() {
     const label = { pendente: "Pendente", confirmado: "Confirmado", nao: "Não comparecerá" };
     const guesses = data.guesses;
-    const rows = [["Nome","E-mail","Celular","Status","Pessoas","Acompanhantes","Palpite","Aceita lembretes","Respondido em","Cadastrado em"]]
-      .concat(data.guests.map(g => [g.name, g.email, fmtPhone(g.phone), label[g.status || "pendente"], g.status === "confirmado" ? (g.people || 1) : 0, (g.companions || []).join(", "), (guesses.find(x => x.guestId === g.id) || {}).choice || "", g.consent && !g.optOut ? "Sim" : "Não", g.respondedAt ? fmtDateTime(g.respondedAt) : "", g.createdAt ? fmtDateTime(g.createdAt) : ""]));
+    const rows = [["Nome","E-mail","Celular","Status","Pessoas","Acompanhantes","Presente","Palpite","Aceita lembretes","Respondido em","Cadastrado em"]]
+      .concat(data.guests.map(g => [g.name, g.email, fmtPhone(g.phone), label[g.status || "pendente"], g.status === "confirmado" ? (g.people || 1) : 0, (g.companions || []).join(", "), g.status === "confirmado" ? g.giftName || "" : "", (guesses.find(x => x.guestId === g.id) || {}).choice || "", g.consent && !g.optOut ? "Sim" : "Não", g.respondedAt ? fmtDateTime(g.respondedAt) : "", g.createdAt ? fmtDateTime(g.createdAt) : ""]));
     const csv = rows.map(r => r.map(c => `"${String(c ?? "").replace(/"/g, '""')}"`).join(";")).join("\r\n");
     download(`convidados-${new Date().toISOString().slice(0, 10)}.csv`, "﻿" + csv, "text/csv;charset=utf-8");
   }
@@ -2546,7 +2648,7 @@ async function init() {
   const me = myGuest();
   if (me) {
     $("#rName").value = me.name || ""; $("#rEmail").value = me.email || ""; $("#rPhone").value = fmtPhone(me.phone);
-    const r = $(`input[name="attend"][value="${me.status === "nao" ? "nao" : "sim"}"]`); if (r && me.status !== "pendente") { r.checked = true; $("#compField").hidden = !(me.status === "confirmado" && maxCompanions() > 0); }
+    const r = $(`input[name="attend"][value="${me.status === "nao" ? "nao" : "sim"}"]`); if (r && me.status !== "pendente") { r.checked = true; $("#compField").hidden = !(me.status === "confirmado" && maxCompanions() > 0); $("#giftField").hidden = me.status !== "confirmado"; renderGiftSelect(); }
     (me.companions || []).forEach(c => addCompanion(c));
     $("#rConsent").checked = !!me.consent;
   }

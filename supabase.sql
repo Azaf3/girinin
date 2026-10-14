@@ -29,6 +29,9 @@ create table if not exists public.guests (
   responded_at timestamptz,
   created_at timestamptz not null default now()
 );
+-- Presente que a pessoa escolheu ao confirmar (id do item, "pix" ou "outro")
+alter table public.guests add column if not exists gift_id text;
+alter table public.guests add column if not exists gift_name text;
 create unique index if not exists guests_email_uq on public.guests (lower(email)) where email is not null and email <> '';
 create unique index if not exists guests_phone_uq on public.guests (phone) where phone is not null and phone <> '';
 
@@ -179,13 +182,17 @@ language sql stable security definer set search_path = public as $$
   select rsvp_lookup(p_name, p_companions, p_email, p_phone) - 'self_id'
 $$;
 
+drop function if exists public.submit_rsvp(text, text, text, boolean, text[], boolean, boolean);
 create or replace function public.submit_rsvp(
   p_name text, p_email text, p_phone text, p_attend boolean,
-  p_companions text[] default '{}', p_consent boolean default false, p_force boolean default false)
+  p_companions text[] default '{}', p_consent boolean default false, p_force boolean default false,
+  p_gift text default null, p_gift_name text default null)
 returns jsonb
 language plpgsql volatile security definer set search_path = public as $$
 declare
   chk jsonb;
+  v_gift text := case when p_attend then nullif(trim(coalesce(p_gift, '')), '') end;
+  v_gift_name text := case when p_attend and nullif(trim(coalesce(p_gift, '')), '') is not null then left(trim(coalesce(p_gift_name, '')), 120) end;
   gid uuid;
   existed boolean;
   comps text[] := case when p_attend then coalesce(p_companions, '{}') else '{}' end;
@@ -202,22 +209,41 @@ begin
   end if;
 
   gid := nullif(chk->>'self_id', '')::uuid;
+
+  -- Item único: só uma pessoa confirmada pode ficar com ele
+  if v_gift is not null and coalesce((select data->'uniqueGifts' from settings where id = 1), '[]'::jsonb) ? v_gift then
+    perform pg_advisory_xact_lock(hashtext('gift:' || v_gift));
+    if exists (select 1 from guests where gift_id = v_gift and status = 'confirmado' and id is distinct from gid) then
+      return jsonb_build_object('ok', false, 'gift_taken', true, 'covered_by', null, 'conflicts', '[]'::jsonb);
+    end if;
+  end if;
+
   existed := gid is not null;
   if existed then
     update guests set name = trim(p_name), email = lower(trim(p_email)), phone = norm_phone(p_phone),
       status = case when p_attend then 'confirmado' else 'nao' end,
       companions = comps, people = case when p_attend then 1 + coalesce(array_length(comps, 1), 0) else 0 end,
-      consent = p_consent, responded_at = now()
+      consent = p_consent, gift_id = v_gift, gift_name = v_gift_name, responded_at = now()
     where id = gid;
   else
-    insert into guests (name, email, phone, status, companions, people, consent, responded_at)
+    insert into guests (name, email, phone, status, companions, people, consent, gift_id, gift_name, responded_at)
     values (trim(p_name), lower(trim(p_email)), norm_phone(p_phone),
       case when p_attend then 'confirmado' else 'nao' end, comps,
-      case when p_attend then 1 + coalesce(array_length(comps, 1), 0) else 0 end, p_consent, now())
+      case when p_attend then 1 + coalesce(array_length(comps, 1), 0) else 0 end, p_consent, v_gift, v_gift_name, now())
     returning id into gid;
   end if;
   return jsonb_build_object('ok', true, 'id', gid, 'updated', existed, 'responded_at', now());
 end $$;
+
+-- Itens únicos já escolhidos (só os ids, sem nomes de quem escolheu)
+create or replace function public.gifts_taken()
+returns jsonb
+language sql stable security definer set search_path = public as $$
+  select coalesce(jsonb_agg(distinct g.gift_id), '[]'::jsonb)
+  from guests g, settings s
+  where s.id = 1 and g.status = 'confirmado' and g.gift_id is not null
+    and coalesce(s.data->'uniqueGifts', '[]'::jsonb) ? g.gift_id
+$$;
 
 create or replace function public.submit_guess(p_device text, p_guest uuid, p_name text, p_choice text)
 returns jsonb
@@ -261,12 +287,14 @@ $$;
 
 revoke all on function public.rsvp_lookup(text, text[], text, text) from public, anon, authenticated;
 revoke all on function public.rsvp_check(text, text[], text, text) from public;
-revoke all on function public.submit_rsvp(text, text, text, boolean, text[], boolean, boolean) from public;
+revoke all on function public.submit_rsvp(text, text, text, boolean, text[], boolean, boolean, text, text) from public;
+revoke all on function public.gifts_taken() from public;
 revoke all on function public.submit_guess(text, uuid, text, text) from public;
 revoke all on function public.my_guess(text, uuid) from public;
 revoke all on function public.guess_counts() from public;
 grant execute on function public.rsvp_check(text, text[], text, text) to anon, authenticated;
-grant execute on function public.submit_rsvp(text, text, text, boolean, text[], boolean, boolean) to anon, authenticated;
+grant execute on function public.submit_rsvp(text, text, text, boolean, text[], boolean, boolean, text, text) to anon, authenticated;
+grant execute on function public.gifts_taken() to anon, authenticated;
 grant execute on function public.submit_guess(text, uuid, text, text) to anon, authenticated;
 grant execute on function public.my_guess(text, uuid) to anon, authenticated;
 grant execute on function public.guess_counts() to anon, authenticated;
@@ -276,3 +304,11 @@ grant usage on schema public to anon, authenticated;
 grant select on public.settings, public.gifts, public.photos, public.messages to anon;
 grant insert on public.messages to anon;
 grant select, insert, update, delete on all tables in schema public to authenticated;
+
+
+-- Itens únicos da lista padrão (o painel passa a controlar depois)
+update public.settings set data = data || jsonb_build_object('uniqueGifts', '["00000000-0000-4000-8000-000000000001", "00000000-0000-4000-8000-000000000002", "00000000-0000-4000-8000-000000000003", "00000000-0000-4000-8000-000000000004", "00000000-0000-4000-8000-000000000005", "00000000-0000-4000-8000-000000000006", "00000000-0000-4000-8000-000000000007", "00000000-0000-4000-8000-000000000011", "00000000-0000-4000-8000-000000000013", "00000000-0000-4000-8000-000000000014", "00000000-0000-4000-8000-000000000016", "00000000-0000-4000-8000-000000000017", "00000000-0000-4000-8000-000000000023", "00000000-0000-4000-8000-000000000024", "00000000-0000-4000-8000-000000000043", "00000000-0000-4000-8000-000000000044"]'::jsonb)
+ where id = 1 and not (data ? 'uniqueGifts');
+
+-- Atualiza o cache da API para enxergar as funções novas
+notify pgrst, 'reload schema';
