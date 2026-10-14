@@ -883,7 +883,9 @@ const DEFAULT_CONFIG = {
 
 // Aumente este número ao trocar DEFAULT_GIFTS: o site passa a mostrar a lista nova
 // e, quando um organizador abrir o painel, ela substitui a que está no banco.
-const GIFTS_VERSION = 8;
+const GIFTS_VERSION = 9;
+// Destaques da página inicial que acompanham a lista DEFAULT_GIFTS (ids de lá)
+const DEFAULT_FEATURED = ["n47", "n46", "n29"];
 const GIFT_LABELS = { roupas: "Roupinhas e conjuntos", acessorios: "Meias, toucas e calçados", higiene: "Higiene e acessórios", outros: "Outros presentes" };
 const GIFT_SHORT = { roupas: "Roupinhas", acessorios: "Meias e calçados", higiene: "Higiene", outros: "Outros" };
 const FEATURED_MAX = 4;
@@ -915,7 +917,7 @@ const DEFAULT_GIFTS = [
   { id: "n26", cat: "Banho e higiene", name: "Termômetro de banho", desc: "", img: "img/presentes/26.jpg", url: "https://s.shopee.com.br/1qclQIXdGZ" },
   { id: "n27", cat: "Banho e higiene", name: "Toalha de banho com capuz", desc: "", img: "img/presentes/27.jpg", url: "https://s.shopee.com.br/6fi1BGM9KL" },
   { id: "n28", cat: "Banho e higiene", name: "Escovinha de dente massageadora", desc: "", img: "img/presentes/28.jpg", url: "https://s.shopee.com.br/6fi1BJyOhV" },
-  { id: "n29", cat: "Roupinhas", name: "Kit 5 bodies brancos manga curta", desc: "", img: "img/presentes/29.jpg", url: "https://www.riachuelo.com.br/kit-body-bebe-5-pecas-manga-curta-lisos-branco-carter-s-14097524_sku_sku?utm_source=app_share" },
+  { id: "n29", cat: "Roupinhas", name: "Kit 5 bodies brancos manga curta RN", desc: "", img: "img/presentes/29.jpg", url: "https://www.riachuelo.com.br/kit-body-bebe-5-pecas-manga-curta-lisos-branco-carter-s-14097524_sku_sku?utm_source=app_share" },
   { id: "n30", cat: "Roupinhas", name: "Kit 4 bodies brancos manga longa", desc: "", img: "img/presentes/30.jpg", url: "https://www.riachuelo.com.br/kit-body-bebe-carter-s-4-pecas-branco-14097591_sku?utm_source=app_share" },
   { id: "n31", cat: "Roupinhas", name: "Kit calças brancas", desc: "", img: "img/presentes/31.jpg", url: "https://s.shopee.com.br/2LZ21ZVi55" },
   { id: "n32", cat: "Roupinhas", name: "Kit luva, meia e touca", desc: "", img: "img/presentes/32.jpg", url: "https://s.shopee.com.br/7AeHmfyr7Q" },
@@ -1101,9 +1103,10 @@ function giftsVer() { return +cfg.giftsVersion || (cfg.giftsSeeded ? 1 : 0); }
 // Grava a lista de DEFAULT_GIFTS quando ela é mais nova que a salva.
 async function migrateGifts() {
   if (giftsVer() >= GIFTS_VERSION) return;
-  const fresh = DEFAULT_GIFTS.map(g => Object.assign({}, g, { id: uid() }));
+  const idMap = {};
+  const fresh = DEFAULT_GIFTS.map(g => Object.assign({}, g, { id: (idMap[g.id] = uid()) }));
   cfg.giftsVersion = GIFTS_VERSION; // antes do save, para data.gifts já ler a lista salva
-  if (await save("gifts", fresh)) { cfg.featuredGifts = []; await saveCfg(); }
+  if (await save("gifts", fresh)) { cfg.featuredGifts = DEFAULT_FEATURED.map(id => idMap[id]).filter(Boolean); await saveCfg(); }
   else cfg.giftsVersion = 0;
 }
 
@@ -1674,7 +1677,9 @@ function giftGroups(list) {
 }
 function featuredGifts(list) {
   const ids = Array.isArray(cfg.featuredGifts) ? cfg.featuredGifts : [];
-  const picked = ids.map(id => list.find(g => g.id === id)).filter(Boolean).slice(0, FEATURED_MAX);
+  const pick = arr => arr.map(id => list.find(g => g.id === id)).filter(Boolean).slice(0, FEATURED_MAX);
+  let picked = pick(ids);
+  if (!picked.length) picked = pick(DEFAULT_FEATURED); // lista padrão ainda não gravada no banco
   // Sem destaques escolhidos (ou todos removidos da lista): mostra os primeiros
   return picked.length ? picked : list.slice(0, FEATURED_MAX);
 }
