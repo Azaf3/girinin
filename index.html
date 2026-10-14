@@ -97,7 +97,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 [hidden]{display:none!important}
 
 .wrap{max-width:var(--max);margin:0 auto;padding:0 18px}
-.section{padding:44px 0 8px;position:relative}
+.section{padding-top:44px;padding-bottom:8px;position:relative}
 
 .eyebrow{font-family:var(--serif);font-weight:500;letter-spacing:.32em;text-transform:uppercase;font-size:.95rem;color:var(--brown);margin:0}
 .script{font-family:var(--script);font-weight:400;line-height:.95;color:var(--brown)}
@@ -308,6 +308,26 @@ a.gift-row:hover .gr-go{background:var(--tan);color:#fff;border-color:var(--tan)
 .gr-meta{font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--brown-3)}
 .gr-go{display:inline-flex;align-items:center;gap:2px;padding:6px 10px 6px 14px;border:1px solid var(--beige-2);border-radius:999px;font-size:.92rem;color:var(--brown);white-space:nowrap;transition:all .2s}
 .gr-go .ico{width:16px;height:16px}
+/* Presentes em destaque (página inicial) */
+.gift-feat{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (min-width:760px){.gift-feat{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.gcard{display:flex;flex-direction:column;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;color:var(--brown);text-decoration:none;box-shadow:var(--shadow);transition:transform .2s var(--ease),border-color .2s}
+a.gcard:hover{transform:translateY(-2px);border-color:var(--beige-2)}
+.gcard-img{aspect-ratio:1;background:linear-gradient(160deg,var(--off),var(--beige));display:grid;place-items:center;color:var(--brown-3);overflow:hidden}
+.gcard-img img{width:100%;height:100%;object-fit:cover}
+.gcard-img .ico{width:40px;height:40px}
+.gcard-body{padding:10px 12px 12px;display:grid;gap:4px;flex:1;align-content:start}
+.gcard-name{font-family:var(--serif);font-weight:600;font-size:1rem;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.gcard-meta{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--brown-3)}
+.gift-more{text-align:center;margin:18px 0 0}
+/* Aba completa de presentes */
+.gpage{position:fixed;inset:0;z-index:65;background:var(--off);overflow:auto;overscroll-behavior:contain}
+.gpage-top{position:sticky;top:0;z-index:2;background:var(--veil);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.gpage-top .in{max-width:var(--max);margin:0 auto;padding:10px 18px;display:flex;align-items:center;gap:10px}
+.gpage-top h2{flex:1;margin:0;font-family:var(--serif);font-weight:600;font-size:1.3rem}
+.gpage-main{max-width:var(--max);margin:0 auto;padding:18px 18px 60px}
+.gsearch{margin:0 0 12px}
+.gpage .chips{justify-content:flex-start}
 .pix-feature{margin-top:18px;display:grid;grid-template-columns:110px 1fr;gap:16px;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;box-shadow:var(--shadow)}
 .pix-feature-art{background:linear-gradient(160deg,var(--off),var(--beige));border-radius:14px;aspect-ratio:1;display:grid;place-items:center}
 .pix-feature-body h3{margin:0 0 4px;font-family:var(--serif);font-weight:600;font-size:1.2rem}
@@ -719,6 +739,19 @@ td .acts{display:flex;gap:6px;flex-wrap:wrap}
   </div>
 </div>
 
+<!-- Lista completa de presentes -->
+<div class="gpage" id="giftsPage" hidden role="dialog" aria-modal="true" aria-labelledby="gpTitle">
+  <div class="gpage-top"><div class="in">
+    <button class="mini" type="button" data-gp-close aria-label="Voltar para o site"><svg class="ico" viewBox="0 0 24 24"><use href="#i-left"/></svg> Voltar</button>
+    <h2 id="gpTitle">Lista de presentes</h2>
+  </div></div>
+  <div class="gpage-main">
+    <p class="muted" style="margin:0 0 14px" data-cfg="giftsLead"></p>
+    <div class="gsearch input-ico"><svg class="ico" viewBox="0 0 24 24"><use href="#i-search"/></svg><input class="input" id="gpSearch" type="search" placeholder="Buscar presente" aria-label="Buscar presente" autocomplete="off"></div>
+    <div id="giftsAll"></div>
+  </div>
+</div>
+
 <!-- Painel administrativo -->
 <div class="admin" id="admin" hidden>
   <div class="login" id="adminLogin">
@@ -777,6 +810,8 @@ td .acts{display:flex;gap:6px;flex-wrap:wrap}
   <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 4 3.5 6v14L9 18l6 2 5.5-2V4L15 6 9 4zM9 4v14M15 6v14"/></symbol>
   <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5M12 8h.01"/></symbol>
   <symbol id="i-shirt" viewBox="0 0 24 24"><path d="M8.5 4 4 6.5l1.8 3.7L8 9.3V20h8V9.3l2.2.9L20 6.5 15.5 4a3.5 3.5 0 0 1-7 0z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3.5 2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.8l-5.2 2.8 1-5.8-4.3-4.1 5.9-.8z"/></symbol>
   <symbol id="i-gift" viewBox="0 0 24 24"><rect x="4" y="9" width="16" height="11" rx="1.5"/><path d="M3 9h18M12 9v11M12 9c-1.5-3.5-5.5-4-5.5-1.5S10 9 12 9zm0 0c1.5-3.5 5.5-4 5.5-1.5S14 9 12 9z"/></symbol>
   <symbol id="i-chat" viewBox="0 0 24 24"><path d="M5 18.5 3.5 21l3.8-1.3A8.5 8.5 0 1 0 5 18.5z"/><path d="M9 12h.01M12 12h.01M15 12h.01"/></symbol>
   <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></symbol>
@@ -846,29 +881,27 @@ const DEFAULT_CONFIG = {
   adminHash: "4d3ec0d3c1c2a4a7ba7a5c7f4a3c84f75c0c4b4a3f4c9b3dd0c0cf1f35f8e6f8"
 };
 
-const GIFT_CATS = [
-  ["roupas", "Roupinhas e conjuntos", "i-onesie"],
-  ["acessorios", "Meias, toucas e calçados", "i-sock"],
-  ["higiene", "Higiene e acessórios", "i-towel"]
-];
+// Aumente este número ao trocar DEFAULT_GIFTS: o site passa a mostrar a lista nova
+// e, quando um organizador abrir o painel, ela substitui a que está no banco.
+const GIFTS_VERSION = 2;
+const GIFT_LABELS = { roupas: "Roupinhas e conjuntos", acessorios: "Meias, toucas e calçados", higiene: "Higiene e acessórios", outros: "Outros presentes" };
+const GIFT_SHORT = { roupas: "Roupinhas", acessorios: "Meias e calçados", higiene: "Higiene", outros: "Outros" };
+const FEATURED_MAX = 4;
 const DEFAULT_GIFTS = [
-  { id: "g1", cat: "roupas", name: "Kit Body Bebê 3 Peças Estampado Multicor", desc: "", img: "", url: "https://www.carters.com.br/produto/kit-body-bebe-3-pecas-estampado-multicor-carter-s-16552970_sku_sku" },
-  { id: "g2", cat: "roupas", name: "Conjunto Longo Bebê 3 Peças Canelado e Ursinhos Multicor", desc: "", img: "", url: "https://www.carters.com.br/produto/conjunto-longo-bebe-3-pecas-canelado-e-ursinhos-multicor-carter-s-16493885_sku" },
-  { id: "g3", cat: "roupas", name: "Kit Body Bebê 5 Peças Estampado Multicor", desc: "", img: "", url: "https://www.carters.com.br/produto/kit-body-bebe-5-pecas-estampado-multicor-carter-s-16553276_sku_sku" },
-  { id: "g4", cat: "roupas", name: "Conjunto Longo Bebê 3 Peças Atoalhados Patinho Off-white", desc: "", img: "", url: "https://www.carters.com.br/produto/conjunto-longo-bebe-3-pecas-atoalhados-patinho-off-white-carter-s-16163516_sku_sku" },
-  { id: "g5", cat: "roupas", name: "Conjunto Longo Bebê 3 Peças Cookies Cinza", desc: "", img: "", url: "https://www.riachuelo.com.br/conjunto-longo-bebe-3-pecas-cookies-cinza-carter-s-16300106_sku_sku?utm_source=app_share" },
-  { id: "g6", cat: "roupas", name: "Macacão Bebê com Pezinho Foca Azul", desc: "", img: "", url: "https://www.riachuelo.com.br/produto/macac-o-bebe-com-pezinho-foca-azul-carter-s-16363116_sku_sku_marrom-claro?utm_source=app_share" },
-  { id: "g7", cat: "roupas", name: "Conjunto Longo Bebê 3 Peças Canelado e Ursinhos Multicor", desc: "", img: "", url: "https://www.riachuelo.com.br/conjunto-longo-bebe-3-pecas-canelado-e-ursinhos-multicor-carter-s-16493869_sku_sku?utm_source=app_share" },
-  { id: "g8", cat: "roupas", name: "Conjunto Longo Bebê 2 Peças em Plush Urso Bege", desc: "", img: "", url: "https://www.riachuelo.com.br/conjunto-longo-bebe-2-pecas-em-plush-urso-bege-carter-s-16363710_sku_sku?utm_source=app_share" },
-  { id: "g9", cat: "roupas", name: "Conjunto Longo Bebê 3 Peças Pelicano Off-white", desc: "", img: "", url: "https://www.riachuelo.com.br/conjunto-longo-bebe-3-pecas-pelicano-off-white-carter-s-16141288_sku_sku?utm_source=app_share" },
-  { id: "g10", cat: "roupas", name: "Jaqueta Bebê em Pelúcia Off-white", desc: "", img: "", url: "https://www.riachuelo.com.br/jaqueta-bebe-em-pelucia-off-white-carter-s-16362896_sku_sku?utm_source=app_share" },
-  { id: "g11", cat: "roupas", name: "Jardineira Bebê Canelada com Blusa Marrom", desc: "", img: "", url: "https://www.riachuelo.com.br/jardineira-bebe-canelada-com-blusa-marrom-carter-s-16542290_sku_sku?utm_source=app_share" },
-  { id: "g12", cat: "acessorios", name: "Kit Meia Bebê 3 Pares Patinho e Listras Multicor", desc: "", img: "", url: "https://www.carters.com.br/produto/-kit-meia-bebe-3-pares-patinho-e-listras-multicor-carter-s-16139828_sku_sku" },
-  { id: "g13", cat: "acessorios", name: "Kit Touca Bebê 2 Peças com Dobra Multicor", desc: "", img: "", url: "https://www.carters.com.br/produto/kit-touca-bebe-2-pecas-com-dobra-multicor-carter-s-16141202001_sku_sku" },
-  { id: "g14", cat: "acessorios", name: "Pantufa Bebê Tricô Patinho Off-white", desc: "", img: "", url: "https://www.riachuelo.com.br/pantufa-bebe-tricot-patinho-off-white-carter-s-16000447001_sku_sku?utm_source=app_share" },
-  { id: "g15", cat: "acessorios", name: "Kit Meia Bebê 2 Pares Punho Delicado Multicor", desc: "", img: "", url: "https://www.riachuelo.com.br/kit-meia-bebe-2-pares-punho-delicado-multicor-carter-s-16000455001_sku_sku?utm_source=app_share" },
-  { id: "g16", cat: "higiene", name: "Kit Toalha de Banho Bebê 2 Peças Pelicano Multicor", desc: "", img: "", url: "https://www.riachuelo.com.br/kit-toalha-de-banho-bebe-2-pecas-pelicano-multicor-carter-s-16141091001_sku_sku?utm_source=app_share" },
-  { id: "g17", cat: "higiene", name: "Kit Babador Bebê Fleece com Pantufa Cachorrinho Bege", desc: "", img: "", url: "https://www.riachuelo.com.br/kit-babador-bebe-fleece-com-pantufa-cachorrinho-bege-carter-s-15723119001_sku_sku?utm_source=app_share" }
+  { id: "n1", cat: "Amamentação", name: "Bomba tira-leite elétrica", desc: "", img: "img/presentes/01.jpg", url: "https://s.shopee.com.br/1LgUlY3oht" },
+  { id: "n2", cat: "Quarto e sono", name: "Berço multifuncional", desc: "", img: "img/presentes/02.jpg", url: "https://s.shopee.com.br/4VdWXSG4UH" },
+  { id: "n3", cat: "Quarto e sono", name: "Naninha com cobertor ursinho", desc: "", img: "img/presentes/03.jpg", url: "https://s.shopee.com.br/9pf2tNSCsY" },
+  { id: "n4", cat: "Brinquedos e livros", name: "Livro de super contraste Vamos Dormir", desc: "", img: "img/presentes/04.jpg", url: "https://s.shopee.com.br/6fi17wm65q" },
+  { id: "n5", cat: "Quarto e sono", name: "Kit cabides de bebê", desc: "", img: "img/presentes/05.jpg", url: "https://s.shopee.com.br/1gJLAt1y9j" },
+  { id: "n6", cat: "Brinquedos e livros", name: "Espelho de atividades sensorial", desc: "", img: "img/presentes/06.jpg", url: "https://s.shopee.com.br/9APM6hlfgr" },
+  { id: "n7", cat: "Brinquedos e livros", name: "Tapete de água sensorial", desc: "", img: "img/presentes/07.jpg", url: "https://s.shopee.com.br/5q8u8c25eQ" },
+  { id: "n8", cat: "Roupinhas", name: "Kit meias RN 3 pares", desc: "", img: "img/presentes/08.jpg", url: "https://s.shopee.com.br/9pf2u2gIze" },
+  { id: "n9", cat: "Roupinhas", name: "Charutinho para bebê", desc: "", img: "img/presentes/09.jpg", url: "https://s.shopee.com.br/4fwwkc7E7t" },
+  { id: "n10", cat: "Banho e higiene", name: "Lixeira anti odor para fraldas", desc: "", img: "img/presentes/10.jpg", url: "https://s.shopee.com.br/qkEBcl90v" },
+  { id: "n11", cat: "Passeio", name: "Bolsa mini berço portátil", desc: "", img: "img/presentes/11.jpg", url: "https://s.shopee.com.br/80DOiud23r" },
+  { id: "n12", cat: "Banho e higiene", name: "Ofurô baby", desc: "", img: "img/presentes/12.jpg", url: "https://s.shopee.com.br/8fT5WF7CQL" },
+  { id: "n13", cat: "Quarto e sono", name: "Babá eletrônica com câmera", desc: "", img: "img/presentes/13.jpg", url: "https://s.shopee.com.br/4B0gA34iCO" },
+  { id: "n14", cat: "Quarto e sono", name: "Ruído branco com luz noturna", desc: "", img: "img/presentes/14.jpg", url: "https://s.shopee.com.br/AKbJVTwLIm" }
 ];
 
 /* =========================================================
@@ -982,7 +1015,6 @@ const TABLES = {
   remindLog: { t: "remind_log", cols: { id: "id", guestId: "guest_id", name: "name", channel: "channel", at: "created_at" } }
 };
 const ORDER = { guests: "created_at", guesses: "created_at", messages: "created_at", gifts: "position", photos: "created_at", remindLog: "created_at" };
-// gifts = null enquanto a lista padrão ainda não foi gravada no banco
 const mem = { guests: [], guesses: [], messages: [], gifts: null, photos: [], remindLog: [], myChoice: null, counts: null };
 const toRow = (k, o, i) => { const r = {}; for (const [js, db] of Object.entries(TABLES[k].cols)) if (o[js] !== undefined) r[db] = o[js]; if (k === "gifts") r.position = i; return r; };
 const fromRow = (k, r) => { const o = {}; for (const [js, db] of Object.entries(TABLES[k].cols)) o[js] = r[db] ?? (db === "descr" || db === "img" || db === "url" ? "" : r[db]); return o; };
@@ -1016,7 +1048,7 @@ async function loadConfig() {
 // O que qualquer visitante pode ver
 async function loadPublic() {
   await loadConfig();
-  const giftsP = reload("gifts").then(() => { if (!cfg.giftsSeeded && !mem.gifts.length) mem.gifts = null; });
+  const giftsP = reload("gifts");
   const me = myGuest();
   const [, , , mine, counts] = await Promise.all([
     giftsP, reload("messages"), reload("photos"),
@@ -1030,11 +1062,17 @@ async function loadPublic() {
 async function loadAdmin() {
   await loadConfig();
   await Promise.all(Object.keys(TABLES).map(reload));
-  if (!cfg.giftsSeeded) {
-    // Primeira vez no painel: grava a lista de presentes padrão no banco
-    if (!mem.gifts.length && await save("gifts", DEFAULT_GIFTS.map(g => Object.assign({}, g, { id: uid() })))) { cfg.giftsSeeded = true; await saveCfg(); }
-    else if (mem.gifts.length) { cfg.giftsSeeded = true; await saveCfg(); }
-  }
+  await migrateGifts();
+}
+// Versão da lista de presentes gravada (giftsSeeded era o nome antigo da versão 1)
+function giftsVer() { return +cfg.giftsVersion || (cfg.giftsSeeded ? 1 : 0); }
+// Grava a lista de DEFAULT_GIFTS quando ela é mais nova que a salva.
+async function migrateGifts() {
+  if (giftsVer() >= GIFTS_VERSION) return;
+  const fresh = DEFAULT_GIFTS.map(g => Object.assign({}, g, { id: uid() }));
+  cfg.giftsVersion = GIFTS_VERSION; // antes do save, para data.gifts já ler a lista salva
+  if (await save("gifts", fresh)) { cfg.featuredGifts = []; await saveCfg(); }
+  else cfg.giftsVersion = 0;
 }
 
 async function save(k, list) {
@@ -1063,7 +1101,10 @@ const data = {
   get guesses() { return ONLINE ? structuredCloneSafe(mem.guesses) : Store.get("guesses", []); },
   get messages() { return ONLINE ? structuredCloneSafe(mem.messages) : Store.get("messages", []); },
   get photos() { return ONLINE ? structuredCloneSafe(mem.photos) : Store.get("photos", []); },
-  get gifts() { return ONLINE ? structuredCloneSafe(mem.gifts || DEFAULT_GIFTS) : Store.get("gifts", DEFAULT_GIFTS); },
+  get gifts() {
+    if (giftsVer() < GIFTS_VERSION) return structuredCloneSafe(DEFAULT_GIFTS);
+    return ONLINE ? structuredCloneSafe(mem.gifts || DEFAULT_GIFTS) : Store.get("gifts", DEFAULT_GIFTS);
+  },
   get remindLog() { return ONLINE ? structuredCloneSafe(mem.remindLog) : Store.get("remindLog", []); }
 };
 async function saveCfg() {
@@ -1560,7 +1601,7 @@ function setupGuess() {
 
 /* ---------- Presentes e Pix ---------- */
 function safeUrl(u) { try { const x = new URL(u); return /^https?:$/.test(x.protocol) ? x.href : ""; } catch { return ""; } }
-function safeImg(u) { if (/^data:image\/(png|jpe?g|webp|gif);base64,/i.test(u || "")) return u; return safeUrl(u); }
+function safeImg(u) { if (/^data:image\/(png|jpe?g|webp|gif);base64,/i.test(u || "")) return u; if (/^img\/[\w\/.-]+\.(png|jpe?g|webp|gif)$/i.test(u || "")) return u; return safeUrl(u); }
 
 function pixGiftCard() {
   return `<article class="pix-feature">
@@ -1584,31 +1625,97 @@ function pixGiftCard() {
 function storeName(u) {
   try { const h = new URL(u).hostname.replace(/^www\./, ""); if (h.includes("carters")) return "Carter's"; if (h.includes("riachuelo")) return "Riachuelo"; if (h.includes("mercadolivre")) return "Mercado Livre"; if (h.includes("shopee")) return "Shopee"; if (h.includes("amazon")) return "Amazon"; return h; } catch { return ""; }
 }
-let giftFilter = "todos";
-function giftRow(g, icon) {
-  const img = safeImg(g.img), url = safeUrl(g.url), store = storeName(url);
-  const ph = `<svg class="ico" viewBox="0 0 24 24"><use href="#${icon}"/></svg>`;
-  const thumb = `<span class="gr-thumb">${img ? `<img src="${esc(img)}" alt="" loading="lazy" onerror="this.outerHTML='${ph.replace(/"/g, "&quot;")}'">` : ph}</span>`;
+const catLabel = (c) => GIFT_LABELS[c] || String(c || "").trim() || GIFT_LABELS.outros;
+const catShort = (c) => GIFT_SHORT[c] || catLabel(c);
+function catIcon(c) {
+  const t = normName(catLabel(c));
+  if (/meia|touca|calcad|sapat|pantuf/.test(t)) return "i-sock";
+  if (/higien|banho|toalha|fralda|cuidado/.test(t)) return "i-towel";
+  if (/roup|body|conjunt|macac|pijama|charut/.test(t)) return "i-onesie";
+  return "i-gift";
+}
+// Categorias na ordem em que aparecem na lista
+function giftGroups(list) {
+  const map = new Map();
+  list.forEach(g => { const k = catLabel(g.cat); if (!map.has(k)) map.set(k, { k, cat: g.cat, items: [] }); map.get(k).items.push(g); });
+  return [...map.values()];
+}
+function featuredGifts(list) {
+  const ids = Array.isArray(cfg.featuredGifts) ? cfg.featuredGifts : [];
+  const picked = ids.map(id => list.find(g => g.id === id)).filter(Boolean).slice(0, FEATURED_MAX);
+  // Sem destaques escolhidos (ou todos removidos da lista): mostra os primeiros
+  return picked.length ? picked : list.slice(0, FEATURED_MAX);
+}
+function giftThumb(g, cls) {
+  const img = safeImg(g.img), ph = `<svg class="ico" viewBox="0 0 24 24"><use href="#${catIcon(g.cat)}"/></svg>`;
+  return `<span class="${cls}">${img ? `<img src="${esc(img)}" alt="" loading="lazy" onerror="this.outerHTML='${ph.replace(/"/g, "&quot;")}'">` : ph}</span>`;
+}
+function giftCard(g) {
+  const url = safeUrl(g.url), store = storeName(url);
+  const body = `${giftThumb(g, "gcard-img")}<span class="gcard-body"><span class="gcard-name">${esc(g.name)}</span>${store ? `<span class="gcard-meta">${esc(store)}</span>` : ""}</span>`;
+  return url ? `<a class="gcard" href="${esc(url)}" target="_blank" rel="noopener">${body}</a>` : `<div class="gcard">${body}</div>`;
+}
+function giftRow(g) {
+  const url = safeUrl(g.url), store = storeName(url);
   const text = `<span class="gr-text"><span class="gr-name">${esc(g.name)}</span>${store || g.desc ? `<span class="gr-meta">${esc([store, g.desc].filter(Boolean).join(" · "))}</span>` : ""}</span>`;
   return url
-    ? `<li><a class="gift-row" href="${esc(url)}" target="_blank" rel="noopener">${thumb}${text}<span class="gr-go">Ver <svg class="ico" viewBox="0 0 24 24"><use href="#i-right"/></svg></span></a></li>`
-    : `<li><div class="gift-row">${thumb}${text}</div></li>`;
+    ? `<li><a class="gift-row" href="${esc(url)}" target="_blank" rel="noopener">${giftThumb(g, "gr-thumb")}${text}<span class="gr-go">Ver <svg class="ico" viewBox="0 0 24 24"><use href="#i-right"/></svg></span></a></li>`
+    : `<li><div class="gift-row">${giftThumb(g, "gr-thumb")}${text}</div></li>`;
 }
+// Página inicial: só os destaques
 function renderGifts() {
   const list = data.gifts, box = $("#gifts");
-  if (!list.length && !cfg.pixKey) { box.innerHTML = `<div class="empty"><svg class="ico" viewBox="0 0 24 24"><use href="#i-gift"/></svg>A lista de presentes será publicada em breve.</div>`; return; }
-  const known = GIFT_CATS.map(c => c[0]);
-  const groups = GIFT_CATS.map(([k, label, icon]) => ({ k, label, icon, items: list.filter(g => g.cat === k) }))
-    .concat([{ k: "outros", label: "Outros presentes", icon: "i-gift", items: list.filter(g => !known.includes(g.cat)) }])
-    .filter(gr => gr.items.length);
+  if (!list.length) { box.innerHTML = `<div class="empty"><svg class="ico" viewBox="0 0 24 24"><use href="#i-gift"/></svg>A lista de presentes será publicada em breve.</div>` + pixGiftCard(); return; }
+  const feat = featuredGifts(list);
+  box.innerHTML = (feat.length ? `<div class="gift-feat">${feat.map(giftCard).join("")}</div>` : "")
+    + `<p class="gift-more"><a class="btn" href="#lista-presentes" data-gp-open>Ver mais presentes</a></p>`
+    + pixGiftCard();
+  if (!$("#giftsPage").hidden) renderGiftsAll();
+}
+// Aba completa, com filtro e busca
+let giftFilter = "todos", giftQuery = "";
+function renderGiftsAll() {
+  const list = data.gifts, box = $("#giftsAll");
+  const groups = giftGroups(list);
   if (giftFilter !== "todos" && giftFilter !== "pix" && !groups.some(g => g.k === giftFilter)) giftFilter = "todos";
-  const chips = [["todos", `Todos <b>${list.length}</b>`]].concat(groups.map(g => [g.k, `${esc(({ roupas: "Roupinhas", acessorios: "Meias e calçados", higiene: "Higiene", outros: "Outros" })[g.k] || g.label)} <b>${g.items.length}</b>`]), [["pix", "Pix"]]);
-  const shown = giftFilter === "todos" ? groups : groups.filter(g => g.k === giftFilter);
-  box.innerHTML = `<div class="chips" role="tablist" aria-label="Categorias de presentes">${chips.map(([k, l]) => `<button type="button" class="chip" role="tab" aria-selected="${k === giftFilter}" data-gfilter="${k}">${l}</button>`).join("")}</div>`
-    + (giftFilter === "pix" ? "" : shown.map(gr => `<section class="gift-group">
-        <h3 class="gift-cat"><svg class="ico" viewBox="0 0 24 24"><use href="#${gr.icon}"/></svg>${esc(gr.label)}</h3>
-        <ul class="gift-list">${gr.items.map(g => giftRow(g, gr.icon)).join("")}</ul></section>`).join(""))
-    + (giftFilter === "todos" || giftFilter === "pix" ? pixGiftCard() : "");
+  const q = normName(giftQuery);
+  const chips = [["todos", `Todos <b>${list.length}</b>`]].concat(groups.map(g => [g.k, `${esc(catShort(g.cat))} <b>${g.items.length}</b>`]), [["pix", "Pix"]]);
+  const shown = (giftFilter === "todos" ? groups : groups.filter(g => g.k === giftFilter))
+    .map(g => Object.assign({}, g, { items: q ? g.items.filter(x => normName(`${x.name} ${x.desc || ""} ${storeName(x.url)}`).includes(q)) : g.items }))
+    .filter(g => g.items.length);
+  let html = `<div class="chips" role="tablist" aria-label="Categorias de presentes">${chips.map(([k, l]) => `<button type="button" class="chip" role="tab" aria-selected="${k === giftFilter}" data-gfilter="${esc(k)}">${l}</button>`).join("")}</div>`;
+  if (giftFilter !== "pix") {
+    html += shown.length ? shown.map(gr => `<section class="gift-group">
+        <h3 class="gift-cat"><svg class="ico" viewBox="0 0 24 24"><use href="#${catIcon(gr.cat)}"/></svg>${esc(gr.k)}</h3>
+        <ul class="gift-list">${gr.items.map(giftRow).join("")}</ul></section>`).join("")
+      : `<div class="empty">${list.length ? "Nenhum presente encontrado com essa busca." : "A lista de presentes será publicada em breve."}</div>`;
+  }
+  if (giftFilter === "todos" || giftFilter === "pix") html += pixGiftCard();
+  box.innerHTML = html;
+}
+let gpPushed = false;
+function syncGiftsPage() {
+  const open = location.hash === "#lista-presentes", gp = $("#giftsPage");
+  if (open === !gp.hidden) return;
+  gp.hidden = !open;
+  document.body.style.overflow = open ? "hidden" : "";
+  if (open) { renderGiftsAll(); gp.scrollTop = 0; $("[data-gp-close]").focus(); }
+  else { gpPushed = false; const b = $("[data-gp-open]"); b && b.focus({ preventScroll: true }); }
+}
+function closeGiftsPage() {
+  if (gpPushed) history.back();
+  else { history.replaceState(null, "", location.pathname + location.search + "#presentes"); syncGiftsPage(); }
+}
+function setupGiftsPage() {
+  window.addEventListener("hashchange", syncGiftsPage);
+  $("#gpSearch").addEventListener("input", (e) => { giftQuery = e.target.value; renderGiftsAll(); });
+  document.addEventListener("click", (e) => {
+    if (e.target.closest("[data-gp-open]")) { gpPushed = true; return; }
+    if (e.target.closest("[data-gp-close]")) { e.preventDefault(); closeGiftsPage(); }
+  });
+  // Fase de captura: roda antes do Esc que fecha os modais, para não fechar os dois de uma vez
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("#giftsPage").hidden && $("#admin").hidden && $(".modal:not([hidden])") == null) closeGiftsPage(); }, true);
+  syncGiftsPage();
 }
 
 function pixPayload(key, name, city) {
@@ -1771,7 +1878,7 @@ function setupChrome() {
 
   document.addEventListener("click", (e) => {
     const gf = e.target.closest("[data-gfilter]");
-    if (gf) { giftFilter = gf.dataset.gfilter; renderGifts(); const c = $(`[data-gfilter="${giftFilter}"]`); c && c.focus(); return; }
+    if (gf) { giftFilter = gf.dataset.gfilter; renderGiftsAll(); const c = $(`[data-gfilter="${CSS.escape(giftFilter)}"]`); c && c.focus(); return; }
     const o = e.target.closest("[data-open]"); if (o) { const m = $("#" + o.dataset.open); m.hidden = false; $("[data-close]", m)?.focus(); }
     if ((e.target.closest("[data-close]") || e.target.classList.contains("modal")) && e.target.closest(".modal").id !== "askModal") e.target.closest(".modal").hidden = true;
   });
@@ -1803,6 +1910,7 @@ const Admin = {
         try { await loadAdmin(); } catch (e) { console.error(e); $("#adminMain").innerHTML = `<div class="empty">Não foi possível carregar os dados. Confira a internet e abra o painel de novo.</div>`; return; }
       }
     }
+    if (logged && !ONLINE) await migrateGifts();
     $("#adminLogin").hidden = logged; $("#adminApp").hidden = !logged;
     if (logged) this.render(); else setTimeout(() => $(ONLINE ? "#aEmail" : "#aPass").focus(), 50);
   },
@@ -1814,7 +1922,8 @@ const Admin = {
 
   render() {
     $("#tabs").innerHTML = this.tabs.map(([k, l]) => `<button class="tab" role="tab" aria-selected="${k === this.tab}" data-tab="${k}">${l}</button>`).join("");
-    const main = $("#adminMain");
+    // Troca o contêiner a cada render para não acumular os listeners de cada aba
+    const old = $("#adminMain"), main = old.cloneNode(false); old.replaceWith(main);
     main.innerHTML = this["v_" + this.tab]();
     this.bind[this.tab] && this.bind[this.tab].call(this, main);
   },
@@ -1985,20 +2094,28 @@ const Admin = {
   editingGift: null,
   v_presentes() {
     const list = data.gifts, e = list.find(g => g.id === this.editingGift) || {};
+    const feat = new Set(featuredGifts(list).map(g => g.id));
+    const cats = [...new Set(list.map(g => catLabel(g.cat)))];
     return `<div class="card"><h2>${e.id ? "Editar presente" : "Novo presente"}</h2>
       <form id="giftForm" class="grid2" novalidate>
-        <div class="field"><label for="gfName">Nome</label><input class="input" id="gfName" name="name" value="${esc(e.name)}" maxlength="60"><span class="err" id="gfNameErr"></span></div>
+        <div class="field"><label for="gfName">Nome</label><input class="input" id="gfName" name="name" value="${esc(e.name)}" maxlength="80"><span class="err" id="gfNameErr"></span></div>
         <div class="field"><label for="gfUrl">Link da loja</label><input class="input" id="gfUrl" name="url" value="${esc(e.url)}" placeholder="https://..."><span class="err" id="gfUrlErr"></span></div>
-        <div class="field"><label for="gfCat">Categoria</label><select class="select" id="gfCat" name="cat">${GIFT_CATS.map(([k, l]) => `<option value="${k}" ${e.cat === k ? "selected" : ""}>${l}</option>`).join("")}<option value="outros" ${e.cat && !GIFT_CATS.some(c => c[0] === e.cat) ? "selected" : ""}>Outros presentes</option></select></div>
+        <div class="field"><label for="gfCat">Categoria</label><input class="input" id="gfCat" name="cat" list="gfCats" value="${esc(e.id ? catLabel(e.cat) : "")}" maxlength="40" placeholder="Escolha ou escreva uma nova"><datalist id="gfCats">${cats.map(c => `<option value="${esc(c)}">`).join("")}</datalist><span class="hint">Presentes com a mesma categoria ficam juntos no filtro.</span></div>
         <div class="field"><label for="gfDesc">Descrição (opcional)</label><input class="input" id="gfDesc" name="desc" value="${esc(e.desc)}" maxlength="120"></div>
-        <div class="field"><label for="gfImg">Imagem: link ou arquivo (opcional)</label><input class="input" id="gfImg" name="img" value="${esc(e.img && !e.img.startsWith("data:") ? e.img : "")}" placeholder="https://..."><input type="file" id="gfFile" accept="image/*" class="small"></div>
+        <div class="field"><label for="gfImg">Foto: link ou arquivo (opcional)</label><input class="input" id="gfImg" name="img" value="${esc(e.img && !e.img.startsWith("data:") ? e.img : "")}" placeholder="https://..."><input type="file" id="gfFile" accept="image/*" class="small"></div>
+        <div class="field" style="align-self:end"><label class="check"><input type="checkbox" name="featured" ${e.id && feat.has(e.id) ? "checked" : ""}> Destaque na página inicial</label></div>
         <div style="display:flex;gap:8px"><button class="btn btn-sm" type="submit">${e.id ? "Salvar alterações" : "Adicionar"}</button>${e.id ? `<button class="mini" type="button" id="gfCancel">Cancelar</button>` : ""}</div>
       </form></div>
       <div class="card"><h2>Lista (${list.length})</h2>
-        ${list.length ? `<div class="admin-list">${list.map(g => `<div class="admin-item">
-          ${safeImg(g.img) ? `<img src="${esc(safeImg(g.img))}" alt="">` : `<span class="ph"><svg class="ico" viewBox="0 0 24 24"><use href="#i-gift"/></svg></span>`}
-          <div class="meta"><b>${esc(g.name)}</b><span>${esc(g.url)}</span></div>
-          <div class="acts" style="display:flex;gap:6px;flex-wrap:wrap"><button class="mini" data-edit-gift="${g.id}">Editar</button><button class="mini danger" data-del-gift="${g.id}">Remover</button></div></div>`).join("")}</div>`
+        <p class="hint" style="margin:-4px 0 12px">A página inicial mostra até ${FEATURED_MAX} destaques (estrela). Use as setas para mudar a ordem.</p>
+        ${list.length ? `<div class="admin-list">${list.map((g, i) => `<div class="admin-item">
+          ${safeImg(g.img) ? `<img src="${esc(safeImg(g.img))}" alt="">` : `<span class="ph"><svg class="ico" viewBox="0 0 24 24"><use href="#${catIcon(g.cat)}"/></svg></span>`}
+          <div class="meta"><b>${feat.has(g.id) ? "★ " : ""}${esc(g.name)}</b><span>${esc(catLabel(g.cat))} · ${esc(storeName(g.url) || g.url)}</span></div>
+          <div class="acts" style="display:flex;gap:6px;flex-wrap:wrap">
+            <button class="mini" data-feat-gift="${g.id}" aria-pressed="${feat.has(g.id)}">${feat.has(g.id) ? "Tirar destaque" : "Destacar"}</button>
+            <button class="mini" data-move-gift="${g.id}" data-dir="-1" ${i ? "" : "disabled"} aria-label="Subir">↑</button>
+            <button class="mini" data-move-gift="${g.id}" data-dir="1" ${i < list.length - 1 ? "" : "disabled"} aria-label="Descer">↓</button>
+            <button class="mini" data-edit-gift="${g.id}">Editar</button><button class="mini danger" data-del-gift="${g.id}">Remover</button></div></div>`).join("")}</div>`
         : `<div class="empty">Nenhum presente cadastrado.</div>`}
       </div>`;
   },
@@ -2159,14 +2276,43 @@ const Admin = {
         let g = list.find(x => x.id === this.editingGift);
         if (!g) { g = { id: uid() }; list.push(g); }
         const imgUrl = String(fd.get("img")).trim();
-        Object.assign(g, { name, cat: String(fd.get("cat") || "outros"), url: safeUrl(url), desc: String(fd.get("desc")).trim(), img: fileData || (imgUrl ? safeUrl(imgUrl) : (g.img && g.img.startsWith("data:") ? g.img : "")) });
-        if (await save("gifts", list)) { toast(this.editingGift ? "Presente atualizado." : "Presente adicionado."); this.editingGift = null; this.render(); }
+        const catIn = String(fd.get("cat") || "").trim();
+        // Mantém a chave antiga (ex.: "roupas") se o nome da categoria não mudou
+        const cat = !catIn ? "outros" : (g.cat && catLabel(g.cat) === catIn ? g.cat : (Object.keys(GIFT_LABELS).find(k => GIFT_LABELS[k] === catIn) || catIn));
+        Object.assign(g, { name, cat, url: safeUrl(url), desc: String(fd.get("desc")).trim(), img: fileData || (imgUrl ? safeImg(imgUrl) : (g.img && g.img.startsWith("data:") ? g.img : "")) });
+        const wasNew = !this.editingGift;
+        if (!await save("gifts", list)) return;
+        const feat = featuredGifts(list).map(x => x.id), want = !!fd.get("featured"), has = feat.includes(g.id);
+        let msg = wasNew ? "Presente adicionado." : "Presente atualizado.", full = false;
+        if (want !== has) {
+          if (want && feat.length >= FEATURED_MAX) { full = true; msg = `Presente salvo. Já há ${FEATURED_MAX} destaques: tire um para destacar este.`; }
+          else { cfg.featuredGifts = want ? feat.concat(g.id) : feat.filter(id => id !== g.id); await saveCfg(); }
+        }
+        toast(msg, full);
+        this.editingGift = null; this.render();
       });
       const cancel = $("#gfCancel", main); if (cancel) cancel.addEventListener("click", () => { this.editingGift = null; this.render(); });
       main.addEventListener("click", async (e) => {
-        const ed = e.target.dataset.editGift, del = e.target.dataset.delGift;
+        const ed = e.target.dataset.editGift, del = e.target.dataset.delGift, fe = e.target.dataset.featGift, mv = e.target.dataset.moveGift;
+        if (fe) {
+          const feat = featuredGifts(data.gifts).map(x => x.id);
+          if (!feat.includes(fe) && feat.length >= FEATURED_MAX) { toast(`A página inicial mostra só ${FEATURED_MAX} destaques. Tire um antes.`, true); return; }
+          cfg.featuredGifts = feat.includes(fe) ? feat.filter(id => id !== fe) : feat.concat(fe);
+          if (await saveCfg()) this.render();
+          return;
+        }
+        if (mv) {
+          const list = data.gifts, i = list.findIndex(x => x.id === mv), j = i + (+e.target.dataset.dir);
+          if (i < 0 || j < 0 || j >= list.length) return;
+          [list[i], list[j]] = [list[j], list[i]];
+          if (await save("gifts", list)) this.render();
+          return;
+        }
         if (ed) { this.editingGift = ed; this.render(); window.scrollTo(0, 0); $("#admin").scrollTop = 0; }
-        if (del && await ask("Remover este presente da lista?")) { await save("gifts", data.gifts.filter(x => x.id !== del)); this.render(); }
+        if (del && await ask("Remover este presente da lista?")) {
+          if (await save("gifts", data.gifts.filter(x => x.id !== del)) && Array.isArray(cfg.featuredGifts) && cfg.featuredGifts.includes(del)) { cfg.featuredGifts = cfg.featuredGifts.filter(id => id !== del); await saveCfg(); }
+          this.render();
+        }
       });
     },
     pix(main) {
@@ -2354,7 +2500,7 @@ async function init() {
   paintIllustrations();
   renderContent();
   startCountdown();
-  setupChrome(); setupRsvp(); setupGuess(); setupMessages(); setupGallery(); setupAdmin();
+  setupChrome(); setupRsvp(); setupGuess(); setupMessages(); setupGallery(); setupGiftsPage(); setupAdmin();
   if (ONLINE) {
     if (!sb) toast("Não foi possível conectar. Recarregue a página.", true);
     else loadPublic().then(() => { renderContent(); startCountdown(); }).catch(e => { console.error(e); toast("Não foi possível carregar tudo. Confira a internet e recarregue a página.", true); });
