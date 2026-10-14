@@ -503,8 +503,8 @@ td .acts{display:flex;gap:6px;flex-wrap:wrap}
   <span class="script">Chá Revelação</span>
   <a href="#inicio">Início</a>
   <a href="#local">Data e local</a>
-  <a href="#rsvp">Confirmar presença</a>
   <a href="#palpite">Palpite</a>
+  <a href="#rsvp">Confirmar presença</a>
   <a href="#presentes">Presentes</a>
   <a href="#mensagens">Mensagens</a>
   <a href="#galeria">Fotos</a>
@@ -533,7 +533,6 @@ td .acts{display:flex;gap:6px;flex-wrap:wrap}
     </div>
     <div class="reveal-banner" id="revealBanner" hidden></div>
     <p class="welcome" data-cfg="welcome"></p>
-    <a class="btn" href="#rsvp">Confirmar presença <svg class="ico" viewBox="0 0 24 24"><use href="#i-heart"/></svg></a>
   </header>
 
   <!-- CONTAGEM -->
@@ -577,6 +576,36 @@ td .acts{display:flex;gap:6px;flex-wrap:wrap}
       </div>
     </article>
 
+  </section>
+
+  <!-- PALPITE -->
+  <section class="section wrap" id="palpite">
+    <div class="sec-head fade">
+      <div class="orn"><svg class="ico" viewBox="0 0 24 24" style="width:18px"><use href="#i-heart"/></svg></div>
+      <h2>Qual é o seu palpite?</h2>
+      <div class="script">Time Menina ou Time Menino?</div>
+    </div>
+    <div class="card fade">
+      <form id="guessForm" novalidate>
+        <fieldset class="fieldset" aria-describedby="gChoiceErr">
+          <legend class="sr-only">Escolha seu palpite</legend>
+          <div class="guess-grid">
+            <label class="guess-opt girl"><input type="radio" name="choice" value="menina"><span class="guess-card"><span data-bear="girl"></span><strong>Menina</strong><small>Time laço</small></span></label>
+            <label class="guess-opt boy"><input type="radio" name="choice" value="menino"><span class="guess-card"><span data-bear="boy"></span><strong>Menino</strong><small>Time gravata</small></span></label>
+          </div>
+          <span class="err" id="gChoiceErr"></span>
+        </fieldset>
+        <div class="field" id="gNameField">
+          <label for="gName">Seu nome</label>
+          <input class="input" id="gName" name="name" autocomplete="name" maxlength="80" aria-describedby="gNameHint gNameErr">
+          <span class="hint" id="gNameHint">Se você já confirmou presença, usamos o nome da sua resposta.</span>
+          <span class="err" id="gNameErr"></span>
+        </div>
+        <button class="btn btn-block btn-lilac" type="submit" id="gSubmit">Registrar meu palpite</button>
+        <p class="form-note center" id="guessNote"></p>
+      </form>
+      <div id="guessResults"></div>
+    </div>
   </section>
 
   <!-- RSVP -->
@@ -630,36 +659,6 @@ td .acts{display:flex;gap:6px;flex-wrap:wrap}
         <p class="form-note">Usamos seus dados apenas para organizar o chá. <button type="button" class="linkish" data-open="privacy" style="background:none;border:0;padding:0;color:var(--sage-dark);text-decoration:underline;cursor:pointer;font-size:inherit">Aviso de privacidade</button>.</p>
       </form>
       <div class="success" id="rsvpOk" hidden tabindex="-1"></div>
-    </div>
-  </section>
-
-  <!-- PALPITE -->
-  <section class="section wrap" id="palpite">
-    <div class="sec-head fade">
-      <div class="orn"><svg class="ico" viewBox="0 0 24 24" style="width:18px"><use href="#i-heart"/></svg></div>
-      <h2>Qual é o seu palpite?</h2>
-      <div class="script">Time Menina ou Time Menino?</div>
-    </div>
-    <div class="card fade">
-      <form id="guessForm" novalidate>
-        <fieldset class="fieldset" aria-describedby="gChoiceErr">
-          <legend class="sr-only">Escolha seu palpite</legend>
-          <div class="guess-grid">
-            <label class="guess-opt girl"><input type="radio" name="choice" value="menina"><span class="guess-card"><span data-bear="girl"></span><strong>Menina</strong><small>Time laço</small></span></label>
-            <label class="guess-opt boy"><input type="radio" name="choice" value="menino"><span class="guess-card"><span data-bear="boy"></span><strong>Menino</strong><small>Time gravata</small></span></label>
-          </div>
-          <span class="err" id="gChoiceErr"></span>
-        </fieldset>
-        <div class="field" id="gNameField">
-          <label for="gName">Seu nome</label>
-          <input class="input" id="gName" name="name" autocomplete="name" maxlength="80" aria-describedby="gNameHint gNameErr">
-          <span class="hint" id="gNameHint">Se você já confirmou presença, usamos o nome da sua resposta.</span>
-          <span class="err" id="gNameErr"></span>
-        </div>
-        <button class="btn btn-block btn-lilac" type="submit" id="gSubmit">Registrar meu palpite</button>
-        <p class="form-note center" id="guessNote"></p>
-      </form>
-      <div id="guessResults"></div>
     </div>
   </section>
 
