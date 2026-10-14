@@ -623,6 +623,7 @@ td .acts{display:flex;gap:6px;flex-wrap:wrap}
     </div>
     <div class="card fade" id="rsvpCard">
       <form id="rsvpForm" novalidate>
+        <p class="form-note" id="notMe" hidden style="margin:0 0 14px"></p>
         <div class="field">
           <label for="rName">Nome completo</label>
           <input class="input" id="rName" name="name" autocomplete="name" maxlength="80" aria-describedby="rNameErr">
@@ -2688,6 +2689,14 @@ async function init() {
     const r = $(`input[name="attend"][value="${me.status === "nao" ? "nao" : "sim"}"]`); if (r && me.status !== "pendente") { r.checked = true; $("#compField").hidden = !(me.status === "confirmado" && maxCompanions() > 0); $("#giftField").hidden = me.status !== "confirmado"; renderGiftSelect(); }
     (me.companions || []).forEach(c => addCompanion(c));
     $("#rConsent").checked = !!me.consent;
+    // Aparelho usado por outra pessoa (ou testes): começa do zero
+    const nm = $("#notMe");
+    nm.hidden = false;
+    nm.innerHTML = `Respondendo como <b>${esc(me.name || "")}</b>. <button type="button" class="linkish" id="notMeBtn" style="background:none;border:0;padding:0;color:var(--sage-dark);text-decoration:underline;cursor:pointer;font-size:inherit">Não é você?</button>`;
+    $("#notMeBtn").addEventListener("click", () => {
+      ["me", "meRec", "device"].forEach(k => { try { localStorage.removeItem(Store.prefix + k); } catch {} });
+      location.reload();
+    });
   }
   document.addEventListener("visibilitychange", () => { if (!document.hidden) startCountdown(); });
 }
