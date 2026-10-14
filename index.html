@@ -233,6 +233,26 @@ button,input,select,textarea{font:inherit;color:inherit}
 .choice input:focus-visible + span{outline:2px solid var(--lilac-deep);outline-offset:2px}
 .check{display:flex;gap:10px;align-items:flex-start;font-size:.98rem;cursor:pointer}
 .check input{width:20px;height:20px;margin-top:3px;accent-color:var(--sage);flex:none}
+/* Formulário de presente no painel */
+.gift-form{display:grid;grid-template-columns:168px 1fr;gap:18px 24px;align-items:start}
+.gf-photo{display:grid;gap:8px}
+.gf-drop{aspect-ratio:1;border:1.5px dashed var(--beige-2);border-radius:16px;background:var(--off);display:grid;place-items:center;text-align:center;color:var(--brown-3);cursor:pointer;overflow:hidden;font-size:.9rem;transition:border-color .2s,background-color .2s}
+.gf-drop:hover,.gf-photo:focus-within .gf-drop{border-color:var(--sage);background:#fff}
+.gf-drop #gfPrev{display:grid;place-items:center;width:100%;height:100%}
+.gf-drop img{width:100%;height:100%;object-fit:cover}
+.gf-drop .ico{width:28px;height:28px;display:block;margin:0 auto 6px}
+.gf-photo .input{min-height:40px;padding:8px 12px;font-size:.92rem}
+.gf-fields{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+.gf-fields .full{grid-column:1/-1}
+.field label .opt{font-family:var(--body);font-weight:400;font-size:.82rem;color:var(--brown-3);margin-left:4px}
+.gf-opts{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opt-card{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:#fff;cursor:pointer;transition:border-color .2s,background-color .2s}
+.opt-card:has(input:checked){border-color:var(--sage);background:var(--off)}
+.opt-card input{width:18px;height:18px;margin-top:4px;accent-color:var(--sage-dark);flex:none}
+.opt-card b{display:block;font-family:var(--serif);font-weight:600;font-size:1.02rem}
+.opt-card small{display:block;color:var(--brown-3);font-size:.86rem;line-height:1.35}
+.gf-actions{grid-column:1/-1;display:flex;gap:8px;justify-content:flex-end;border-top:1px solid var(--line);padding-top:16px}
+@media (max-width:640px){.gift-form{grid-template-columns:1fr}.gf-photo{grid-template-columns:104px 1fr;align-items:center}.gf-fields,.gf-opts{grid-template-columns:1fr}.gf-actions .btn{flex:1}}
 /* Formulário de confirmação em marrom claro */
 #rsvpForm .btn:not(.btn-ghost){background:var(--tan);box-shadow:0 6px 18px rgba(150,116,88,.25)}
 #rsvpForm .btn:not(.btn-ghost):hover{background:var(--tan-dark)}
@@ -2282,14 +2302,25 @@ const Admin = {
     const by = {}; data.guests.filter(x => x.status === "confirmado" && x.giftId).forEach(x => (by[x.giftId] = by[x.giftId] || []).push(x.name));
     const cats = [...new Set(list.map(g => catLabel(g.cat)))];
     return `${this.chosenGifts(list, uniq)}<div class="card"><h2>${e.id ? "Editar presente" : "Novo presente"}</h2>
-      <form id="giftForm" class="grid2" novalidate>
-        <div class="field"><label for="gfName">Nome</label><input class="input" id="gfName" name="name" value="${esc(e.name)}" maxlength="80"><span class="err" id="gfNameErr"></span></div>
-        <div class="field"><label for="gfUrl">Link da loja</label><input class="input" id="gfUrl" name="url" value="${esc(e.url)}" placeholder="https://..."><span class="err" id="gfUrlErr"></span></div>
-        <div class="field"><label for="gfCat">Categoria</label><input class="input" id="gfCat" name="cat" list="gfCats" value="${esc(e.id ? catLabel(e.cat) : "")}" maxlength="40" placeholder="Escolha ou escreva uma nova"><datalist id="gfCats">${cats.map(c => `<option value="${esc(c)}">`).join("")}</datalist><span class="hint">Presentes com a mesma categoria ficam juntos no filtro.</span></div>
-        <div class="field"><label for="gfDesc">Descrição (opcional)</label><input class="input" id="gfDesc" name="desc" value="${esc(e.desc)}" maxlength="120"></div>
-        <div class="field"><label for="gfImg">Foto: link ou arquivo (opcional)</label><input class="input" id="gfImg" name="img" value="${esc(e.img && !e.img.startsWith("data:") ? e.img : "")}" placeholder="https://..."><input type="file" id="gfFile" accept="image/*" class="small"></div>
-        <div class="field" style="align-self:end"><label class="check"><input type="checkbox" name="featured" ${e.id && feat.has(e.id) ? "checked" : ""}> Destaque na página inicial</label><label class="check"><input type="checkbox" name="unique" ${e.id && uniq.has(e.id) ? "checked" : ""}> Item único (só uma pessoa pode escolher)</label></div>
-        <div style="display:flex;gap:8px"><button class="btn btn-sm" type="submit">${e.id ? "Salvar alterações" : "Adicionar"}</button>${e.id ? `<button class="mini" type="button" id="gfCancel">Cancelar</button>` : ""}</div>
+      <form id="giftForm" class="gift-form" novalidate>
+        <div class="gf-photo">
+          <label class="gf-drop" for="gfFile" title="Escolher foto">
+            <span id="gfPrev">${safeImg(e.img) ? `<img src="${esc(safeImg(e.img))}" alt="">` : `<span><svg class="ico" viewBox="0 0 24 24"><use href="#i-photo"/></svg>Adicionar foto</span>`}</span>
+          </label>
+          <input type="file" id="gfFile" accept="image/*" class="sr-only">
+          <input class="input" id="gfImg" name="img" value="${esc(e.img && !e.img.startsWith("data:") ? e.img : "")}" placeholder="ou cole o link da foto" aria-label="Link da foto">
+        </div>
+        <div class="gf-fields">
+          <div class="field full"><label for="gfName">Nome do presente</label><input class="input" id="gfName" name="name" value="${esc(e.name)}" maxlength="80" placeholder="Ex.: Kit 5 bodies brancos"><span class="err" id="gfNameErr"></span></div>
+          <div class="field full"><label for="gfUrl">Link da loja <span class="opt">opcional</span></label><input class="input" id="gfUrl" name="url" value="${esc(e.url)}" placeholder="https://..."><span class="err" id="gfUrlErr"></span></div>
+          <div class="field"><label for="gfCat">Categoria</label><input class="input" id="gfCat" name="cat" list="gfCats" value="${esc(e.id ? catLabel(e.cat) : "")}" maxlength="40" placeholder="Escolha ou escreva uma nova"><datalist id="gfCats">${cats.map(c => `<option value="${esc(c)}">`).join("")}</datalist></div>
+          <div class="field"><label for="gfDesc">Descrição <span class="opt">opcional</span></label><input class="input" id="gfDesc" name="desc" value="${esc(e.desc)}" maxlength="120" placeholder="Ex.: Tamanho M ou G"></div>
+        </div>
+        <div class="gf-opts">
+          <label class="opt-card"><input type="checkbox" name="featured" ${e.id && feat.has(e.id) ? "checked" : ""}><span><b>Destaque</b><small>Aparece na página inicial (até ${FEATURED_MAX}).</small></span></label>
+          <label class="opt-card"><input type="checkbox" name="unique" ${e.id && uniq.has(e.id) ? "checked" : ""}><span><b>Item único</b><small>Só uma pessoa pode escolher. Depois aparece como esgotado.</small></span></label>
+        </div>
+        <div class="gf-actions">${e.id ? `<button class="btn btn-sm btn-ghost" type="button" id="gfCancel">Cancelar</button>` : ""}<button class="btn btn-sm" type="submit">${e.id ? "Salvar alterações" : "Adicionar presente"}</button></div>
       </form></div>
       <div class="card"><h2>Lista (${list.length})</h2>
         <p class="hint" style="margin:-4px 0 12px">A página inicial mostra até ${FEATURED_MAX} destaques (estrela). Use as setas para mudar a ordem. Itens únicos aparecem como "Esgotado" no site depois que alguém escolhe ao confirmar presença.</p>
@@ -2451,7 +2482,11 @@ const Admin = {
       let fileData = null;
       $("#gfFile", main).addEventListener("change", async (e) => {
         const f = e.target.files[0]; if (!f) return;
-        try { fileData = await resizeImage(f, 600, .8); toast("Imagem pronta. Clique em salvar."); } catch { toast("Não foi possível ler essa imagem.", true); }
+        try { fileData = await resizeImage(f, 600, .8); $("#gfPrev", main).innerHTML = `<img src="${fileData}" alt="">`; $("#gfImg", main).value = ""; toast("Foto pronta. Clique em salvar."); } catch { toast("Não foi possível ler essa imagem.", true); }
+      });
+      $("#gfImg", main).addEventListener("change", (e) => {
+        const u = safeImg(e.target.value.trim()); if (!u) return;
+        fileData = null; $("#gfPrev", main).innerHTML = `<img src="${esc(u)}" alt="">`;
       });
       form.addEventListener("submit", async (e) => {
         e.preventDefault(); const fd = new FormData(form);
