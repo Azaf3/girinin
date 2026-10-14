@@ -595,12 +595,6 @@ td .acts{display:flex;gap:6px;flex-wrap:wrap}
           </div>
           <span class="err" id="gChoiceErr"></span>
         </fieldset>
-        <div class="field" id="gNameField">
-          <label for="gName">Seu nome</label>
-          <input class="input" id="gName" name="name" autocomplete="name" maxlength="80" aria-describedby="gNameHint gNameErr">
-          <span class="hint" id="gNameHint">Se você já confirmou presença, usamos o nome da sua resposta.</span>
-          <span class="err" id="gNameErr"></span>
-        </div>
         <button class="btn btn-block btn-lilac" type="submit" id="gSubmit">Registrar meu palpite</button>
         <p class="form-note center" id="guessNote"></p>
       </form>
@@ -1435,7 +1429,7 @@ function setupRsvp() {
     Store.rawSet("me", record.id);
     Store.set("meRec", record);
     refreshTaken().then(renderGifts);
-    if (ONLINE && sb) sb.rpc("my_guess", { p_device: deviceId(), p_guest: record.id }).then(r => { if (!r.error && r.data) { mem.myChoice = r.data; renderGuess(); applyTeam(currentTeam()); } });
+    linkGuessToGuest(record);
 
     setTimeout(() => {
       btn.classList.remove("is-loading");
@@ -1604,7 +1598,6 @@ function guessCounts() {
 function renderGuess() {
   const form = $("#guessForm");
   const me = myGuest(), mine = myGuess(), locked = guessLocked();
-  $("#gNameField").hidden = !!me;
   if (mine) { const r = $(`input[name="choice"][value="${mine.choice}"]`, form); if (r) r.checked = true; }
   $$('input[name="choice"]', form).forEach(i => i.disabled = locked);
   $("#gSubmit").disabled = locked;
@@ -1627,6 +1620,21 @@ function renderGuess() {
   }
 }
 
+// Palpite feito antes de confirmar presença: o nome entra quando a pessoa confirma
+const GUESS_NO_NAME = "Aguardando confirmação";
+function linkGuessToGuest(rec) {
+  if (ONLINE) {
+    if (!sb) return;
+    sb.rpc("my_guess", { p_device: deviceId(), p_guest: rec.id }).then(r => {
+      if (r.error || !r.data) return;
+      mem.myChoice = r.data; renderGuess(); applyTeam(currentTeam());
+      sb.rpc("submit_guess", { p_device: deviceId(), p_guest: rec.id, p_name: rec.name, p_choice: r.data }).then(() => {}); // a chamada só sai com then
+    });
+    return;
+  }
+  const list = data.guesses, g = list.find(x => x.guestId === rec.id || x.deviceId === deviceId());
+  if (g) { Object.assign(g, { guestId: rec.id, name: rec.name }); Store.set("guesses", list); }
+}
 function setupGuess() {
   const form = $("#guessForm");
   form.addEventListener("change", (e) => {
@@ -1638,12 +1646,7 @@ function setupGuess() {
     if (guessLocked()) return;
     const choice = new FormData(form).get("choice");
     const me = myGuest();
-    const nameIn = $("#gName");
-    let ok = true;
-    if (!choice) { setErr(null, $("#gChoiceErr"), "Toque em Menina ou Menino para escolher."); ok = false; }
-    if (!me && !nameIn.value.trim()) { setErr(nameIn, $("#gNameErr"), "Digite seu nome para a gente saber de quem é o palpite."); ok = false; }
-    else setErr(nameIn, $("#gNameErr"), "");
-    if (!ok) return;
+    if (!choice) { setErr(null, $("#gChoiceErr"), "Toque em Menina ou Menino para escolher."); return; }
 
     let isNew;
     if (ONLINE) {
@@ -1651,11 +1654,11 @@ function setupGuess() {
       const btn = $("#gSubmit"); if (btn.classList.contains("is-loading")) return;
       btn.classList.add("is-loading");
       isNew = !mem.myChoice;
-      const send = (guest) => sb.rpc("submit_guess", { p_device: deviceId(), p_guest: guest ? guest.id : null, p_name: guest ? guest.name : nameIn.value.trim(), p_choice: choice });
+      const send = (guest) => sb.rpc("submit_guess", { p_device: deviceId(), p_guest: guest ? guest.id : null, p_name: guest ? guest.name : GUESS_NO_NAME, p_choice: choice });
       let { error } = await send(me);
       // Resposta apagada pelos organizadores: tenta de novo sem o vínculo
       if (error && me && /nome obrigatorio/.test(error.message || "")) {
-        nameIn.value = me.name; try { localStorage.removeItem(Store.prefix + "me"); } catch {}
+        try { localStorage.removeItem(Store.prefix + "me"); } catch {}
         ({ error } = await send(null));
       }
       btn.classList.remove("is-loading");
@@ -1668,7 +1671,7 @@ function setupGuess() {
       let g = list.find(x => (me && x.guestId === me.id) || x.deviceId === deviceId());
       isNew = !g;
       if (!g) { g = { id: uid(), at: now }; list.push(g); }
-      Object.assign(g, { choice, guestId: me ? me.id : (g.guestId || null), deviceId: deviceId(), name: me ? me.name : nameIn.value.trim(), updatedAt: now });
+      Object.assign(g, { choice, guestId: me ? me.id : (g.guestId || null), deviceId: deviceId(), name: me ? me.name : GUESS_NO_NAME, updatedAt: now });
       if (!Store.set("guesses", list)) return;
     }
     toast(isNew ? `Palpite registrado: Time ${choice === "menina" ? "Menina" : "Menino"}!` : "Palpite atualizado!");
