@@ -1408,7 +1408,7 @@ function setupRsvp() {
     const giftTaken = async () => {
       btn.classList.remove("is-loading");
       await refreshTaken(); renderGifts();
-      setErr($("#rGift"), $("#rGiftErr"), "Esse presente acabou de ser escolhido por outra pessoa. Escolha outro, por favor.");
+      setErr($("#rGift"), $("#rGiftErr"), "Esse presente acabou de esgotar. Escolha outro, por favor.");
       $("#rGift").focus();
     };
     if (ONLINE) {
@@ -1750,7 +1750,7 @@ function giftStatus(g, taken) {
   if (!isUnique(g.id)) return "";
   return taken.has(g.id) ? "taken" : "unique";
 }
-const GIFT_TAG = { mine: "Seu presente", taken: "Já escolhido", unique: "Item único" };
+const GIFT_TAG = { mine: "Seu presente", taken: "Esgotado", unique: "Item único" };
 function giftMeta(g, st, cls) {
   const t = [g.desc, st === "unique" || st === "mine" ? GIFT_TAG[st] : ""].filter(Boolean).join(" · ");
   return t ? `<span class="${cls}">${esc(t)}</span>` : "";
@@ -1765,7 +1765,7 @@ function giftCard(g, taken) {
 function giftRow(g, taken) {
   const st = giftStatus(g, taken), url = st === "taken" ? "" : safeUrl(g.url);
   const text = `<span class="gr-text"><span class="gr-name">${esc(g.name)}</span>${giftMeta(g, st, "gr-meta")}</span>`;
-  if (st === "taken") return `<li><div class="gift-row is-taken">${giftThumb(g, "gr-thumb")}${text}<span class="gr-go gr-taken">Já escolhido</span></div></li>`;
+  if (st === "taken") return `<li><div class="gift-row is-taken">${giftThumb(g, "gr-thumb")}${text}<span class="gr-go gr-taken">Esgotado</span></div></li>`;
   return url
     ? `<li><a class="gift-row" href="${esc(url)}" target="_blank" rel="noopener">${giftThumb(g, "gr-thumb")}${text}<span class="gr-go">Ver <svg class="ico" viewBox="0 0 24 24"><use href="#i-right"/></svg></span></a></li>`
     : `<li><div class="gift-row">${giftThumb(g, "gr-thumb")}${text}</div></li>`;
@@ -1777,7 +1777,7 @@ function renderGiftSelect() {
   sel.innerHTML = `<option value="">Escolha um presente</option>`
     + giftGroups(data.gifts).map(gr => `<optgroup label="${esc(gr.k)}">${gr.items.map(g => {
         const t = taken.has(g.id);
-        return `<option value="${esc(g.id)}"${t ? " disabled" : ""}>${esc(g.name)}${t ? " (já escolhido)" : ""}</option>`;
+        return `<option value="${esc(g.id)}"${t ? " disabled" : ""}>${esc(g.name)}${t ? " (esgotado)" : ""}</option>`;
       }).join("")}</optgroup>`).join("")
     + `<optgroup label="Outras opções"><option value="pix">Pix</option><option value="outro">Outro presente, fora da lista</option></optgroup>`;
   sel.value = [...sel.options].some(o => o.value === cur && !o.disabled) ? cur : "";
@@ -2262,7 +2262,7 @@ const Admin = {
         <div style="display:flex;gap:8px"><button class="btn btn-sm" type="submit">${e.id ? "Salvar alterações" : "Adicionar"}</button>${e.id ? `<button class="mini" type="button" id="gfCancel">Cancelar</button>` : ""}</div>
       </form></div>
       <div class="card"><h2>Lista (${list.length})</h2>
-        <p class="hint" style="margin:-4px 0 12px">A página inicial mostra até ${FEATURED_MAX} destaques (estrela). Use as setas para mudar a ordem. Itens únicos aparecem como "Já escolhido" depois que alguém escolhe ao confirmar presença.</p>
+        <p class="hint" style="margin:-4px 0 12px">A página inicial mostra até ${FEATURED_MAX} destaques (estrela). Use as setas para mudar a ordem. Itens únicos aparecem como "Esgotado" no site depois que alguém escolhe ao confirmar presença.</p>
         ${list.length ? `<div class="admin-list">${list.map((g, i) => `<div class="admin-item">
           ${safeImg(g.img) ? `<img src="${esc(safeImg(g.img))}" alt="">` : `<span class="ph"><svg class="ico" viewBox="0 0 24 24"><use href="#${catIcon(g.cat)}"/></svg></span>`}
           <div class="meta"><b>${feat.has(g.id) ? "★ " : ""}${esc(g.name)}</b><span>${esc(catLabel(g.cat))}${uniq.has(g.id) ? " · Item único" : ""}${g.url ? ` · ${esc(storeName(g.url) || g.url)}` : ""}</span>${by[g.id] ? `<span><b>Escolhido por ${esc(listJoin(by[g.id]))}</b></span>` : ""}</div>
