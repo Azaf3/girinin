@@ -344,6 +344,7 @@ a.gcard:hover{transform:translateY(-2px);border-color:var(--beige-2)}
 .pix-qr{width:190px;height:190px;margin:0 auto;background:#fff;border-radius:16px;border:1px solid var(--line);display:grid;place-items:center;padding:10px}
 .pix-qr svg,.pix-qr img{width:100%;height:100%}
 .pix-key{font-family:var(--serif);font-size:1.15rem;word-break:break-all;background:var(--off);border:1px dashed var(--beige-2);border-radius:12px;padding:10px 14px}
+.pix-code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.78rem;line-height:1.45;max-height:7.5em;overflow:auto}
 .copied{color:var(--ok)!important}
 @media (min-width:600px){.pix{grid-template-columns:200px 1fr;text-align:left}}
 
@@ -872,11 +873,13 @@ const DEFAULT_CONFIG = {
   showGuessResults: false,
   revealed: "",
   pixKey: "",
-  pixName: "",
+  // Pix copia e cola gerado pelo banco (tem prioridade sobre a chave)
+  pixCode: "00020101021126790014BR.GOV.BCB.PIX2557pix-qr.mercadopago.com/instore/ol/v2/rYX8Qy4izAeLWWFSiWIN5204000053039865802BR5913Sabrina Cunha6009SAO PAULO62080504mpis6304ED0D",
+  pixName: "Sabrina Cunha",
   pixCity: "Brasilia",
   pixCardTitle: "Presente em Pix",
   pixCardDesc: "Você escolhe o valor e envia pelo app do banco.",
-  pixText: "Aponte a câmera do app do banco para o QR Code ou copie a chave. O valor fica à sua escolha.",
+  pixText: "Aponte a câmera do app do banco para o QR Code ou use o Pix copia e cola. O valor fica à sua escolha.",
   remindFreqDays: 3,
   remindEnd: "2026-10-31",
   remindTemplate: "Oi, {nome}! Ainda não recebemos sua resposta para o Chá Revelação no dia {data}, às {hora}. Você consegue confirmar até {prazo}? É rapidinho: {link}",
@@ -1846,12 +1849,20 @@ function pixPayload(key, name, city) {
   const k = String(key).trim();
   const body = f("00", "01") + f("26", f("00", "br.gov.bcb.pix") + f("01", k)) + f("52", "0000") + f("53", "986") + f("58", "BR")
     + f("59", clean(name, 25) || "Recebedor") + f("60", clean(city, 15) || "Brasilia") + f("62", f("05", "***")) + "6304";
+  return body + pixCrc(body);
+}
+function pixCrc(body) {
   let crc = 0xFFFF;
   for (let i = 0; i < body.length; i++) {
     crc ^= body.charCodeAt(i) << 8;
     for (let j = 0; j < 8; j++) crc = (crc & 0x8000) ? ((crc << 1) ^ 0x1021) & 0xFFFF : (crc << 1) & 0xFFFF;
   }
-  return body + crc.toString(16).toUpperCase().padStart(4, "0");
+  return crc.toString(16).toUpperCase().padStart(4, "0");
+}
+// Confere se o "Pix copia e cola" está inteiro (o final é um código de verificação)
+function pixCodeOk(code) {
+  const c = String(code || "").trim();
+  return /^000201/.test(c) && /br\.gov\.bcb\.pix/i.test(c) && c.length > 30 && pixCrc(c.slice(0, -4)) === c.slice(-4).toUpperCase();
 }
 
 function copyText(text, btn, label) {
@@ -1878,6 +1889,25 @@ function fallbackCopy(text) {
 function renderPix() {
   const body = $("#pixBody");
   $("#pixTitle").textContent = cfg.pixCardTitle || "Presente em Pix";
+  const code = pixCodeOk(cfg.pixCode) ? String(cfg.pixCode).trim() : "";
+  if (code) {
+    body.innerHTML = `<div class="pix">
+        <div class="pix-qr" id="pixQr" aria-label="QR Code Pix"><span class="muted small">Carregando QR Code...</span></div>
+        <div>
+          <p style="margin:0 0 12px">${esc(cfg.pixText)}</p>
+          <p class="small muted" style="margin:0 0 4px">Pix copia e cola${cfg.pixName ? ` · ${esc(cfg.pixName)}` : ""}</p>
+          <p class="pix-key pix-code" style="margin:0 0 12px">${esc(code)}</p>
+          <div class="pix-acts">
+            <button class="btn btn-sm" type="button" id="copyCode"><svg class="ico" viewBox="0 0 24 24"><use href="#i-copy"/></svg> Copiar código Pix</button>
+            ${cfg.pixKey ? `<button class="btn btn-sm btn-ghost" type="button" id="copyKey">Copiar chave Pix</button>` : ""}
+          </div>
+        </div>
+      </div>`;
+    $("#copyCode").addEventListener("click", (e) => copyText(code, e.currentTarget, "Código Pix copiado! Cole no app do banco, em Pix copia e cola."));
+    const ck = $("#copyKey"); if (ck) ck.addEventListener("click", (e) => copyText(cfg.pixKey, e.currentTarget, "Chave Pix copiada!"));
+    drawQr(code);
+    return;
+  }
   if (!cfg.pixKey) {
     body.innerHTML = `<p class="muted" style="margin:0">${esc(cfg.pixCardDesc)}</p><p class="muted small" style="margin:10px 0 0">A chave Pix será publicada em breve.</p>`;
     return;
@@ -2250,6 +2280,7 @@ const Admin = {
   v_pix() {
     return `<div class="card"><h2>Dados do Pix</h2>
       <form id="pixForm" class="grid2" novalidate>
+        <div class="field" style="grid-column:1/-1"><label for="pxCode">Pix copia e cola (opcional)</label><textarea class="textarea" id="pxCode" name="pixCode" rows="3" placeholder="00020101...">${esc(cfg.pixCode)}</textarea><span class="hint">Cole o código que o app do banco gera em "receber por Pix". Quando preenchido, o site usa este código no QR Code.</span><span class="err" id="pxCodeErr"></span></div>
         <div class="field"><label for="pxKey">Chave Pix</label><input class="input" id="pxKey" name="pixKey" value="${esc(cfg.pixKey)}" placeholder="CPF, e-mail, celular ou chave aleatória"><span class="hint">Celular no formato +5561999999999.</span></div>
         <div class="field"><label for="pxName">Nome do titular</label><input class="input" id="pxName" name="pixName" value="${esc(cfg.pixName)}" maxlength="25"></div>
         <div class="field"><label for="pxCity">Cidade do titular</label><input class="input" id="pxCity" name="pixCity" value="${esc(cfg.pixCity)}" maxlength="15"></div>
@@ -2258,7 +2289,7 @@ const Admin = {
         <div class="field" style="grid-column:1/-1"><label for="pxText">Texto ao abrir o Pix</label><textarea class="textarea" id="pxText" name="pixText">${esc(cfg.pixText)}</textarea></div>
         <div><button class="btn btn-sm" type="submit">Salvar</button></div>
       </form>
-      <p class="hint" style="margin-top:12px">O QR Code é gerado automaticamente a partir da chave. Faça um teste no app do banco antes de divulgar.</p></div>`;
+      <p class="hint" style="margin-top:12px">Sem o copia e cola, o QR Code é gerado automaticamente a partir da chave. Faça um teste no app do banco antes de divulgar.</p></div>`;
   },
 
   /* ---- Galeria ---- */
@@ -2459,6 +2490,10 @@ const Admin = {
     pix(main) {
       $("#pixForm", main).addEventListener("submit", async (e) => {
         e.preventDefault(); const fd = new FormData(e.target);
+        const code = String(fd.get("pixCode")).replace(/\s+/g, " ").trim();
+        if (code && !pixCodeOk(code)) { setErr($("#pxCode"), $("#pxCodeErr"), "Esse código parece incompleto. Copie de novo no app do banco e cole inteiro."); return; }
+        setErr($("#pxCode"), $("#pxCodeErr"), "");
+        cfg.pixCode = code;
         ["pixKey", "pixName", "pixCity", "pixText", "pixCardTitle", "pixCardDesc"].forEach(k => cfg[k] = String(fd.get(k)).trim());
         if (await saveCfg()) toast("Dados do Pix salvos.");
       });
