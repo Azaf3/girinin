@@ -1651,13 +1651,13 @@ function giftThumb(g, cls) {
   return `<span class="${cls}">${img ? `<img src="${esc(img)}" alt="" loading="lazy" onerror="this.outerHTML='${ph.replace(/"/g, "&quot;")}'">` : ph}</span>`;
 }
 function giftCard(g) {
-  const url = safeUrl(g.url), store = storeName(url);
-  const body = `${giftThumb(g, "gcard-img")}<span class="gcard-body"><span class="gcard-name">${esc(g.name)}</span>${store ? `<span class="gcard-meta">${esc(store)}</span>` : ""}</span>`;
+  const url = safeUrl(g.url);
+  const body = `${giftThumb(g, "gcard-img")}<span class="gcard-body"><span class="gcard-name">${esc(g.name)}</span>${g.desc ? `<span class="gcard-meta">${esc(g.desc)}</span>` : ""}</span>`;
   return url ? `<a class="gcard" href="${esc(url)}" target="_blank" rel="noopener">${body}</a>` : `<div class="gcard">${body}</div>`;
 }
 function giftRow(g) {
-  const url = safeUrl(g.url), store = storeName(url);
-  const text = `<span class="gr-text"><span class="gr-name">${esc(g.name)}</span>${store || g.desc ? `<span class="gr-meta">${esc([store, g.desc].filter(Boolean).join(" · "))}</span>` : ""}</span>`;
+  const url = safeUrl(g.url);
+  const text = `<span class="gr-text"><span class="gr-name">${esc(g.name)}</span>${g.desc ? `<span class="gr-meta">${esc(g.desc)}</span>` : ""}</span>`;
   return url
     ? `<li><a class="gift-row" href="${esc(url)}" target="_blank" rel="noopener">${giftThumb(g, "gr-thumb")}${text}<span class="gr-go">Ver <svg class="ico" viewBox="0 0 24 24"><use href="#i-right"/></svg></span></a></li>`
     : `<li><div class="gift-row">${giftThumb(g, "gr-thumb")}${text}</div></li>`;
