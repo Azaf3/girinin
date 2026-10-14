@@ -504,8 +504,8 @@ td .acts{display:flex;gap:6px;flex-wrap:wrap}
   <a href="#inicio">Início</a>
   <a href="#local">Data e local</a>
   <a href="#palpite">Palpite</a>
-  <a href="#rsvp">Confirmar presença</a>
   <a href="#presentes">Presentes</a>
+  <a href="#rsvp">Confirmar presença</a>
   <a href="#mensagens">Mensagens</a>
   <a href="#galeria">Fotos</a>
 </nav>
@@ -608,6 +608,17 @@ td .acts{display:flex;gap:6px;flex-wrap:wrap}
     </div>
   </section>
 
+  <!-- PRESENTES -->
+  <section class="section wrap" id="presentes">
+    <div class="sec-head fade">
+      <div class="orn"><svg class="ico" viewBox="0 0 24 24" style="width:18px"><use href="#i-heart"/></svg></div>
+      <h2>Lista de presentes</h2>
+      <p data-cfg="giftsLead"></p>
+    </div>
+    <div class="fade" id="gifts"></div>
+
+  </section>
+
   <!-- RSVP -->
   <section class="section wrap" id="rsvp">
     <div class="sec-head fade">
@@ -660,17 +671,6 @@ td .acts{display:flex;gap:6px;flex-wrap:wrap}
       </form>
       <div class="success" id="rsvpOk" hidden tabindex="-1"></div>
     </div>
-  </section>
-
-  <!-- PRESENTES -->
-  <section class="section wrap" id="presentes">
-    <div class="sec-head fade">
-      <div class="orn"><svg class="ico" viewBox="0 0 24 24" style="width:18px"><use href="#i-heart"/></svg></div>
-      <h2>Lista de presentes</h2>
-      <p data-cfg="giftsLead"></p>
-    </div>
-    <div class="fade" id="gifts"></div>
-
   </section>
 
   <!-- MENSAGENS -->
