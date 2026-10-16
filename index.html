@@ -10,8 +10,11 @@
 <meta property="og:title" content="Chá Revelação | Quem será que está no forninho?">
 <meta property="og:description" content="07 de novembro de 2026, às 16h. Confirme sua presença e deixe seu palpite.">
 <meta property="og:locale" content="pt_BR">
-<!-- Quando o site estiver no ar, aponte para uma imagem 1200x630 hospedada junto: -->
-<!-- <meta property="og:image" content="https://SEU-USUARIO.github.io/cha-revelacao/og.jpg"> -->
+<meta property="og:url" content="https://azaf3.github.io/girinin/">
+<meta property="og:image" content="https://azaf3.github.io/girinin/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23ab8a6e' d='M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -465,6 +468,35 @@ td .acts{display:flex;gap:6px;flex-wrap:wrap}
 .admin-item .meta b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .admin-item .meta span{font-size:.88rem;color:var(--brown-2);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .login{max-width:380px;margin:12vh auto 0;padding:0 16px}
+/* Ajustes de responsividade */
+html,body{overflow-x:clip}
+.empty .ico{display:block}
+.guess-opt{min-width:0}
+@media (max-width:420px){
+  .guess-grid{gap:8px}
+  .guess-card{padding:12px 4px 10px}
+  .guess-card strong{font-size:1.8rem}
+  .guess-card small{font-size:.7rem;letter-spacing:.06em}
+  .sec-head h2{letter-spacing:.14em;font-size:1.12rem}
+  .sec-head .script{font-size:1.8rem}
+  .footer .script{font-size:2rem}
+  .gpage .chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding:2px 2px 6px}
+  .gpage .chips::-webkit-scrollbar{display:none}
+  .pix-qr{width:160px;height:160px}
+}
+@media (max-width:380px){
+  .pix-feature{grid-template-columns:1fr;text-align:center}
+  .pix-feature-art{max-width:110px;width:100%;margin:0 auto}
+}
+@media (max-width:640px){
+  #adminMain .table-wrap{border:0;background:none;overflow:visible}
+  #adminMain table,#adminMain tbody,#adminMain tr,#adminMain td{display:block;width:100%}
+  #adminMain thead{display:none}
+  #adminMain tr{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-bottom:10px}
+  #adminMain td{border:0;padding:4px 0;max-width:none!important}
+  #adminMain td[data-label]:not(:first-child)::before{content:attr(data-label);display:block;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--brown-3)}
+  #adminMain td[data-label=""]::before{display:none}
+}
 </style>
 </head>
 <body>
@@ -758,7 +790,7 @@ td .acts{display:flex;gap:6px;flex-wrap:wrap}
   <div class="card">
     <button class="modal-x" data-close aria-label="Fechar"><svg class="ico" viewBox="0 0 24 24"><use href="#i-x"/></svg></button>
     <h2 id="privTitle">Aviso de privacidade</h2>
-    <p>Coletamos apenas o necessário para organizar o chá: nome, e-mail, celular, sua resposta de presença, quantidade de pessoas, observações, palpite e mensagens que você escrever.</p>
+    <p>Coletamos apenas o necessário para organizar o chá: nome, e-mail, celular, sua resposta de presença, acompanhantes, o presente que escolheu, palpite e mensagens que você escrever.</p>
     <p>Esses dados são vistos somente pelos organizadores, não são vendidos nem compartilhados e serão apagados até 60 dias depois do evento.</p>
     <p>Lembretes só são enviados para quem marcou a opção de aceite, e param assim que você responde ou pede para parar.</p>
     <p>Para consultar, corrigir ou excluir seus dados, ou parar de receber lembretes, <a id="privContact" target="_blank" rel="noopener">fale com a gente</a>.</p>
@@ -904,7 +936,7 @@ const DEFAULT_CONFIG = {
   remindFreqDays: 3,
   remindEnd: "2026-10-31",
   remindTemplate: "Oi, {nome}! Ainda não recebemos sua resposta para o Chá Revelação no dia {data}, às {hora}. Você consegue confirmar até {prazo}? É rapidinho: {link}",
-  siteUrl: "",
+  siteUrl: "https://azaf3.github.io/girinin/",
   // senha padrão "revelacao2026" (troque no painel em Evento > Senha)
   adminHash: "4d3ec0d3c1c2a4a7ba7a5c7f4a3c84f75c0c4b4a3f4c9b3dd0c0cf1f35f8e6f8"
 };
@@ -2098,6 +2130,11 @@ const Admin = {
     // Troca o contêiner a cada render para não acumular os listeners de cada aba
     const old = $("#adminMain"), main = old.cloneNode(false); old.replaceWith(main);
     main.innerHTML = this["v_" + this.tab]();
+    // No celular as tabelas viram cartões: cada célula leva o nome da coluna
+    $$("table", main).forEach(t => {
+      const hs = $$("thead th", t).map(th => th.textContent.trim());
+      $$("tbody tr", t).forEach(tr => [...tr.children].forEach((td, i) => { if (hs[i]) td.setAttribute("data-label", hs[i]); }));
+    });
     this.bind[this.tab] && this.bind[this.tab].call(this, main);
   },
 
