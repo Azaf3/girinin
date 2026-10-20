@@ -9,4 +9,4 @@ Os dados ficam no Supabase. O endereço do projeto e a chave `anon` estão no to
 
 O painel dos organizadores fica no link "Área dos organizadores", no rodapé do site. O login é o usuário criado em Authentication > Users no Supabase.
 
-Publicado via GitHub Pages (Settings > Pages > branch `main`, pasta raiz).
+Publicado via GitHub Pages (Settings > Pages > branch `main`, pasta raiz) em https://quemtanoforninho.com.br. O arquivo `CNAME` guarda esse domínio.
