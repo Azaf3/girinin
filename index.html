@@ -10,8 +10,8 @@
 <meta property="og:title" content="Chá Revelação | Quem será que está no forninho?">
 <meta property="og:description" content="07 de novembro de 2026, às 16h. Confirme sua presença e deixe seu palpite.">
 <meta property="og:locale" content="pt_BR">
-<meta property="og:url" content="https://azaf3.github.io/girinin/">
-<meta property="og:image" content="https://azaf3.github.io/girinin/og.jpg">
+<meta property="og:url" content="https://quemtanoforninho.com.br/">
+<meta property="og:image" content="https://quemtanoforninho.com.br/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -940,7 +940,7 @@ const DEFAULT_CONFIG = {
   remindFreqDays: 3,
   remindEnd: "2026-10-31",
   remindTemplate: "Oi, {nome}! Ainda não recebemos sua resposta para o Chá Revelação no dia {data}, às {hora}. Você consegue confirmar até {prazo}? É rapidinho: {link}",
-  siteUrl: "https://azaf3.github.io/girinin/",
+  siteUrl: "https://quemtanoforninho.com.br/",
   // senha padrão "revelacao2026" (troque no painel em Evento > Senha)
   adminHash: "4d3ec0d3c1c2a4a7ba7a5c7f4a3c84f75c0c4b4a3f4c9b3dd0c0cf1f35f8e6f8"
 };
@@ -2252,7 +2252,7 @@ const Admin = {
         <form id="remCfg" class="grid2" novalidate>
           <div class="field"><label for="rcFreq">Intervalo entre lembretes (dias)</label><input class="input" id="rcFreq" name="remindFreqDays" type="number" min="1" max="30" value="${esc(cfg.remindFreqDays)}"></div>
           <div class="field"><label for="rcEnd">Parar de enviar em</label><input class="input" id="rcEnd" name="remindEnd" type="date" value="${esc(cfg.remindEnd)}"></div>
-          <div class="field" style="grid-column:1/-1"><label for="rcUrl">Endereço do site (vai no link da mensagem)</label><input class="input" id="rcUrl" name="siteUrl" placeholder="https://seu-usuario.github.io/cha-revelacao/" value="${esc(cfg.siteUrl)}"></div>
+          <div class="field" style="grid-column:1/-1"><label for="rcUrl">Endereço do site (vai no link da mensagem)</label><input class="input" id="rcUrl" name="siteUrl" placeholder="https://quemtanoforninho.com.br/" value="${esc(cfg.siteUrl)}"></div>
           <div class="field" style="grid-column:1/-1"><label for="rcTpl">Texto da mensagem</label><textarea class="textarea" id="rcTpl" name="remindTemplate">${esc(cfg.remindTemplate)}</textarea><span class="hint">Use {nome}, {data}, {hora}, {prazo} e {link}.</span></div>
           <div><button class="btn btn-sm" type="submit">Salvar</button></div>
         </form>
